@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from datetime import datetime as dt
 from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
+from users.models import CustomUser
 
-class HomeView(TemplateView):
-    template_name = 'home/welcome.html'
+def homeView(request):
     meses = {
         1:'Enero',
         2: 'Febrero',
@@ -20,11 +21,15 @@ class HomeView(TemplateView):
         11:'Noviembre',
         12:'Diciembre',
     }
-    # user = User.objects.get(username=)
-    # username = user.username
-    # user = CustomUser.objects.get(user=username)
-    gender = 'Juanfer'
+    cumple = False
+    user = request.user
+    cu = CustomUser.objects.get(user_id=user.id)
+    if dt.today().day == cu.birthday.day and dt.today().month == cu.birthday.month:
+        cumple = True
+
     mes = meses.get(dt.today().month)
     fecha = str(dt.today().day) + " de " + mes + " de " + str(dt.today().year)
-    extra_context = {'today': fecha, 'gender': gender}
-
+    return render(request, 'home/welcome.html', {
+        'today': fecha,
+        'cumple': cumple
+    })

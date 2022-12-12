@@ -10,7 +10,7 @@ class CustomUser(models.Model):
     birthday = models.DateField()
     gender = models.CharField(
         max_length=10,
-        choices=[('Hombre', 'Hombre'), ('Mujer', 'Mujer'), ('No Binario', 'No Binario')]
+        # choices=[('Hombre', 'Hombre'), ('Mujer', 'Mujer'), ('No Binario', 'No Binario')]
     )
 
     def __str__(self):

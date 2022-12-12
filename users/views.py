@@ -7,8 +7,13 @@ from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.db import IntegrityError
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from .forms import NewUserForm, NewUserForm2
+from .models import CustomUser
 
 class SignupView(CreateView):
     form_class = NewUserForm
@@ -45,3 +50,37 @@ class LogoutInterfaceView(LogoutView):
 
 class LoginInterfaceView(LoginView):
     template_name = 'users/login.html'
+
+def SignUp(request):
+    if request.method == 'POST':
+        username = request.POST["username"]
+        email = request.POST["email"]
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        phone_number = request.POST["phone_number"]
+        gender = request.POST["gender"]
+        birthday = request.POST["birthday"]
+
+        password = request.POST["password"]
+        confirmation = request.POST["password2"]
+        if password != confirmation:
+            return render(request, "users/signup.html", {
+                "message": "Las contraseñas deben coincidir"
+            })
+
+        try:
+            user = User.objects.create_user(username, email, password)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+            customUser = CustomUser(user_id=user.id, birthday=birthday, gender=gender, phone_number=phone_number)
+            customUser.save()
+        except IntegrityError:
+            return render(request, "users/signup.html", {
+                "message": "usuario ya existe"
+            })
+
+        login(request, user)
+        return HttpResponseRedirect(reverse("home"))
+
+    return render(request, 'users/signup.html')

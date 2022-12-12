@@ -6,6 +6,9 @@
         {% if user.is_authenticated %}
         <h4>Hola <strong style="color: #668DC0;">{{ user.first_name }}</strong></h2>
         {% endif %}
+        {% if cumple %}
+        <h4 style="color: #0F1C30;">Feliz Cumpleaños!!!!</h4>
+        {% endif %}
         {% if message %}
         <h4 style="color: #668DC0;">{{message}}</h4>
         {% endif %}
