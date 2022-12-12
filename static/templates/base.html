@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+    <head>
+        <title>Quintana Mágica</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+        <link rel="icon" href="{% static 'images/logo.webp' %}" type="image/x-icon">
+    </head>
+    <body>
+        <nav class="navbar navbar-dark">
+            <div class="ms-auto">
+                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Quienes Somos</a>
+                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Servicios</a>
+                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Boletines</a>
+                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Contactanos</a>
+                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Info DIAN</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Mi Perfil</a>
+                <a href="{% url 'users.logout' %}" class="btn btn-outline-light me-1">Salir</a>
+                {% else %}
+                <a href="{% url 'users.login' %}" class="btn btn-outline-light me-1">Ingresar</a>
+                <a href="{% url 'users.signup' %}" class="btn btn-outline-light me-1">Resgistrarse</a>
+                {% endif %}
+            </div>
+
+        </nav>
+        <div class="my-5 text-center container">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

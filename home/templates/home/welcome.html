@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block body %}
+        <h1 class="display-1">Quintana Mágica</h1>
+        <h3>Una comunidad con propósito</h3>
+        {% if user.is_authenticated %}
+        <h4>Hola <strong style="color: #668DC0;">{{ user.first_name }}</strong></h2>
+        {% endif %}
+        {% if message %}
+        <h4 style="color: #668DC0;">{{message}}</h4>
+        {% endif %}
+        <p>Hoy es {{ today }}</p>
+        <img src="{% static 'images/qm.jpg' %}" class="img-fluid" alt="Quintana Mágica" height="200">
+    {% endblock %}
