@@ -137,5 +137,3 @@ LOGIN_REDIRECT_URL = 'home'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # AUTH_USER_MODEL = 'users.CustomUser'
-
-SECRET_KEY = 'django-insecure-b$a85yt_(76c8v1b1fmh%lx6ji^^5uz(127kbm4y*m4n*a*f1_'

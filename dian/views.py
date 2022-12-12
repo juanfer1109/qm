@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
 def docsDian(request):
-    pass
+    return render(request, 'dian/docs.html')

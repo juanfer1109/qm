@@ -23,9 +23,12 @@ def homeView(request):
     }
     cumple = False
     user = request.user
-    cu = CustomUser.objects.get(user_id=user.id)
-    if dt.today().day == cu.birthday.day and dt.today().month == cu.birthday.month:
-        cumple = True
+    try:
+        cu = CustomUser.objects.get(user_id=user.id)
+        if dt.today().day == cu.birthday.day and dt.today().month == cu.birthday.month:
+            cumple = True
+    except:
+        pass
 
     mes = meses.get(dt.today().month)
     fecha = str(dt.today().day) + " de " + mes + " de " + str(dt.today().year)

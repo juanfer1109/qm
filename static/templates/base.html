@@ -10,17 +10,18 @@
     <body>
         <nav class="navbar navbar-dark">
             <div class="ms-auto">
-                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Quienes Somos</a>
+                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Inicio</a>
+                <!-- <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Quienes Somos</a>
                 <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Servicios</a>
                 <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Boletines</a>
-                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Contactanos</a>
-                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Info DIAN</a>
+                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Contactanos</a> -->
+                <a href="{% url 'dian.docs' %}" class="btn btn-outline-light me-1">Info DIAN</a>
                 {% if user.is_authenticated %}
-                <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Mi Perfil</a>
+                <!-- <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Mi Perfil</a> -->
                 <a href="{% url 'users.logout' %}" class="btn btn-outline-light me-1">Salir</a>
                 {% else %}
-                <a href="{% url 'users.login' %}" class="btn btn-outline-light me-1">Ingresar</a>
-                <a href="{% url 'users.signup' %}" class="btn btn-outline-light me-1">Resgistrarse</a>
+                <!-- <a href="{% url 'users.login' %}" class="btn btn-outline-light me-1">Ingresar</a>
+                <a href="{% url 'users.signup' %}" class="btn btn-outline-light me-1">Resgistrarse</a> -->
                 {% endif %}
             </div>
 
