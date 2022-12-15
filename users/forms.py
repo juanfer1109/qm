@@ -30,7 +30,7 @@ class NewUserForm2(UserCreationForm):
 
 	class Meta:
 		model = CustomUser
-		fields = ("phone_number", "gender", "birthday")
+		fields = ("phone_number","birthday")
 
 	def save(self, commit=True):
 		user = super(NewUserForm2, self).save(commit=False)

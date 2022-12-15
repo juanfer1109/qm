@@ -22,6 +22,8 @@ def homeView(request):
         12:'Diciembre',
     }
     cumple = False
+    nickname = 'Juanfer'
+    nm = False
     user = request.user
     try:
         cu = CustomUser.objects.get(user_id=user.id)
@@ -29,10 +31,22 @@ def homeView(request):
             cumple = True
     except:
         pass
+    
+    try:
+        cu = CustomUser.objects.get(user_id=user.id)
+        nickname = cu.nickname
+        nm = True
+    except:
+        nm = False
 
     mes = meses.get(dt.today().month)
     fecha = str(dt.today().day) + " de " + mes + " de " + str(dt.today().year)
     return render(request, 'home/welcome.html', {
         'today': fecha,
-        'cumple': cumple
+        'cumple': cumple,
+        'nickname': nickname,
+        'nm': nm,
     })
+
+def quienesSomos(request):
+    return render(request, 'home/quienes_somos.html')
