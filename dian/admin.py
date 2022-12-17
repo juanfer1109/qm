@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import DianDoc
+
+class DianDocsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'year',)
+    list_filter = ('title', 'year',)
+    search_fields = ['title', 'year',]
+    
+admin.site.register(DianDoc, DianDocsAdmin)

@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
     {% block body %}
-    <p><a href="{% static 'dian/gestion2021.pdf' %}">Informe Gestión 2021</a></p>
-    <p><a href="{% static 'dian/antecedentes2021.pdf' %}">Certificado Antecedentes 2021</a></p>
-    <p><a href="{% static 'dian/requisitos2021.pdf' %}">Certificado cumplimiento Requisitos 2021</a></p>
-    <p><a href="{% static 'dian/estado_resultados2021.pdf' %}">Estado Resultados 2021</a></p>
-    <p><a href="{% static 'dian/situacion_financiera2021.pdf' %}">Situación Financiera 2021</a></p>
+    <form action="{% url 'dian.docs' %}" method="POST"> {% csrf_token %}
+        <label for="year">Año a consultar:</label>
+        <select name="year" id="year">
+            {% for year in years %}
+            <option value="{{year}}">{{year}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit">
+    </form>
+    
+    {% if list %}
+        <div class="mb-3">
+            <br><br><br>
+            {% for doc in documents %}
+                <p><a href="{{ doc.file }}">{{ doc.title }} {{ doc.year }}</a></p>
+                <!-- <p><a href="{% url 'dian.pdf' pk=doc.id %}">{{ doc.title }} {{ doc.year }}</a></p> -->
+            {% endfor %}
+        </div>
+    {% endif %}
     {% endblock %}
