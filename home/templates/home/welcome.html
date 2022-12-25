@@ -14,5 +14,11 @@
         <h4 style="color: #668DC0;">{{message}}</h4>
         {% endif %}
         <p>Hoy es {{ today }}</p>
+        {% if navidad %}
+        <h4 style="color: #FF0000;">Feliz Navidad!!!!</h4>
+        {% endif%}
+        {% if n_year %}
+        <h4 style="color: #0F1C30;">Feliz Año!!!!</h4>
+        {% endif %}
         <img src="{% static 'images/qm.jpg' %}" style="border-color: #668DC0 ; border-style: solid;" class="img-fluid" alt="Quintana Mágica" height="200">
     {% endblock %}

@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from users.models import CustomUser
 
 def homeView(request):
+    n_year = False
+    navidad = False
     meses = {
         1:'Enero',
         2: 'Febrero',
@@ -39,6 +41,15 @@ def homeView(request):
     except:
         nm = False
 
+    if dt.today().month == 12:
+        if dt.today().day == 24 or dt.today().day == 25:
+            navidad = True
+        elif dt.today().day == 31:
+            n_year = True
+
+    if dt.today().month == 1 and dt.today().day == 1:
+        n_year = True
+
     mes = meses.get(dt.today().month)
     fecha = str(dt.today().day) + " de " + mes + " de " + str(dt.today().year)
     return render(request, 'home/welcome.html', {
@@ -46,6 +57,8 @@ def homeView(request):
         'cumple': cumple,
         'nickname': nickname,
         'nm': nm,
+        'navidad': navidad,
+        'n_year': n_year,
     })
 
 def quienesSomos(request):
