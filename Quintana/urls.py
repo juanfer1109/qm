@@ -23,5 +23,5 @@ urlpatterns = [
     path('', include('home.urls')),
     path('user', include('users.urls')),
     path('dian', include('dian.urls')),
-    path('blog', include('blog.urls')),
+    path('boletin/', include('boletin.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

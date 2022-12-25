@@ -58,8 +58,19 @@ def SignUp(request):
         first_name = request.POST["first_name"]
         last_name = request.POST["last_name"]
         phone_number = request.POST["phone_number"]
-        gender = request.POST["gender"]
         birthday = request.POST["birthday"]
+        nickname = request.POST["nickname"]
+        try:
+            if request.POST["mailing_list"] == 'True':
+                mailing_list = True
+        except:
+            mailing_list = False
+            
+        if request.POST["info_manage"] == "True":
+            info_manage = True
+        else:
+            info_manage = False
+
 
         password = request.POST["password"]
         confirmation = request.POST["password2"]
@@ -73,7 +84,10 @@ def SignUp(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
-            customUser = CustomUser(user_id=user.id, birthday=birthday, gender=gender, phone_number=phone_number)
+            customUser = CustomUser(user_id=user.id, birthday=birthday, phone_number=phone_number)
+            customUser.mailing_list = mailing_list
+            customUser.info_manage = info_manage
+            customUser.nickname = nickname
             customUser.save()
         except IntegrityError:
             return render(request, "users/signup.html", {
