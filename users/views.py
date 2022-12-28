@@ -98,3 +98,44 @@ def SignUp(request):
         return HttpResponseRedirect(reverse("home"))
 
     return render(request, 'users/signup.html')
+
+def MyProfile(request):
+    actual_user = User.objects.get(username=request.user)
+    atual_cu = CustomUser.objects.get(user=request.user)
+    a_username = actual_user.username
+    a_email = actual_user.email
+    a_first_name = actual_user.first_name
+    a_last_name = actual_user.last_name
+    a_phone_number = atual_cu.phone_number
+    a_birthday = atual_cu.birthday
+    a_nickname = atual_cu.nickname
+    a_mailing_list = atual_cu.mailing_list
+    a_password = actual_user.password
+    if request.method == 'POST':
+        username = request.POST["username"]
+        email = request.POST["email"]
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        phone_number = request.POST["phone_number"]
+        birthday = request.POST["birthday"]
+        nickname = request.POST["nickname"]
+        try:
+            if request.POST["mailing_list"] == 'True':
+                mailing_list = True
+        except:
+            mailing_list = False
+            
+        login(request, actual_user)
+        return HttpResponseRedirect(reverse("home"))
+
+    return render(request, 'users/profile.html', {
+        'a_username': a_username,
+        'a_email': a_email,
+        'a_first_name': a_first_name,
+        'a_last_name': a_last_name,
+        'a_birthday': a_birthday,
+        'a_mailing_list': a_mailing_list,
+        'a_phone_number': a_phone_number,
+        'a_nickname': a_nickname,
+
+    })

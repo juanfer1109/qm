@@ -43,7 +43,7 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Mi Perfil</a>
+                    <a href="{% url 'users.profile' %}" class="btn btn-outline-light me-1">Mi Perfil</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'users.logout' %}" class="btn btn-outline-light me-1">Salir</a>
