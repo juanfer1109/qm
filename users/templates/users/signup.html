@@ -1,68 +1,78 @@
 {% extends 'base.html' %}
-        
+{% load static %}
+
+    {% block script %}
+    <script type="text/javascript">
+        function habilitarEnviar() {
+            document.form_registrar.submit_btn.disabled = !document.form_registrar.info_manage.checked;
+        };
+        function abrirPolitica() {
+            var width = 600;
+            var height = 300;
+            var left = (screen.width - width) / 2;
+            var top = (screen.height - height) / 4;
+            window.open("{% static 'templates/aviso_privacidad.html' %}", "Política",
+                    'resizable=yes, width=' + width
+                    + ', height=' + height + ', top='
+                    + top + ', left=' + left);
+        }
+    </script>
+    {% endblock %}
+
     {% block body %}
 
     {% if message %}
         <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endif %}
 
-        <form action="{% url 'users.signup' %}" method="post">
+        <form class="form-login top-20" action="{% url 'users.signup' %}" method="post" name="form_registrar">
             {% csrf_token %}
-            <div class="form-group mb-3">
-                <!-- <label for="username">Usuario: </label> -->
-                <input class="form-control" type="text" id="username", name="username" required placeholder="Usuario">
+            <div class="form-group">
+                <label class="input" for="username">Usuario: </label>
+                <input class="form-control" type="text" id="username", name="username" required placeholder="Usuario" value="{{username}}">
             </div>
-            <div class="form-group mb-3">
-                <!-- <label for="email">Email: </label> -->
-                <input class="form-control" type="email" id="email", name="email" required placeholder="Email">
+            <div class="form-group">
+                <label class="input" for="email">Email: </label>
+                <input class="form-control" type="email" id="email", name="email" required placeholder="Email"  value="{{email}}">
             </div>
-            <div class="form-group mb-3">
-                <!-- <label for="first_name">Nombre: </label> -->
-                <input class="form-control" type="text" id="first_name", name="first_name" required placeholder="Nombre">
+            <div class="form-group">
+                <label class="input" for="first_name">Nombre: </label>
+                <input class="form-control" type="text" id="first_name", name="first_name" required placeholder="Nombre"  value="{{first_name}}">
             </div>
-            <div class="form-group mb-3">
-                <!-- <label for="last_name">Apellidos: </label> -->
-                <input class="form-control" type="text" id="last_name", name="last_name" required placeholder="Apellidos">
+            <div class="form-group">
+                <label class="input" for="last_name">Apellidos: </label>
+                <input class="form-control" type="text" id="last_name", name="last_name" required placeholder="Apellidos"  value="{{last_name}}">
             </div>
-            <div class="form-group mb-3">
-                <!-- <label for="nickname">Como te gusta que te digan: </label> -->
-                <input class="form-control" type="text" id="nickname", name="nickname" required placeholder="Como te gusta que te digan">
+            <div class="form-group">
+                <label class="input" for="nickname">Como te gusta que te digan: </label>
+                <input class="form-control" type="text" id="nickname", name="nickname" required placeholder="Como te gusta que te digan" value="{{nickname}}">
             </div>
-            <div class="form-group mb-3">
-                <!-- <label for="password">Contraseña: </label> -->
-                <input class="form-control" type="password" id="password", name="password" required placeholder="Contraseña">
+            <div class="form-group">
+                <label class="input" for="password">Contraseña: </label>
+                <input class="form-control" type="password" id="password", name="password" required placeholder="Contraseña" value="">
             </div>
-            <div class="form-group mb-3">
-                <!-- <label for="password2">Confirmar contraseña: </label> -->
-                <input class="form-control" type="password" id="password2", name="password2" required placeholder="Confirmar contraseña">
+            <div class="form-group">
+                <label class="input" for="password2">Confirmar contraseña: </label>
+                <input class="form-control" type="password" id="password2", name="password2" required placeholder="Confirmar contraseña" value="">
             </div>
-            <div class="form-group mb-3">
-                <!-- <label for="phone_number">Celular: </label> -->
-                <input class="form-control" type="tel" id="phone_number", name="phone_number" required placeholder="Celular">
+            <div class="form-group">
+                <label class="input" for="phone_number">Celular: </label>
+                <input class="form-control" type="tel" id="phone_number", name="phone_number" required placeholder="Celular" value="{{phone_number}}">
             </div>
-            <!-- <div class="form-group mb-3">
-                <label for="gender">Género: </label>
-                <select class="form-control"  type="text" id="gender", name="gender" aria-placeholder="Género">
-                    <option selected>Género</option>
-                    <option value="Hombre">Hombre</option>
-                    <option value="Mujer">Mujer</option>
-                    <option value="No Binario">No binario</option>
-                </select>
-            </div> -->
-            <div class="form-inline mb-3">
-                <label for="birthday" class="mx-3">Fecha de nacimiento: </label>
-                <input class="form-inline" type="date" id="birthday", name="birthday">
+            <div class="form-group">
+                <label class="input" for="birthday" class="mx-3">Fecha de nacimiento: </label>
+                <input class="form-control" type="date" id="birthday", name="birthday" value="{{birthday}}">
             </div>
-            <div class="form-check form-switch mb-3">
-                <input class="form-check-input" type="checkbox" id="mailing_list", name="mailing_list" value="True">
-                <label class="form-check-label" for="mailing_list">¿Quieres recibir información? </label>
+            <div class="form-group padding-5 top-20">
+                <input type="checkbox" id="mailing_list", name="mailing_list" value="True">
+                <label for="mailing_list">¿Quieres recibir información? </label>
             </div>
-            <div class="form-check form-switch mb-3">
-                <input class="form-check-input" type="checkbox" id="info_manage", name="info_manage" value="True" required>
-                <label class="form-check-label" for="info_manage">¿Aceptas los términos y condiciones? </label>
+            <div class="form-check padding-5">
+                <input type="checkbox" id="info_manage", name="info_manage" value="True" required onclick="habilitarEnviar()">
+                <labelfor="info_manage"><a href="javascript:;" onclick="abrirPolitica()">¿Aceptas los términos y condiciones?</a></label>
             </div>
-            <div class="form-group mb-3">
-                <input type="submit" class="btn btn-secondary" value="Registrar">
+            <div class="form-group">
+                <input type="submit" class="btn btn-secondary" value="Registrar" name="submit_btn" disabled>
             </div>
         </form>
         

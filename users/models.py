@@ -10,6 +10,7 @@ class CustomUser(models.Model):
     info_manage = models.BooleanField()
     comunidad = models.BooleanField(default=False)
     publicar = models.BooleanField(default=False)
+    tiene_reclamacion = models.BooleanField(default=False)
     
     def __str__(self):
         return self.user.username

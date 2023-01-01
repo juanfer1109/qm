@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Quintana Mágica{% block title %}{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+        <link rel="shortcut icon" href="{% static 'images/logo.webp' %}" type="image/x-icon">
+        <link
+            rel="stylesheet"
+            href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}"
+        />
+        
+        <link rel="stylesheet" href="{% static 'assets/vendors/aos/dist/aos.css/aos.css' %}" />
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+        {% block script %}{% endblock %}
+    </head>
+    <body>
+        <header  style="background-color: #304A6E;" id="header">
+        <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="navbar-top">
+                <div class="d-flex justify-content-between align-items-center"></div>
+                <ul class="navbar-top-left-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Inicio</a>
+                    </li>
+                <li class="nav-item">
+                    <a href="{% url 'quienes_somos' %}" class="btn btn-outline-light me-1">Sobre Nosotros</a>
+                <li class="nav-item">
+                    <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Servicios</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://quintanamagica.wordpress.com/blog/" class="btn btn-outline-light me-1">Boletines</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'home' %}" class="btn btn-outline-light me-1">Contactanos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'dian.docs' %}" class="btn btn-outline-light me-1">Info DIAN</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'users.profile' %}" class="btn btn-outline-light me-1">Mi Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'users.logout' %}" class="btn btn-outline-light me-1">Salir</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'users.login' %}" class="btn btn-outline-light me-1">Ingresar</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'users.signup' %}" class="btn btn-outline-light me-1">Registrarse</a>
+                </li>
+                {% endif %}
+                <ul style="align-items: center;" class="social-media">
+                <li class="social-media">
+                    <a href="#">
+                      <i class="mdi mdi-facebook"></i>
+                    </a>
+                </li>
+                <li class="social-media">
+                    <a href="#">
+                      <i class="mdi mdi-instagram"></i>
+                    </a>
+                </li>
+                </ul>
+                </div>
+            </div>
+
+            </div>
+            </div>
+
+        </nav>
+        </div>
+        </header>
+        <div class="my-5 text-center container">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

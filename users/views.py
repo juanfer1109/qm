@@ -27,7 +27,6 @@ class SignupView(CreateView):
         return super().get(request, *args, **kwargs)
 
 class LogoutInterfaceView(LogoutView):
-    template_name = 'home/welcome.html'
     message = "Te esperamos pronto"
     meses = {
         1:'Enero',
@@ -46,6 +45,7 @@ class LogoutInterfaceView(LogoutView):
     mes = meses.get(dt.today().month)
     fecha = str(dt.today().day) + " de " + mes + " de " + str(dt.today().year)
     extra_context = {'message': message, 'today':fecha}
+    template_name = 'home/welcome.html'
 
 
 class LoginInterfaceView(LoginView):
@@ -76,7 +76,14 @@ def SignUp(request):
         confirmation = request.POST["password2"]
         if password != confirmation:
             return render(request, "users/signup.html", {
-                "message": "Las contraseñas deben coincidir"
+                "message": "Las contraseñas deben coincidir",
+                "username": username,
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "phone_number": phone_number,
+                "birthday": birthday,
+                "nickname": nickname,
             })
 
         try:
@@ -91,7 +98,14 @@ def SignUp(request):
             customUser.save()
         except IntegrityError:
             return render(request, "users/signup.html", {
-                "message": "usuario ya existe"
+                "message": "usuario ya existe",
+                "username": username,
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "phone_number": phone_number,
+                "birthday": birthday,
+                "nickname": nickname,
             })
 
         login(request, user)
@@ -101,15 +115,15 @@ def SignUp(request):
 
 def MyProfile(request):
     actual_user = User.objects.get(username=request.user)
-    atual_cu = CustomUser.objects.get(user=request.user)
+    actual_cu = CustomUser.objects.get(user=request.user)
     a_username = actual_user.username
     a_email = actual_user.email
     a_first_name = actual_user.first_name
     a_last_name = actual_user.last_name
-    a_phone_number = atual_cu.phone_number
-    a_birthday = atual_cu.birthday
-    a_nickname = atual_cu.nickname
-    a_mailing_list = atual_cu.mailing_list
+    a_phone_number = actual_cu.phone_number
+    # a_birthday = actual_cu.birthday
+    a_nickname = actual_cu.nickname
+    a_mailing_list = actual_cu.mailing_list
     a_password = actual_user.password
     if request.method == 'POST':
         username = request.POST["username"]
@@ -117,14 +131,24 @@ def MyProfile(request):
         first_name = request.POST["first_name"]
         last_name = request.POST["last_name"]
         phone_number = request.POST["phone_number"]
-        birthday = request.POST["birthday"]
+        # birthday = request.POST["birthday"]
         nickname = request.POST["nickname"]
         try:
             if request.POST["mailing_list"] == 'True':
                 mailing_list = True
         except:
             mailing_list = False
-            
+
+        actual_user.username = username
+        actual_user.email = email
+        actual_user.first_name = first_name
+        actual_user.last_name = last_name
+        actual_cu.phone_number = phone_number
+        actual_cu.nickname = nickname
+        actual_cu.mailing_list = mailing_list
+        actual_user.save()
+        actual_cu.save()
+
         login(request, actual_user)
         return HttpResponseRedirect(reverse("home"))
 
@@ -133,7 +157,7 @@ def MyProfile(request):
         'a_email': a_email,
         'a_first_name': a_first_name,
         'a_last_name': a_last_name,
-        'a_birthday': a_birthday,
+        # 'a_birthday': a_birthday,
         'a_mailing_list': a_mailing_list,
         'a_phone_number': a_phone_number,
         'a_nickname': a_nickname,
