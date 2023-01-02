@@ -11,27 +11,27 @@
             {% csrf_token %}
             <div class="form-group">
                 <label class="input" for="username">Usuario: </label>
-                <input class="form-control" type="text" id="username", name="username" required value={{a_username}} placeholder="Usuario" disabled default="{{a_username}}">
+                <input class="form-control" type="text" id="username", name="username" required value="{{ a_username }}" placeholder="Usuario" disabled default="{{a_username}}">
             </div>
             <div class="form-group">
                 <label class="input" for="email">Email: </label>
-                <input class="form-control" type="email" id="email", name="email" required value={{a_email}} placeholder="Correo Electrónico">
+                <input class="form-control" type="email" id="email", name="email" required value="{{ a_email }}" placeholder="Correo Electrónico">
             </div>
             <div class="form-group">
                 <label class="input" for="first_name">Nombre: </label>
-                <input class="form-control" type="text" id="first_name", name="first_name" required value={{a_first_name}} placeholder="Nombres">
+                <input class="form-control" type="text" id="first_name", name="first_name" required value="{{ a_first_name }}" placeholder="Nombres">
             </div>
             <div class="form-group">
                 <label class="input" for="last_name">Apellidos: </label>
-                <input class="form-control" type="text" id="last_name", name="last_name" required value={{a_last_name}} placeholder="Apellidos">
+                <input class="form-control" type="text" id="last_name", name="last_name" required value="{{ a_last_name }}" placeholder="Apellidos">
             </div>
             <div class="form-group">
                 <label class="input" for="nickname">Como te gusta que te digan: </label>
-                <input class="form-control" type="text" id="nickname", name="nickname" required value={{a_nickname}} placeholder="¿Cómo te gusta que te digan?">
+                <input class="form-control" type="text" id="nickname", name="nickname" required value="{{ a_nickname }}" placeholder="¿Cómo te gusta que te digan?">
             </div>
             <div class="form-group">
                 <label class="input" for="phone_number">Celular: </label>
-                <input class="form-control" type="tel" id="phone_number", name="phone_number" required value={{a_phone_number}} placeholder="Celular">
+                <input class="form-control" type="tel" id="phone_number", name="phone_number" required value="{{ a_phone_number }}" placeholder="Celular">
             </div>
             <div class="form-group padding-5 top-20">
                 {% if a_mailing_list %}

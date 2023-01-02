@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -48,19 +48,37 @@ class LogoutInterfaceView(LogoutView):
     template_name = 'home/welcome.html'
 
 
-class LoginInterfaceView(LoginView):
-    template_name = 'users/login.html'
+def LogIn(request):
+    if request.method == 'POST':
+        username = request.POST["username"].lower()
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user == None:
+            context = {'message': "Usuario o contraseña invalidos"}
+            return render(request, 'users/login.html', context)
+        login(request, user)
+        return HttpResponseRedirect(reverse("home"))
+    return render(request, 'users/login.html', {})
+
+# class LoginInterfaceView(LoginView):
+#     def clean_username(self):
+#         username = self.cleaned_data["username"].lower()
+#     template_name = 'users/login.html'
 
 def SignUp(request):
     if request.method == 'POST':
         ok = False
-        username = request.POST["username"]
+        username = request.POST["username"].lower()
+        if " " in username:
+            ok = True
+            message = "El usuario no puede contener espacios"
+
         email = request.POST["email"]
-        first_name = request.POST["first_name"]
-        last_name = request.POST["last_name"]
+        first_name = request.POST["first_name"].title()
+        last_name = request.POST["last_name"].title()
         phone_number = request.POST["phone_number"]
         birthday = request.POST["birthday"]
-        nickname = request.POST["nickname"]
+        nickname = request.POST["nickname"].capitalize()
         try:
             if  int(phone_number) >= 3000000000 and int(phone_number) <= 3999999999:
                 pass
@@ -131,21 +149,22 @@ def SignUp(request):
 def MyProfile(request):
     actual_user = User.objects.get(username=request.user)
     actual_cu = CustomUser.objects.get(user=request.user)
+
     a_username = actual_user.username
     a_email = actual_user.email
     a_first_name = actual_user.first_name
+    print(a_first_name)
+    print(a_first_name.title())
     a_last_name = actual_user.last_name
     a_phone_number = actual_cu.phone_number
-    a_birthday = actual_cu.birthday
     a_nickname = actual_cu.nickname
     a_mailing_list = actual_cu.mailing_list
-    a_password = actual_user.password
+
     if request.method == 'POST':
         ok = False
-        # username = request.POST["username"]
         email = request.POST["email"]
-        first_name = request.POST["first_name"]
-        last_name = request.POST["last_name"]
+        first_name = request.POST["first_name"].title()
+        last_name = request.POST["last_name"].title()
         phone_number = request.POST["phone_number"]
         try:
             if  int(phone_number) >= 3000000000 and int(phone_number) <= 3999999999:
@@ -157,8 +176,7 @@ def MyProfile(request):
             ok = True
             message = "Número de celular invalido"
 
-        # birthday = request.POST["birthday"]
-        nickname = request.POST["nickname"]
+        nickname = request.POST["nickname"].capitalize()
         try:
             if request.POST["mailing_list"] == 'True':
                 mailing_list = True
@@ -166,7 +184,6 @@ def MyProfile(request):
             mailing_list = False
 
         if not ok:
-            # actual_user.username = username
             actual_user.email = email
             actual_user.first_name = first_name
             actual_user.last_name = last_name
@@ -184,7 +201,6 @@ def MyProfile(request):
                 'a_email': a_email,
                 'a_first_name': a_first_name,
                 'a_last_name': a_last_name,
-                # 'a_birthday': a_birthday,
                 'a_mailing_list': a_mailing_list,
                 'a_phone_number': a_phone_number,
                 'a_nickname': a_nickname,
@@ -197,7 +213,6 @@ def MyProfile(request):
         'a_email': a_email,
         'a_first_name': a_first_name,
         'a_last_name': a_last_name,
-        # 'a_birthday': a_birthday,
         'a_mailing_list': a_mailing_list,
         'a_phone_number': a_phone_number,
         'a_nickname': a_nickname,

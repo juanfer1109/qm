@@ -1,9 +1,26 @@
 {% extends 'base.html' %}
         
     {% block body %}
-    <form class="form-login" method="post">{% csrf_token %}
+    {% if message %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <form class="form-login" method="post" action="{% url 'users.login' %}"> {% csrf_token %}
         <div class="form-item">
-            {{ form.as_p}}
+            <!-- {{ form.as_p }} -->
+            <div class="form-group top-20">
+                <!-- {{ form.username.label_tag }}
+                {{ form.username}} -->
+                
+                <label class="input" for="username">Usuario: </label>
+                <input class="form-control" type="text" id="username", name="username" required placeholder="Usuario" value="{{username}}">
+            </div>
+            <div class="form-group">
+                <!-- {{ form.password.label_tag }}
+                {{ form.password }} -->
+                <label class="input" for="password">Contraseña: </label>
+                <input class="form-control" type="password" id="password", name="password" required placeholder="Contraseña" value="">
+            </div>
         </div>
         <div class="form-item">
             <input type="submit" class="btn btn-secondary" value="Ingresar">

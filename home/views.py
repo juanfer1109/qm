@@ -36,7 +36,7 @@ def homeView(request):
     
     try:
         cu = CustomUser.objects.get(user_id=user.id)
-        nickname = cu.nickname
+        nickname = cu.nickname.capitalize()
         nm = True
     except:
         nm = False

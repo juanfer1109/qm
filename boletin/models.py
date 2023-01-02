@@ -1,11 +1,12 @@
 from django.db import models
 from datetime import date, datetime
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Issue(models.Model):
     ed = models.PositiveIntegerField()
     name = models.CharField(max_length=200)
-    release_date = models.DateField(default=datetime.today())
+    release_date = models.DateField()
     published = models.BooleanField(default=False)
     image = models.ImageField()
 
