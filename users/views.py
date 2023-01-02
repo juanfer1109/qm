@@ -53,6 +53,7 @@ class LoginInterfaceView(LoginView):
 
 def SignUp(request):
     if request.method == 'POST':
+        ok = False
         username = request.POST["username"]
         email = request.POST["email"]
         first_name = request.POST["first_name"]
@@ -60,6 +61,22 @@ def SignUp(request):
         phone_number = request.POST["phone_number"]
         birthday = request.POST["birthday"]
         nickname = request.POST["nickname"]
+        try:
+            if  int(phone_number) >= 3000000000 and int(phone_number) <= 3999999999:
+                pass
+            else:
+                ok = True
+                message = "Número de celular invalido"
+        except:
+            ok = True
+            message = "Número de celular invalido"
+
+        try:
+            date = dt.strptime(birthday, '%Y-%m-%d')
+        except:
+            ok = True
+            message = "Fecha invalida"
+
         try:
             if request.POST["mailing_list"] == 'True':
                 mailing_list = True
@@ -75,30 +92,28 @@ def SignUp(request):
         password = request.POST["password"]
         confirmation = request.POST["password2"]
         if password != confirmation:
-            return render(request, "users/signup.html", {
-                "message": "Las contraseñas deben coincidir",
-                "username": username,
-                "email": email,
-                "first_name": first_name,
-                "last_name": last_name,
-                "phone_number": phone_number,
-                "birthday": birthday,
-                "nickname": nickname,
-            })
+            ok = True
+            message = "Las contraseñas deben coincidir"
 
-        try:
-            user = User.objects.create_user(username, email, password)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.save()
-            customUser = CustomUser(user_id=user.id, birthday=birthday, phone_number=phone_number)
-            customUser.mailing_list = mailing_list
-            customUser.info_manage = info_manage
-            customUser.nickname = nickname
+        if not ok:
+            try:
+                user = User.objects.create_user(username, email, password)
+                user.first_name = first_name
+                user.last_name = last_name
+                customUser = CustomUser(user_id=user.id, birthday=birthday, phone_number=phone_number)
+                customUser.mailing_list = mailing_list
+                customUser.info_manage = info_manage
+                customUser.nickname = nickname
+            except IntegrityError:
+                ok = True
+                message = "Usuario ya existe"
+
+        if not ok:
             customUser.save()
-        except IntegrityError:
+            user.save()
+        else:
             return render(request, "users/signup.html", {
-                "message": "usuario ya existe",
+                "message": message,
                 "username": username,
                 "email": email,
                 "first_name": first_name,
@@ -121,16 +136,27 @@ def MyProfile(request):
     a_first_name = actual_user.first_name
     a_last_name = actual_user.last_name
     a_phone_number = actual_cu.phone_number
-    # a_birthday = actual_cu.birthday
+    a_birthday = actual_cu.birthday
     a_nickname = actual_cu.nickname
     a_mailing_list = actual_cu.mailing_list
     a_password = actual_user.password
     if request.method == 'POST':
-        username = request.POST["username"]
+        ok = False
+        # username = request.POST["username"]
         email = request.POST["email"]
         first_name = request.POST["first_name"]
         last_name = request.POST["last_name"]
         phone_number = request.POST["phone_number"]
+        try:
+            if  int(phone_number) >= 3000000000 and int(phone_number) <= 3999999999:
+                pass
+            else:
+                ok = True
+                message = "Número de celular invalido"
+        except:
+            ok = True
+            message = "Número de celular invalido"
+
         # birthday = request.POST["birthday"]
         nickname = request.POST["nickname"]
         try:
@@ -139,18 +165,32 @@ def MyProfile(request):
         except:
             mailing_list = False
 
-        actual_user.username = username
-        actual_user.email = email
-        actual_user.first_name = first_name
-        actual_user.last_name = last_name
-        actual_cu.phone_number = phone_number
-        actual_cu.nickname = nickname
-        actual_cu.mailing_list = mailing_list
-        actual_user.save()
-        actual_cu.save()
+        if not ok:
+            # actual_user.username = username
+            actual_user.email = email
+            actual_user.first_name = first_name
+            actual_user.last_name = last_name
+            actual_cu.phone_number = phone_number
+            actual_cu.nickname = nickname
+            actual_cu.mailing_list = mailing_list
+            actual_user.save()
+            actual_cu.save()
 
-        login(request, actual_user)
-        return HttpResponseRedirect(reverse("home"))
+            login(request, actual_user)
+            return HttpResponseRedirect(reverse("home"))
+        else:
+            return render(request, 'users/profile.html', {
+                'a_username': a_username,
+                'a_email': a_email,
+                'a_first_name': a_first_name,
+                'a_last_name': a_last_name,
+                # 'a_birthday': a_birthday,
+                'a_mailing_list': a_mailing_list,
+                'a_phone_number': a_phone_number,
+                'a_nickname': a_nickname,
+                'message': message,
+
+            })
 
     return render(request, 'users/profile.html', {
         'a_username': a_username,
