@@ -169,6 +169,14 @@ def MyProfile(request):
     if request.method == 'POST':
         ok = False
         email = request.POST["email"]
+        try:
+            user = User.objects.get(email=email)
+            if user != actual_user:
+                ok = True
+                message = "Ya hay un usuario con este email"
+        except:
+            pass
+
         first_name = request.POST["first_name"].title()
         last_name = request.POST["last_name"].title()
         phone_number = request.POST["phone_number"]
