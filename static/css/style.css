@@ -28,7 +28,7 @@ nav li {
 }
 
 nav a.btn {
-    font-size: small;
+    font-size: 80%;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
     text-decoration: none;
     display: inline-flex;
@@ -40,6 +40,8 @@ nav a.btn {
     border-style: solid;
     border-width: 2px;
     border-color: #EEEEEE;
+    text-align: center;
+    align-items: center;
 }
 
 nav a.btn:hover {
@@ -116,7 +118,8 @@ h4.center {
     font-size: 1.5rem;
 }
 img.img-fluid {
-    max-width: 100%;
+    /* max-width: 100%; */
+    width: 90%;
     height: auto;
     margin: 20px auto 0 auto;
     display: block;
