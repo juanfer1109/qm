@@ -74,6 +74,14 @@ def SignUp(request):
             message = "El usuario no puede contener espacios"
 
         email = request.POST["email"]
+        try:
+            user = User.objects.get(email=email)
+            if user is not None:
+                ok = True
+                message = "Ya hay un usuario con este email"
+        except:
+            pass
+        
         first_name = request.POST["first_name"].title()
         last_name = request.POST["last_name"].title()
         phone_number = request.POST["phone_number"]
@@ -153,8 +161,6 @@ def MyProfile(request):
     a_username = actual_user.username
     a_email = actual_user.email
     a_first_name = actual_user.first_name
-    print(a_first_name)
-    print(a_first_name.title())
     a_last_name = actual_user.last_name
     a_phone_number = actual_cu.phone_number
     a_nickname = actual_cu.nickname
@@ -218,3 +224,19 @@ def MyProfile(request):
         'a_nickname': a_nickname,
 
     })
+
+def cambiarPassword(request):
+    if request.method == 'POST':
+        password = request.POST["password"]
+        confirmation = request.POST["password2"]
+        if password != confirmation:
+            context = {'message': "Las contraseñas deben coincidir"}
+            return render(request, 'users/cambiar_password.html', context)
+
+        actual_user = User.objects.get(username=request.user)
+        actual_user.set_password(password)
+        actual_user.save()
+        login(request, actual_user)
+        return HttpResponseRedirect(reverse('users.profile'))
+
+    return render(request, 'users/cambiar_password.html', {})

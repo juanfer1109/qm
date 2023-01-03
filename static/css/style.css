@@ -103,9 +103,13 @@ h2.text-center {
 }
 
 .center {
+    display: block;
     text-align: center;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin: 8px auto 8px auto;
+    width: 80%;
+    /* margin-bottom: 8px; */
+    /* background-color: red; */
+
 }
 
 h4.center {
@@ -198,4 +202,13 @@ select.form-control {
 .btn-secondary:hover {
     background-color: #EEEEEE;
     color: #5C9EAD;
+}
+
+a.sindec {
+    text-decoration: none;
+}
+
+ul.errorlist {
+    /* width: 80%; */
+    justify-content: center;
 }

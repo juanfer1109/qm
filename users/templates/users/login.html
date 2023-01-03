@@ -26,4 +26,7 @@
             <input type="submit" class="btn btn-secondary" value="Ingresar">
         </div>
     </form>
+    <br>
+    <a href="{% url 'users.signup' %}" class="center sindec">¿Aún no tienes cuenta?</a>
+    <a href="{% url 'password_reset' %}" class="center sindec">¿Olvidaste tu contraseña?</a>
     {% endblock %}
