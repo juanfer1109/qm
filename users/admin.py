@@ -11,6 +11,8 @@ class UserInline(admin.StackedInline):
 
 class CustomUserAdmin(UserAdmin):
     inlines = (UserInline, )
+    # list_display = ('username', 'first_name', 'last_name', 'nickname')
+    # list_filter = ('comunidad', 'publicar', 'mtto', 'tiene_reclamacion')
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

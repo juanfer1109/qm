@@ -2,16 +2,27 @@
 {% load static %}
 <html lang="es">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Quintana Mágica{% block title %}{% endblock %}</title>
-        <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon"/>
+        <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
         <link rel="stylesheet" type="text/css" href=" {% static 'css/style.css' %} ">
         {% block script %}{% endblock %}
     </head>
     <body>
         <nav>
+            {% if comunidad %}
+            <div class="nav-wrap-reverse">
+                <div class="flex-item">
+                    <ul class="qm">
+                        <li>
+                            <a class="btn" href="{% url 'visit.list' %}">Visitas</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
             <div class="nav-wrap-main">
                 <div class="flex-item">
                     <ul>
@@ -21,15 +32,15 @@
                         <li>
                             <a class="btn" href="{% url 'quienes_somos' %}">Sobre Nosotros</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a class="btn" href="{% url 'home' %}">Servicios</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a class="btn" href="https://quintanamagica.wordpress.com/blog/">Boletines</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a class="btn" href="{% url 'home' %}">Contactanos</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a class="btn" href="{% url 'dian.docs' %}">Info DIAN</a>
                         </li>
@@ -51,7 +62,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="nav-wrap-social-media">
+            <!-- <div class="nav-wrap-social-media">
                 <ul class="flex-item">
                     <li>
                         <a href="#">
@@ -64,11 +75,9 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </nav>
-        <div>
-            {% block body %}
-            {% endblock %}
-        </div>
+        {% block body %}
+        {% endblock %}
     </body>
 </html>

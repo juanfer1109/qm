@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.db import IntegrityError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
 from .forms import NewUserForm, NewUserForm2
@@ -50,6 +50,7 @@ class LogoutInterfaceView(LogoutView):
 
 def LogIn(request):
     if request.method == 'POST':
+        
         username = request.POST["username"].lower()
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
@@ -57,7 +58,10 @@ def LogIn(request):
             context = {'message': "Usuario o contraseña invalidos"}
             return render(request, 'users/login.html', context)
         login(request, user)
-        return HttpResponseRedirect(reverse("home"))
+        if request.POST.get('next'):
+            return redirect(request.POST.get('next'))
+        else:
+            return HttpResponseRedirect(reverse('home'))
     return render(request, 'users/login.html', {})
 
 # class LoginInterfaceView(LoginView):
@@ -155,8 +159,14 @@ def SignUp(request):
     return render(request, 'users/signup.html')
 
 def MyProfile(request):
-    actual_user = User.objects.get(username=request.user)
-    actual_cu = CustomUser.objects.get(user=request.user)
+    comunidad = False
+    try:
+        actual_user = User.objects.get(username=request.user)
+        actual_cu = CustomUser.objects.get(user=request.user)
+        if actual_cu.comunidad == True:
+            comunidad =True
+    except:
+        return HttpResponseRedirect(reverse('users.login'))
 
     a_username = actual_user.username
     a_email = actual_user.email
@@ -219,6 +229,7 @@ def MyProfile(request):
                 'a_phone_number': a_phone_number,
                 'a_nickname': a_nickname,
                 'message': message,
+                'comunidad': comunidad,
 
             })
 
@@ -230,7 +241,7 @@ def MyProfile(request):
         'a_mailing_list': a_mailing_list,
         'a_phone_number': a_phone_number,
         'a_nickname': a_nickname,
-
+        'comunidad': comunidad,
     })
 
 def cambiarPassword(request):

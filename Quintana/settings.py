@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'users',
     'dian',
     'boletin',
+    'visit',
+    'mtto',
 ]
 
 MIDDLEWARE = [
@@ -114,11 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-co'
 
 TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
@@ -132,7 +136,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-MEDIA_ROOT = BASE_DIR/'media'
+MEDIA_ROOT = 'media'
 MEDIA_URL = '/'
 
 # Default primary key field type
@@ -141,6 +145,8 @@ MEDIA_URL = '/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home'
+
+LOGIN_URL = 'users.login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -153,3 +159,5 @@ EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
+
+USE_THOUSAND_SEPARATOR = True

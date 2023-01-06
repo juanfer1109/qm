@@ -24,13 +24,16 @@ def homeView(request):
         12:'Diciembre',
     }
     cumple = False
-    nickname = 'Juanfer'
+    nickname = ""
     nm = False
     user = request.user
+    comunidad = False
     try:
         cu = CustomUser.objects.get(user_id=user.id)
         if dt.today().day == cu.birthday.day and dt.today().month == cu.birthday.month:
             cumple = True
+        if cu.comunidad == True:
+            comunidad =True
     except:
         pass
     
@@ -59,7 +62,19 @@ def homeView(request):
         'nm': nm,
         'navidad': navidad,
         'n_year': n_year,
+        'comunidad':comunidad,
     })
 
 def quienesSomos(request):
-    return render(request, 'home/quienes_somos.html')
+    comunidad = False
+    try:
+        user = request.user
+        cu = CustomUser.objects.get(user_id=user.id)
+        if cu.comunidad == True:
+            comunidad =True
+    except:
+        pass
+
+    return render(request, 'home/quienes_somos.html', {
+        'comunidad': comunidad,
+    })

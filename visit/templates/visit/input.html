@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Ingresar Visita{% endblock %}
+    {% block body %}
+
+    <br>
+    <h2 class="center top-20">Nueva visita a Quintana por {{ nickname }}</h2>
+    <br>
+    <form action="{% url 'visit.input' %}" class="form-login" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="input" for="date">Fecha Visita</label>
+            <input class="form-control" type="date" name="date">
+        </div>
+        <textarea class="top-20" name="notes" style="width: 60%; height: 200px;">Ingresa aquí las notas de la visita</textarea>
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary">Ingresar las cuentas</button>
+        </div>
+    </form>
+
+    {% endblock %}

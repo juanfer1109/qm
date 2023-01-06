@@ -6,6 +6,7 @@
     {% endif %}
 
     <form class="form-login" method="post" action="{% url 'users.login' %}"> {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}" />
         <div class="form-item">
             <!-- {{ form.as_p }} -->
             <div class="form-group top-20">

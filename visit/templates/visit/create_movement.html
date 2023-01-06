@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Ingresar Movimiento{% endblock %}
+    {% block body %}
+
+        <h2 class="center">Ingresar rubro de la visita {{ visit.date }}</h2>
+        <form class="form-login" method="POST">{% csrf_token %}
+            {{ formset.management_form }}
+            {% for field in formset %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+                
+            {% endfor %}
+            <!-- {{ formset.as_p }} -->
+            <div class="form-item">
+                <input type="submit" class="btn btn-secondary" value="Agregar">
+            </div>
+        </form>
+
+    {% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Modificar Visita {% endblock %}
+    {% block body %}
+
+    <br>
+    <h2 class="center top-20">Modificar visita  de {{ visit.date }} por {{ visit.visitor.nickname }}:</h2>
+    <br>
+    {% if message %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+    <form action="{% url 'visit.modify' pk=visit.id %}" method="post">{% csrf_token %}
+        <div class="form-group center">
+            <label class="input" for="date">Fecha Visita</label>
+            <input class="form-control" type="date" name="date">
+        </div>
+        <textarea class="top-20 center" name="notes" style="width: 70%; height: 100px;">{{ visit.notes }}</textarea>
+        <button class="btn btn-secondary" type="submit" style="margin: 0 auto; display: table;">Modificar la visita</button>
+    </form>
+    <br>
+    <h2 class="center top-20">Cuentas:</h2>
+    <br>
+
+    <table class="center">
+        <thead>
+            <tr>
+                <th scope="col">Categoria</th>
+                <th scope="col">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.get_categoria_display }}</td>
+                <td>
+                    <form action="{% url 'movement.modify' pk=expense.id %}" method="post" style="display: inline;">{% csrf_token %}
+                        <input name="valor" type="number" min="0" value="{{ expense.valor }}">
+                        <button class="btn btn-secondary" type="submit">Modificar</button>
+                    </form>
+                    <form action="{% url 'movement.delete' pk=expense.id %}" method="post" style="display: inline;">{% csrf_token %}
+                        <button class="btn btn-secondary" type="submit">Borrar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td><b>Balanace Total</b></td>
+                <td><b>{{ visit.total_balance }}</b></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <form action="{% url 'visit.create_movement' pk=visit.id %}">
+        <button class="btn btn-secondary" type="submit" style="margin: 0 auto; display: table;">Agregar cuentas</button>
+    </form>
+    {% endblock %}

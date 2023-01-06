@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Detalle Visita {% endblock %}
+    {% block body %}
+
+    <br>
+    <h2 class="center top-20">Detalle visita  de {{ visit.date }} por {{ visit.visitor.nickname }}:</h2>
+    <br>
+    {% if message %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+    <textarea class="top-20 center" name="notes" style="width: 70%; height: 100px;" disabled>{{ visit.notes }}</textarea>
+
+    <br>
+    <h2 class="center top-20">Cuentas:</h2>
+    <br>
+
+    <table class="center">
+        <thead>
+            <tr>
+                <th scope="col">Categoria</th>
+                <th scope="col">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.get_categoria_display }}</td>
+                <td>{{ expense.valor }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td><b>Balanace Total</b></td>
+                <td><b>{{ visit.total_balance }}</b></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-group center top-20" style="margin: 20px auto;">
+        <form action="{% url 'visit.modify' pk=visit.id %}" method="get">
+            <button class="btn btn-secondary" type="submit">Modificar la visita</button>
+        </form>
+    </div>
+    {% endblock %}

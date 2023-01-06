@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Lista visitas {% endblock %}
+    {% block body %}
+
+    <br>
+    <table class="center">
+        <thead>
+            <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Visitante</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="{% url 'visit.input' %}">Nueva visita</td></a>
+                <td>{{ nickname }}</td>
+            </tr>
+            {% for visit in visits %}
+            <tr>
+                <td><a href="{% url 'visit.details' pk=visit.id %}">{{ visit.date }}</a></td>
+                <td>{{ visit.visitor.nickname }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}
