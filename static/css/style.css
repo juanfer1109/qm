@@ -13,11 +13,9 @@ ul {
     justify-content: flex-end;
     list-style-type: none;
 }
-
 ul.qm {
     justify-content: flex-start;
 }
-
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -30,7 +28,6 @@ nav {
 nav li {
     display: inline-flex;
 }
-
 nav a.btn {
     font-size: 80%;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
@@ -47,39 +44,29 @@ nav a.btn {
     text-align: center;
     align-items: center;
 }
-
 nav a.btn:hover {
     /* background: rgba(238,238,238,80%); */
     background-color: #EEEEEE;
     color:#326273;
 }
-
 img.icon {
     width: 15px;
     display: inline-flex;
     padding: 0 3px;
 }
-
 .nav-wrap-main {
-    width: 95%;
+    width: 90%;
     margin: 0;
     display: flex;
     flex-direction: row-reverse;
     padding: 10px;
-    /* align-items: flex-end; */
-    /* background-color: blue; */
 }
-
 .nav-wrap-reverse {
-    width: 95%;
+    width: 10%;
     margin: 0;
     display: flex;
-    /* flex-direction: row-reverse; */
     padding: 10px;
-    /* align-items: flex-end; */
-    /* background-color: blue; */
 }
-
 .nav-wrap-social-media {
     padding: 10px;
     width: 5%;
@@ -90,11 +77,6 @@ img.icon {
     flex-direction: row-reverse;
     /* align-items: flex-end; */
 }
-
-/* .flex-item {
-    flex: 1 1 600px;
-} */
-
 h1.qm-name {
     font-family: Papyrus, papyrus2, fantasy; 
     font-size: 500%; 
@@ -107,7 +89,6 @@ h1.qm-name {
     margin-bottom: 0;
     margin-top: 10px;
 }
-
 h2.text-center {
     text-align: center;
     font-size: 200%;
@@ -118,14 +99,12 @@ h2.text-center {
     margin-bottom: 10px;
 
 }
-
 .center {
     display: block;
     text-align: center;
     margin: 8px auto 8px auto;
     width: 80%;
 }
-
 h4.center {
     font-size: 1.5rem;
 }
@@ -138,7 +117,6 @@ img.img-fluid {
 .underline {
     text-decoration: underline;
 }
-
 .form-login {
     display: block;
     margin: 0 auto;
@@ -147,7 +125,6 @@ img.img-fluid {
 .form-item {
     text-align: center;
 }
-
 .btn {
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
     padding: 6px;
@@ -158,22 +135,18 @@ img.img-fluid {
 .btn-secondary {
     color: #EEEEEE;
     background-color: #5C9EAD;
-
 }
 input, label {
     padding: 6px;
 }
-
 .form-group {
     margin: 5px 20px;
 }
-
 label.input {
     width: 220px;
     display: inline-block;
     text-align: right;
 }
-
 input.form-control {
     width: 300px;
     display: inline-block;
@@ -184,15 +157,12 @@ select.form-control {
     display: inline-block;
     text-align: left;
 }
-
 .padding-5 {
     padding: 5px;
 }
-
 .top-20 {
     margin-top: 20px;
 }
-
 .alert {
     padding:15px;
     border-radius: 10px;
@@ -210,16 +180,13 @@ select.form-control {
     color: black;
     background-color: #EEEEEE;
 }
-
 .btn-secondary:hover {
     background-color: #EEEEEE;
     color: #5C9EAD;
 }
-
 a.sindec {
     text-decoration: none;
 }
-
 ul.errorlist {
     justify-content: center;
 }
@@ -233,41 +200,78 @@ table {
     width: 80%;
     border-collapse: collapse;
   }
-  
   thead th:nth-child(1) {
     width: 30%;
   }
-  
   thead th:nth-child(2) {
     width: 40%;
   }
-  
   thead th:nth-child(3) {
     width: 15%;
   }
-  
   thead th:nth-child(4) {
     width: 15%;
   }
-  
   th, td {
     padding: 5px;
     border-bottom: 1px solid #326273;
   }
-  
 table.center {
     display: table;
     align-items: center;
     width: auto;
     margin: 0 auto;
 }
-
 @font-face {
     font-family: 'papyrus2';
     src: url(../fonts/papyrus.ttf);
 }
-
 @font-face {
     font-family: 'cursive2';
     src: url(../fonts/ShadowsIntoLight-Regular.ttf);
+}
+.topnav {
+  overflow: hidden;
+  background-color: #326273;
+}
+.topnav a {
+  float: left;
+  display: block;
+  color: #EEE;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+}
+.topnav a:hover {
+  background-color: #EEE;
+  color: #326273;
+}
+.topnav a.active {
+  background-color: #E39774;
+  color: #326273;
+}
+.topnav .icon {
+  display: none;
+}
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
 }

@@ -64,11 +64,6 @@ def LogIn(request):
             return HttpResponseRedirect(reverse('home'))
     return render(request, 'users/login.html', {})
 
-# class LoginInterfaceView(LoginView):
-#     def clean_username(self):
-#         username = self.cleaned_data["username"].lower()
-#     template_name = 'users/login.html'
-
 def SignUp(request):
     if request.method == 'POST':
         ok = False
@@ -189,9 +184,9 @@ def MyProfile(request):
 
         first_name = request.POST["first_name"].title()
         last_name = request.POST["last_name"].title()
-        phone_number = request.POST["phone_number"]
+        phone_number = int(request.POST["phone_number"].replace('.', ''))
         try:
-            if  int(phone_number) >= 3000000000 and int(phone_number) <= 3999999999:
+            if  phone_number >= 3000000000 and phone_number <= 3999999999:
                 pass
             else:
                 ok = True

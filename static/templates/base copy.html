@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Quintana Mágica{% block title %}{% endblock %}</title>
+        <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href=" {% static 'css/style.css' %} ">
+        {% block script %}{% endblock %}
+    </head>
+    <body>
+        <nav>
+            {% if comunidad %}
+            <div class="nav-wrap-reverse">
+                <ul class="qm">
+                    <li class="flex-item">
+                        <a class="btn" href="{% url 'visit.list' %}">Visitas</a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+            <div class="nav-wrap-main">
+                <ul>
+                    <li class="flex-item">
+                        <a class="btn" href="{% url 'home' %}">Inicio</a>
+                    </li>
+                    <li class="flex-item">
+                        <a class="btn" href="{% url 'quienes_somos' %}">Sobre Nosotros</a>
+                    </li class="flex-item">
+                    <!-- <li class="flex-item">
+                        <a class="btn" href="{% url 'home' %}">Servicios</a>
+                    </li> -->
+                    <li class="flex-item">
+                        <a class="btn" href="https://quintanamagica.wordpress.com/blog/">Boletines</a>
+                    </li>
+                    <!-- <li class="flex-item">
+                        <a class="btn" href="{% url 'home' %}">Contactanos</a>
+                    </li> -->
+                    <li class="flex-item">
+                        <a class="btn" href="{% url 'dian.docs' %}">Info DIAN</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="flex-item">
+                        <a class="btn" href="{% url 'users.profile' %}">Mi Perfil</a>
+                    </li>
+                    <li class="flex-item">
+                        <a class="btn" href="{% url 'users.logout' %}">Salir</a>
+                    </li>
+                    {% else %}
+                    <li class="flex-item">
+                        <a class="btn" href="{% url 'users.login' %}">Ingresar</a>
+                    </li>
+                    <li class="flex-item">
+                        <a class="btn" href="{% url 'users.signup' %}">Registrarse</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- <div class="nav-wrap-social-media">
+                <ul class="flex-item">
+                    <li>
+                        <a href="#">
+                            <img src="{% static 'images/facebook.svg' %}" alt="" class="icon">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="{% static 'images/instagram.svg' %}" alt="" class="icon">
+                        </a>
+                    </li>
+                </ul>
+            </div> -->
+        </nav>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>
