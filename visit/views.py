@@ -177,9 +177,7 @@ def borrarMov(request, pk):
 
 @login_required
 def modificarMov(request, pk):
-    valor = request.POST['valor']
-    valor = valor.replace('.', '')
-    valor = int(valor)
+    valor = int(request.POST['valor'].replace('.', ''))
     mov = MoneyMovement.objects.get(pk=pk)
     visit = Visit.objects.get(id=mov.visit.id)
     if CustomUser.objects.get(user=request.user).user != visit.visitor.user:
