@@ -96,25 +96,26 @@ img.icon {
 } */
 
 h1.qm-name {
-    font-family: Papyrus, fantasy; 
-    font-size: 5rem; 
+    font-family: Papyrus, papyrus2, fantasy; 
+    font-size: 500%; 
     font-style: normal; 
     font-variant: normal; 
     font-weight: 500; 
-    line-height: 1.2;
+    line-height: 1;
     text-align: center;
     box-sizing: border-box;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     margin-top: 10px;
 }
 
 h2.text-center {
     text-align: center;
+    font-size: 200%;
     line-height: 1.2;
-    font-weight: 300;
-    font-family: cursive;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    font-weight: 500;
+    font-family: cursive2;
+    margin-top: 0;
+    margin-bottom: 10px;
 
 }
 
@@ -123,16 +124,12 @@ h2.text-center {
     text-align: center;
     margin: 8px auto 8px auto;
     width: 80%;
-    /* margin-bottom: 8px; */
-    /* background-color: red; */
-
 }
 
 h4.center {
     font-size: 1.5rem;
 }
 img.img-fluid {
-    /* max-width: 100%; */
     width: 90%;
     height: auto;
     margin: 20px auto 0 auto;
@@ -146,7 +143,6 @@ img.img-fluid {
     display: block;
     margin: 0 auto;
     text-align: center;
-    /* background-color: red; */
 }
 .form-item {
     text-align: center;
@@ -170,7 +166,6 @@ input, label {
 
 .form-group {
     margin: 5px 20px;
-    /* display: inline-block; */
 }
 
 label.input {
@@ -226,7 +221,6 @@ a.sindec {
 }
 
 ul.errorlist {
-    /* width: 80%; */
     justify-content: center;
 }
 .justify {
@@ -238,7 +232,6 @@ table {
     table-layout: fixed;
     width: 80%;
     border-collapse: collapse;
-    /* border: 3px solid #326273; */
   }
   
   thead th:nth-child(1) {
@@ -267,4 +260,14 @@ table.center {
     align-items: center;
     width: auto;
     margin: 0 auto;
+}
+
+@font-face {
+    font-family: 'papyrus2';
+    src: url(../fonts/papyrus.ttf);
+}
+
+@font-face {
+    font-family: 'cursive2';
+    src: url(../fonts/ShadowsIntoLight-Regular.ttf);
 }
