@@ -51,7 +51,12 @@ class LogoutInterfaceView(LogoutView):
 def LogIn(request):
     if request.method == 'POST':
         
+        users= User.objects.all()
         username = request.POST["username"].lower()
+        for user in users:
+            if user.email.lower() == username:
+                username = user.username
+        
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
         if user == None:
