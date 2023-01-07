@@ -18,7 +18,7 @@ def docsDian(request):
     listOfYears.order_by('year').reverse()
     
     if request.method == 'POST':
-        year = int(request.POST['year'].replace('.', ''))
+        year = int(request.POST['year'].replace('.', '').replace(',', ''))
         listOfDocs = DianDoc.objects.filter(year=year)
         list = True
         if len(listOfDocs) == 0:

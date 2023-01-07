@@ -16,7 +16,7 @@
         <div class="center">
             <br><br><br>
             {% for doc in documents %}
-                <p><a href="{{ doc.file }}">{{ doc.title }} {{ doc.year|unlocalize }}</a></p>
+                <p><a href="../{{ doc.file }}">{{ doc.title }} {{ doc.year|unlocalize }}</a></p>
             {% endfor %}
         </div>
     {% endif %}

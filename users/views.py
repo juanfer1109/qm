@@ -189,7 +189,7 @@ def MyProfile(request):
 
         first_name = request.POST["first_name"].title()
         last_name = request.POST["last_name"].title()
-        phone_number = int(request.POST["phone_number"].replace('.', ''))
+        phone_number = int(request.POST["phone_number"].replace('.', '').replace(',', ''))
         try:
             if  phone_number >= 3000000000 and phone_number <= 3999999999:
                 pass
