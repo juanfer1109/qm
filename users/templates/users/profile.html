@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-        
+{% load l10n %}        
     {% block body %}
 
     {% if message %}
@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label class="input" for="phone_number">Celular: </label>
-                <input class="form-control" type="tel" id="phone_number", name="phone_number" required value="{{ a_phone_number }}" placeholder="Celular">
+                <input class="form-control" type="tel" id="phone_number", name="phone_number" required value="{{ a_phone_number|unlocalize }}" placeholder="Celular">
             </div>
             <div class="form-group padding-5 top-20">
                 {% if a_mailing_list %}

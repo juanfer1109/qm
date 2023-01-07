@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load l10n %}
     {% block body %}
     <form class="form-login top-20 padding-5" action="{% url 'dian.docs' %}" method="POST"> {% csrf_token %}
         <label class="input" for="year">Año a consultar:</label>
         <select class="form-control padding-5" name="year" id="year">
             {% for year in years %}
-            <option value="{{year}}">{{year}}</option>
+            <option value="{{year}}">{{ year|unlocalize }}</option>
             {% endfor %}
         </select>
         <input class="btn btn-secondary" type="submit">
@@ -15,8 +16,7 @@
         <div class="center">
             <br><br><br>
             {% for doc in documents %}
-                <p><a href="{{ doc.file }}">{{ doc.title }} {{ doc.year }}</a></p>
-                <!-- <p><a href="{% url 'dian.pdf' pk=doc.id %}">{{ doc.title }} {{ doc.year }}</a></p> -->
+                <p><a href="{{ doc.file }}">{{ doc.title }} {{ doc.year|unlocalize }}</a></p>
             {% endfor %}
         </div>
     {% endif %}
