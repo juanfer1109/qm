@@ -77,7 +77,7 @@ def SignUp(request):
             ok = True
             message = "El usuario no puede contener espacios"
 
-        email = request.POST["email"]
+        email = request.POST["email"].lower()
         try:
             user = User.objects.get(email=email)
             if user is not None:
