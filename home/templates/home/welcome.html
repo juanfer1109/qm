@@ -20,6 +20,37 @@
         {% if n_year %}
         <h4 class="center" style="color: #326273;">Feliz Año!!!!</h4>
         {% endif %}
+        {% if comunidad %}
+        {% if events %}
+        <h2 class="center events top-20"><a class="sindec" href="{% url 'eventos.lista' %}">Proximos Eventos:</a></h2>
+        <div class="events-container center">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 35px;">Tipo</th>
+                        <th style="width: 150px;">Nombre</th>
+                        <th style="width: 80px;">Fecha</th>
+                        <th style="width: 10px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td style="width: 10%;">{{ event.tipo }}</td>
+                        <td style="width: 45%;">{{ event.nombre }}</td>
+                        <td style="width: 30%;">{{ event.fecha|date:"d-M" }}</td>
+                        <td style="width: 15%;">
+                            <a href="{% url 'eventos.detail' pk=event.id %}">
+                                <img src="{% static 'images/info.png' %}" style="width: 30px;" alt="">
+                            </a>
+                        </td>
+                    </tr>
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% endif %}
         <img class="img-fluid" src="{% static 'images/qm.jpg' %}" style="border-color: #5C9EAD ; 
         border-style: solid;" alt="Quintana Mágica">
     {% endblock %}

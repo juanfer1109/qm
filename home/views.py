@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from datetime import datetime as dt
+from datetime import datetime as dt, date
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
+from django.db.models import Count
 
 from users.models import CustomUser
+from eventos.models import Evento
 
 def homeView(request):
     n_year = False
@@ -55,6 +57,16 @@ def homeView(request):
 
     mes = meses.get(dt.today().month)
     fecha = str(dt.today().day) + " de " + mes + " de " + str(dt.today().year)
+    for event in Evento.objects.filter(cancelado=False, concluido=False):
+        event.cant_inscritos = event.inscritos.count()
+        if event.cant_inscritos >= event.cupos:
+            event.cerrado = True
+
+        if event.fecha < date.today():
+            event.concluido = True
+
+        event.save()
+
     return render(request, 'home/welcome.html', {
         'today': fecha,
         'cumple': cumple,
@@ -63,6 +75,7 @@ def homeView(request):
         'navidad': navidad,
         'n_year': n_year,
         'comunidad':comunidad,
+        'events': Evento.objects.filter(cancelado=False, concluido=False).order_by('fecha'),
     })
 
 def quienesSomos(request):

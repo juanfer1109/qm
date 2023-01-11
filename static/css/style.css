@@ -163,7 +163,7 @@ select.form-control {
 .top-20 {
     margin-top: 20px;
 }
-.alert {
+/* .alert {
     padding:15px;
     border-radius: 10px;
     text-align: center;
@@ -175,7 +175,7 @@ select.form-control {
 }
 .alert-danger {
     background-color: rgba(255, 0, 0, .6);
-}
+} */
 .btn-secondary:disabled {
     color: black;
     background-color: #EEEEEE;
@@ -184,8 +184,14 @@ select.form-control {
     background-color: #EEEEEE;
     color: #5C9EAD;
 }
-a.sindec {
-    text-decoration: none;
+a.sindec{
+    text-decoration: none!important;
+}
+a.sindec:link {
+    text-decoration: none!important;
+}
+a.sindec:visited {
+    text-decoration: none!important;
 }
 ul.errorlist {
     justify-content: center;
@@ -197,7 +203,6 @@ ul.errorlist {
 }
 table {
     table-layout: fixed;
-    width: 80%;
     border-collapse: collapse;
   }
   thead th:nth-child(1) {
@@ -274,4 +279,43 @@ table.center {
     display: block;
     text-align: left;
   }
+}
+h2.events {
+    color: #5C9EAD;
+    text-decoration: underline;
+}
+.events-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+}
+.styled-table {
+    width: auto;
+    display: inline-table;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #326273;
+    color: #EEE;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 8px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #EEE;
+    text-align: left;
+}
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #EEE;
+}
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #326273;
 }

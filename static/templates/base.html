@@ -10,6 +10,7 @@
         <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
         <link rel="stylesheet" type="text/css" href=" {% static 'css/style.css' %} ">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         {% block script %}{% endblock %}
     </head>
     <body>
@@ -18,8 +19,8 @@
                 <a class="active" href="{% url 'home' %}">Inicio</a>
                 {% if comunidad %}
                 <a href="{% url 'visit.list' %}">Visitas</a>
+                <a href="{% url 'eventos.lista' %}">Eventos</a>
                 {% endif %}
-                <!-- <a class="btn" href="{% url 'home' %}">Servicios</a> -->
                 <a href="https://quintanamagica.wordpress.com/blog/">Boletines</a>
                 <!-- <a class="btn" href="{% url 'home' %}">Contactanos</a> -->
                 <a href="{% url 'dian.docs' %}">Info DIAN</a>

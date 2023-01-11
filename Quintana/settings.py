@@ -11,9 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-# import os
-
-# from users.models import CustomUser2
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +26,7 @@ SECRET_KEY = 'django-insecure-b$a85yt_(76c8v1b1fmh%lx6ji^^5uz(127kbm4y*m4n*a*f1_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -48,6 +46,7 @@ INSTALLED_APPS = [
     'boletin',
     'visit',
     'mtto',
+    'eventos',
 ]
 
 MIDDLEWARE = [
@@ -130,14 +129,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-MEDIA_ROOT = 'media'
-MEDIA_URL = '/'
+MEDIA_ROOT = 'media/'
+MEDIA_URL = ''
+# 'http://127.0.0.1:8000/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -145,7 +146,6 @@ MEDIA_URL = '/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home'
-
 LOGIN_URL = 'users.login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

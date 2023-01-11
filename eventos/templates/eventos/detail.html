@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Detalle Evento {% endblock %}
+ 
+    {% block script %}
+        <script src="{% static 'js/qm.js' %}"></script>
+    {% endblock %}
+ 
+    {% block body %}
+    <div style="margin-left: 10px;">
+        {% if message2 %}
+        <div style="width:80%" class="alert alert-warning top-20 center" role="alert">{{ message2 }} <a href="{% url 'eventos.lista' %}">aquí</a></div>
+        {% endif %}
+        {% if message1 %}
+        <div style="width:80%" class="alert alert-danger top-20 center" role="alert">{{ message1 }}</div>
+        {% endif %}
+        <br>
+        <h3 class="text-dark text-decoration-non top-20">{{ event.tipo }}: {{ event.nombre }}</h3>
+        <img src="{{event.imagen.url}}" alt="{{event.nombre}}" width="80%">
+        <p class="card-text" style="width: 80%; text-align: justify;">{{ event.descripcion }}</p>
+        <p>Fecha: {{ event.fecha }}</p>
+        <p>Costo: 
+            {% if event.cerrado %}
+                <b>Evento cerrado por cupos</b>
+            {% else %}
+                ${{ event.costo }}
+            {% endif %}
+        </p>
+
+        {% if user.is_authenticated %}
+            {% if inscrito %}
+                <form action="{% url 'eventos.desuscribir' pk=event.id %}" method="POST"> {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Desuscribirse del Evento</button>
+                </form>
+                {% else %}
+                <button id="btn-inscribir" class="btn btn-primary" onclick="inscribirse()">Inscribirse al Evento</button>
+            {% endif %}
+        {% else %}
+            <form action="{% url 'eventos.inscribir' pk=event.id %}" method="POST"> {% csrf_token %}
+                <button type="submit" class="btn btn-info">Ingresar para Incribirse al Evento</button>
+            </form>
+        {% endif %}
+        <div style="display: none;" id="inscribirse">
+            <form action="{% url 'eventos.inscribir' pk=event.id %}" method="POST"> {% csrf_token %}
+                <label for="pago">Forma de Pago:</label>
+                <select name="pago" id="" required>
+                    <option value="">--Selecciona una opción--</option>
+                    <option value="Consignacion">Consigación</option>
+                    <option value="Efectivo">Efectivo</option>
+                </select>
+                <button type="submit" class="btn btn-success">Confirmar</button>
+            </form>
+            <button id="btn-cancelar" class="btn btn-danger" onclick="inscribirse()">Cancelar</button>
+        </div>
+    </div>
+    {% endblock %}

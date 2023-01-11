@@ -35,10 +35,3 @@ def docsDian(request):
         'years': listOfYears,
         'comunidad': comunidad,
     })
-
-
-def pdfOpen(request, pk):
-    doc = DianDoc.objects.get(pk=pk)
-    return render(request, 'dian/pdf.html', {
-        'pdf': doc,
-    })

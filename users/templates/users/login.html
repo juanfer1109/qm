@@ -2,7 +2,7 @@
         
     {% block body %}
     {% if message %}
-    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
     {% endif %}
 
     <form class="form-login" method="post" action="{% url 'users.login' %}"> {% csrf_token %}
