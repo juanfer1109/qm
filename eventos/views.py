@@ -20,6 +20,8 @@ def eventDetails(request, pk):
         evento.cant_inscritos = evento.inscritos.count()
         if evento.cant_inscritos >= evento.cupos:
             evento.cerrado = True
+        else:
+            evento.cerrado = False
 
         if evento.fecha < date.today():
             evento.concluido = True
@@ -60,6 +62,8 @@ def inscribirse(request, pk):
             evento.cant_inscritos = evento.inscritos.count()
             if evento.cant_inscritos >= evento.cupos:
                 evento.cerrado = True
+            else:
+                evento.cerrado = False
 
             if evento.fecha < date.today():
                 evento.concluido = True
@@ -79,6 +83,8 @@ def desuscribirse(request, pk):
         evento.cant_inscritos = evento.inscritos.count()
         if evento.cant_inscritos >= evento.cupos:
             evento.cerrado = True
+        else:
+            evento.cerrado = False
 
         if evento.fecha < date.today():
             evento.concluido = True
@@ -100,6 +106,8 @@ def listaEventos(request):
         evento.cant_inscritos = evento.inscritos.count()
         if evento.cant_inscritos >= evento.cupos:
             evento.cerrado = True
+        else:
+            evento.cerrado = False
 
         if evento.fecha < date.today():
             evento.concluido = True

@@ -16,7 +16,6 @@
         <div class="center">
             <br><br><br>
             {% for doc in documents %}
-                <p>Ruta: {{ doc.file.path }}</p>
                 <p><a href="{{ doc.file.url }}">{{ doc.title }} {{ doc.year|unlocalize }}</a></p>
             {% endfor %}
         </div>
