@@ -153,7 +153,6 @@ def SignUp(request):
             )
             email.fail_silently = False
             email.send()
-            messages.success(request, 'Usuario creado exitosamente')
             subject = 'Nuevo Usuario ' + user.username
             template = render_to_string('users/email_template.html', {
                 'name': 'Juanfer',
