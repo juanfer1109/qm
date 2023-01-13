@@ -1,23 +1,23 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
 from datetime import datetime as dt
 from django.views.generic.edit import CreateView
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
-from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LogoutView
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.db import IntegrityError
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.contrib import messages
 
-from .forms import NewUserForm, NewUserForm2
+from .forms import NewUserForm
 from .models import CustomUser
 
 class SignupView(CreateView):
     form_class = NewUserForm
-    # form_class = NewUserForm2
     template_name = 'users/register.html'
     success_url = '/login'
 
@@ -46,7 +46,6 @@ class LogoutInterfaceView(LogoutView):
     fecha = str(dt.today().day) + " de " + mes + " de " + str(dt.today().year)
     extra_context = {'message': message, 'today':fecha}
     template_name = 'home/welcome.html'
-
 
 def LogIn(request):
     if request.method == 'POST':
@@ -141,6 +140,33 @@ def SignUp(request):
         if not ok:
             customUser.save()
             user.save()
+            subject = 'Hola ' + customUser.nickname
+            template = render_to_string('users/email_template.html', {
+                'name': customUser.nickname,
+                'message': 'Gracias por registrarte en nuestra página'
+            })
+            email = EmailMessage(
+                subject,
+                template,
+                settings.EMAIL_HOST_USER,
+                [user.email]
+            )
+            email.fail_silently = False
+            email.send()
+            messages.success(request, 'Usuario creado exitosamente')
+            subject = 'Nuevo Usuario ' + user.username
+            template = render_to_string('users/email_template.html', {
+                'name': 'Juanfer',
+                'message': 'Se ha creado un nuevo usuario'
+            })
+            email = EmailMessage(
+                subject,
+                template,
+                settings.EMAIL_HOST_USER,
+                ['juanfer_arango@hotmail.com', 'jfarangou@gmail.com']
+            )
+            email.fail_silently = False
+            email.send()
         else:
             return render(request, "users/signup.html", {
                 "message": message,
