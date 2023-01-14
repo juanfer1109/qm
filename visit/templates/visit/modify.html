@@ -7,7 +7,7 @@
     <h2 class="center top-20">Modificar visita  de {{ visit.date }} por {{ visit.visitor.nickname }}:</h2>
     <br>
     {% if message %}
-    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    <div class="alert alert-danger center" role="alert">{{ message }}</div>
     {% endif %}
     <form action="{% url 'visit.modify' pk=visit.id %}" method="post">{% csrf_token %}
         <div class="form-group center">

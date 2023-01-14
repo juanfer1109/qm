@@ -7,7 +7,7 @@
     <h2 class="center top-20">Detalle visita  de {{ visit.date }} por {{ visit.visitor.nickname }}:</h2>
     <br>
     {% if message %}
-    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    <div class="alert alert-danger center" role="alert">{{ message }}</div>
     {% endif %}
     <textarea class="top-20 center" name="notes" style="width: 70%; height: 100px;" disabled>{{ visit.notes }}</textarea>
 
