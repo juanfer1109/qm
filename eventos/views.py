@@ -9,12 +9,15 @@ from users.models import CustomUser
 from .models import Evento, Inscripciones
 
 def eventDetails(request, pk):
-    comunidad = False
+    comunidad = False # Por defecto los usuarios no son de la comunidad
+    doc = False # Por defecto que no se tiene el documento de identidad del usuario
     try:
         user = request.user
         cu = CustomUser.objects.get(user_id=user.id)
-        if cu.comunidad == True:
-            comunidad =True
+        if cu.comunidad:
+            comunidad =True # Se cambia a verdadero si el usuario es de la comunidad
+        if cu.id_number != None and cu.id_number != 0:
+            doc = True # Se cambia a verdadero si el usuario ya tiene ingresado el documento de identidad
     except:
         pass
     for evento in Evento.objects.filter(cancelado=False, concluido=False):
@@ -31,7 +34,7 @@ def eventDetails(request, pk):
 
     event = Evento.objects.get(pk=pk)
     if event.prueba and not(User.objects.get(username=user).is_staff):
-        return HttpResponseRedirect(reverse('eventos.lista'))
+        return HttpResponseRedirect(reverse('eventos.lista')) # Si el evento está en prueba y el usuario no es del staff no se muestra el evento
 
     inscrito = request.user in event.inscritos.all()
 
@@ -39,18 +42,30 @@ def eventDetails(request, pk):
         'event':event,
         'inscrito': inscrito,
         'comunidad': comunidad,
+        'doc': doc,
     })
 
 @login_required
 def inscribirse(request, pk):
+    doc = False
     if request.method =='POST':
-        pago =request.POST["pago"]
         actUser = request.user
+        cu = CustomUser.objects.get(user=actUser)
+        try:
+            cu.id_number = request.POST["id"]
+            cu.doc_type = request.POST["tipo_id"]
+            cu.save()
+            doc = True
+        except:
+            pass
+
+        pago = request.POST["pago"]
         event = Evento.objects.get(pk=pk)
-        if CustomUser.objects.get(user=actUser).comunidad:
+        if cu.comunidad:
             return render(request, 'eventos/detail.html', {
                 'event': event,
-                'message1': 'Los miembros de la comunidad no se deben inscribir'
+                'message1': 'Los miembros de la comunidad no se deben inscribir',
+                'doc': doc,
             })
         
         if event.cerrado:
@@ -81,8 +96,11 @@ def desuscribirse(request, pk):
     event = Evento.objects.get(pk=pk)
     actUser = request.user
     event.inscritos.remove(actUser)
-    inscripcion = Inscripciones.objects.get(usuario=actUser, evento=event)
-    inscripcion.delete()
+    try:
+        Inscripciones.objects.get(usuario=actUser, evento=event).delete()
+    except:
+        pass
+    
     for evento in Evento.objects.filter(cancelado=False, concluido=False):
         evento.cant_inscritos = evento.inscritos.count()
         if evento.cant_inscritos >= evento.cupos:

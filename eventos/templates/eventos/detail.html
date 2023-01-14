@@ -48,6 +48,17 @@
                     <option value="Consignacion">Consigación</option>
                     <option value="Efectivo">Efectivo</option>
                 </select>
+                {% if not doc %}
+                <label for="tipo_id">Tipo de documento</label>
+                <select name="tipo_id" id="" required>
+                    <option value="">--Selecciona una opción--</option>
+                    <option value="cc">Cédula de Ciudadanía</option>
+                    <option value="ti">Tarjeta de Identidad</option>
+                    <option value="ce">Cédula Extranjería</option>
+                </select>
+                <label for="id">Número Documento</label>
+                <input type="number" name="id" id="" min="0" required>
+                {% endif %}
                 <button type="submit" class="btn btn-success">Confirmar</button>
             </form>
             <button id="btn-cancelar" class="btn btn-danger" onclick="inscribirse()">Cancelar</button>
