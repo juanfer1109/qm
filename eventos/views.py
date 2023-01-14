@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from datetime import date
+from django.contrib.auth.models import User
 
 from users.models import CustomUser
 from .models import Evento, Inscripciones
@@ -29,6 +30,9 @@ def eventDetails(request, pk):
         evento.save()
 
     event = Evento.objects.get(pk=pk)
+    if event.prueba and not(User.objects.get(username=user).is_staff):
+        return HttpResponseRedirect(reverse('eventos.lista'))
+
     inscrito = request.user in event.inscritos.all()
 
     return render(request, 'eventos/detail.html', {
@@ -93,12 +97,15 @@ def desuscribirse(request, pk):
     return HttpResponseRedirect(reverse("eventos.detail", args=(pk, )))
 
 def listaEventos(request):
+    staff = False
     comunidad = False
     try:
         user = request.user
         cu = CustomUser.objects.get(user_id=user.id)
-        if cu.comunidad == True:
-            comunidad =True
+        if cu.comunidad:
+            comunidad = True
+        if User.objects.get(username=user).is_staff:
+            staff = True
     except:
         pass
 
@@ -113,8 +120,9 @@ def listaEventos(request):
             evento.concluido = True
 
         evento.save()
-    events = Evento.objects.filter(cancelado=False, concluido=False).order_by('fecha')
     return render(request, 'eventos/list.html', {
-        'events': events,
+        'events': Evento.objects.filter(cancelado=False, concluido=False, prueba=False).order_by('fecha'),
+        'all_events': Evento.objects.filter(cancelado=False, concluido=False).order_by('fecha'),
         'comunidad': comunidad,
+        'staff': staff,
     })

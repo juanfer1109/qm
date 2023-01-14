@@ -19,6 +19,7 @@ class Evento(models.Model):
     cupos = models.PositiveSmallIntegerField(default=0)
     cant_inscritos = models.PositiveSmallIntegerField(default=0)
     cerrado = models.BooleanField(default=False)
+    prueba = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nombre

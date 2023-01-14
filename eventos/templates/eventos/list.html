@@ -4,6 +4,27 @@
     {% block body %}
     <h2 class="mx-3 my-3">Eventos:</h2>
     <div class="row mx-3 my-3">
+    {% if staff %}
+    {% for event in all_events %}
+    <div class="card" style="width: 18rem;">
+      <a href="{% url 'eventos.detail' pk=event.id %}" class="text-dark text-decoration-non">  
+        <img src="{{ event.imagen.url }}" class="card-img-top" alt="{{event.nombre}}">
+        <div class="card-body">
+            <h5>{{ event.nombre }}</h5></a>
+            <p class="card-text">Costo: 
+                {% if event.cerrado %}
+                    Evento cerrado por cupos
+                {% else %}
+                    {{ event.costo }}
+                {% endif %}
+            </p>
+            <p class="card-text">Fecha: {{ event.fecha|date:"d-M-Y" }}</p>
+            <p class="card-text">{{ event.descripcion|truncatechars:100}}</p>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+    {% else %}
     {% for event in events %}
     <div class="card" style="width: 18rem;">
       <a href="{% url 'eventos.detail' pk=event.id %}" class="text-dark text-decoration-non">  
@@ -23,5 +44,6 @@
       </a>
     </div>
     {% endfor %}
+    {% endif %}
     </div>
     {% endblock %}

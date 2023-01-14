@@ -9,6 +9,7 @@ from users.models import CustomUser
 from eventos.models import Evento
 
 def homeView(request):
+    staff = False
     n_year = False
     navidad = False
     meses = {
@@ -32,10 +33,13 @@ def homeView(request):
     comunidad = False
     try:
         cu = CustomUser.objects.get(user_id=user.id)
+        act_user = User.objects.get(username=user)
         if dt.today().day == cu.birthday.day and dt.today().month == cu.birthday.month:
             cumple = True
-        if cu.comunidad == True:
+        if cu.comunidad:
             comunidad =True
+        if act_user.is_staff:
+            staff = True
     except:
         pass
     
@@ -75,19 +79,26 @@ def homeView(request):
         'navidad': navidad,
         'n_year': n_year,
         'comunidad':comunidad,
-        'events': Evento.objects.filter(cancelado=False, concluido=False).order_by('fecha'),
+        'staff': staff,
+        'events': Evento.objects.filter(cancelado=False, concluido=False, prueba=False).order_by('fecha'),
+        'all_events': Evento.objects.filter(cancelado=False, concluido=False).order_by('fecha'),
     })
 
 def quienesSomos(request):
     comunidad = False
+    staff = False
     try:
         user = request.user
+        act_user = User.objects.get(username=user)
         cu = CustomUser.objects.get(user_id=user.id)
-        if cu.comunidad == True:
+        if cu.comunidad:
             comunidad =True
+        if act_user.is_staff:
+            staff = True
     except:
         pass
 
     return render(request, 'home/quienes_somos.html', {
         'comunidad': comunidad,
+        'staff': staff,
     })
