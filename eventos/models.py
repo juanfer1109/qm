@@ -5,6 +5,7 @@ class Evento(models.Model):
     TYPES = [
         ('Taller', 'Taller'),
         ('Encuentro', 'Encuentro'),
+        ('Experiencia', 'Experiencia'),
     ]
     
     nombre = models.CharField(max_length=40)
