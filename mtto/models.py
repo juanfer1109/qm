@@ -17,7 +17,7 @@ class Equip(models.Model):
 class Supplier(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
     address = models.CharField(max_length=100)
-    phone_number = models.PositiveIntegerField()
+    phone_number = models.PositiveBigIntegerField()
     contact = models.CharField(max_length=100)
 
     def __str__(self):

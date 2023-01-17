@@ -42,7 +42,7 @@ def listadoEquipos(request):
     if CustomUser.objects.get(user=request.user).comunidad:
         comunidad =True
         return render(request, 'mtto/listado_equipos.html', {
-            'equipos': Equip.objects.all(),
+            'equipos': Equip.objects.all().order_by('next_maintenance'),
             'comunidad': comunidad,
         })
     else:
