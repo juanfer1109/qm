@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Lista equipos {% endblock %}
+    {% block body %}
+
+    <h2 class="center">Datos del Equipo</h2>
+    <br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="alert alert-danger top-20 center" role="alert">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <div style="width: 90%;" class="table-responsive center">
+    <table class="table align-middle mb-0 bg-white center">
+        <thead class="bg-light">
+            <tr>
+                <th style="width: 20px;">Nombre</th>
+                <th>Frecuencia Mtto</th>
+                <th>Último Mtto</th>
+                <th>Próximo Mtto</th>
+                <th>Valor último Mtto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipo in equipos %}
+            <tr>
+                <td style="width: 20px;"><a href="{% url 'mtto.details' pk=equipo.id %}">{{ equipo.name }}</a></td>
+                <td>{{ equipo.frequency }}</td>
+                <td>{{ equipo.last_maintenance }}</td>
+                <td>{{ equipo.next_maintenance }}</td>
+                <td>{{ equipo.last_value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="{% url 'mtto.crear_equipo' %}">
+        <button type="submit" class="btn btn-primary top-20">Agregar Equipo</button>
+    </form>
+</div>
+
+    {% endblock %}

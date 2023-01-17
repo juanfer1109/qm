@@ -17,7 +17,7 @@
             <div class="topnav" id="myTopnav">
                 <a class="active" href="{% url 'home' %}">Inicio</a>
                 {% if comunidad %}
-                <a href="{% url 'visit.list' %}">Visitas</a>
+                <a href="{% url 'home.comunidad' %}">Comunidad</a>
                 {% endif %}
                 <a href="{% url 'eventos.lista' %}">Eventos</a>
                 <a href="https://quintanamagica.wordpress.com/blog/">Boletines</a>

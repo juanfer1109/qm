@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Crear Equipo {% endblock %}
+    {% block script %}
+    {% endblock %}
+
+    {% block body %}
+    <h2 class="center">Datos del Equipo</h2>
+    {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+    {% endif %}
+
+        <form class="form-login top-20" action="{% url 'mtto.crear_equipo' %}" method="post" name="form_registrar">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="input" for="name">Nombre del Equipo: </label>
+                <input class="form-control" type="text" name="name" required placeholder="Nombre del Equipo">
+            </div>
+            <div class="form-group">
+                <label class="input" for="frequency">Frecuencia en días: </label>
+                <input class="form-control" type="number" name="frequency" required placeholder="Frecuencia en días">
+            </div>
+            <div class="form-group">
+                <label class="input" for="next_maintenance">Próximo Mantenimiento: </label>
+                <input class="form-control" type="date" name="next_maintenance">
+            </div>
+            <div class="form-item">
+                <input type="submit" class="btn btn-primary" value="Agregar">
+            </div>
+        </form>
+        
+    {% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Crear Proveedor {% endblock %}
+    {% block script %}
+    {% endblock %}
+
+    {% block body %}
+    <h2 class="center">Crear Proveedor</h2>
+    {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+    {% endif %}
+
+        <form class="form-login top-20" action="{% url 'mtto.crear_proveedor' %}" method="post" name="form_registrar">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="input" for="name">Nombre: </label>
+                <input class="form-control" type="text" name="name" required placeholder="Nombre">
+            </div>
+            <div class="form-group">
+                <label class="input" for="address">Dirección: </label>
+                <input class="form-control" type="text" name="address" required placeholder="Dirección">
+            </div>
+            <div class="form-group">
+                <label class="input" for="phone">Teléfono: </label>
+                <input class="form-control" type="tel" name="phone" required placeholder="Teléfono">
+            </div>
+            <div class="form-group">
+                <label class="input" for="contact">Contacto: </label>
+                <input class="form-control" type="text" name="contact" required placeholder="Contacto">
+            </div>
+            <div class="form-item">
+                <input type="submit" class="btn btn-primary" value="Agregar Proveedor">
+            </div>
+        </form>        
+    {% endblock %}

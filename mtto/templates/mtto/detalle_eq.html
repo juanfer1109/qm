@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Mtto {{ equipo.name }}{% endblock %}
+    {% block body %}
+
+    <h2 class="center">{{ equipo.name }}</h2>
+    <br>
+    <div class="center">
+        <h5>Último Mantenimiento: {{ equipo.last_maintenance }}</h5>
+        <h5>Próximo Mantenimiento {{ equipo.next_maintenance }}</h5>
+        <h5>Costo último mantenimiento: {{ equipo.last_value }}</h5>
+    </div>
+    <br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="alert alert-danger top-20 center" role="alert">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div style="width: 90%;" class="table-responsive center">
+    <table class="table align-middle mb-0 bg-white center">
+        <thead class="bg-light">
+            <tr>
+                <th style="width: 20px;">Proveedor</th>
+                <th>Fecha</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mtto in mttos %}
+            <tr>
+                <td style="width: 20px;"><a href="{% url 'mtto.proveedor' pk=mtto.supplier.id %}">{{ mtto.supplier }}</a></td>
+                <td><a href="{% url 'mtto.mtto' pk=mtto.id %}">{{ mtto.date }}</a></td>
+                <td>{{ mtto.value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="{% url 'mtto.crear_mtto' pk=equipo.id %}">
+        <button type="submit" class="btn btn-primary top-20">Agregar Mantenimiento</button>
+    </form>
+    <form action="{% url 'mtto.listado_equipos' %}">
+        <button type="submit" class="btn btn-secundary top-20">Volver al listado</button>
+    </form>
+</div>
+
+    {% endblock %}

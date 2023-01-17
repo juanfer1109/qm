@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+    <h2 aria-label="Bloque: Encabezado" class="center" data-type="core/heading" 
+        data-title="Encabezado" 
+        style="color: #668DC0; white-space: pre-wrap; min-width: 1px;">Aplicaciones de la Comunidad
+    </h2>
+    <div class="center">
+        <form action="{% url 'visit.list' %}" style="display: inline;">
+            <button class="btn btn-info" style="width: 150px;">
+                Visitas
+            </button>
+        </form>
+        <form action="{% url 'mtto.listado_equipos' %}" style="display: inline;">
+            <button class="btn btn-info" style="width: 150px;">
+                Mantenimiento
+            </button>
+        </form>
+    </div>
+{% endblock %}

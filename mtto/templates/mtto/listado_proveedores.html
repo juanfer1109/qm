@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Lista Proveedores {% endblock %}
+    {% block body %}
+
+    <h2 class="center">Proveedores Registrados</h2>
+    <br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="alert alert-danger top-20 center" role="alert">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <div style="width: 90%;" class="table-responsive center">
+    <table class="table align-middle mb-0 bg-white center">
+        <thead class="bg-light">
+            <tr>
+                <th style="width: 20px;">Nombre</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Contacto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+            <tr>
+                <td style="width: 20px;">{{ supplier.name }}</td>
+                <td>{{ supplier.address }}</td>
+                <td>{{ supplier.phone_number }}</td>
+                <td>{{ supplier.contact }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="{% url 'mtto.crear_proveedor' %}">
+        <button type="submit" class="btn btn-primary top-20">Agregar Proveedor</button>
+    </form>
+</div>
+
+    {% endblock %}

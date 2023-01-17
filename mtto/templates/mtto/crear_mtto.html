@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Crear Mantenimiento {% endblock %}
+    {% block script %}
+    {% endblock %}
+
+    {% block body %}
+    <h2 class="center">Mantenimiento <a href="{% url 'mtto.details' pk=equipo.id %}">{{ equipo.name }}</a></h2>
+    {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+    {% endif %}
+
+        <form class="form-login top-20" action="{% url 'mtto.crear_mtto' pk=equipo.id %}" method="post" name="form_registrar">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="input" for="supplier">Proveedor: </label>
+                <select class="form-control padding-5" name="supplier" required>
+                    <option value="">--Selecciona una opción--</option>
+                    {% for supplier in suppliers %}
+                    <option value="{{ supplier }}">{{ supplier }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="input" for="date">Fecha: </label>
+                <input class="form-control" type="date" name="date" required placeholder="Fecha">
+            </div>
+            <div class="form-group">
+                <label class="input" for="value">Valor: </label>
+                <input class="form-control" type="number" name="value" required min="0">
+            </div>
+            <div class="form-group">
+                <label class="input" for="notes"><b>Notas: </b></label>
+                <textarea class="center" name="notes" style="width: 60%; height: 100px;">Notas del mantenimiento</textarea>
+            </div>
+            <div class="form-item">
+                <input type="submit" class="btn btn-primary" value="Agregar Mantenimiento">
+            </div>
+        </form>
+        <form action="{% url 'mtto.crear_proveedor' %}" class="center">
+            <input type="submit" class="btn btn-secundary" value="Agregar Proveedor">
+        </form>
+        
+    {% endblock %}

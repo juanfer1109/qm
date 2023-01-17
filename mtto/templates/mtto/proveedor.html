@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Proveedor {{ supplier.name }}{% endblock %}
+    {% block body %}
+
+    <h2 class="center">{{ supplier.name }}</h2>
+    <br>
+    <div class="center">
+        <h5>Dirección: {{ supplier.address }}</h5>
+        <h5>Telefono: {{ supplier.phone_number }}</h5>
+        <h5>Contacto: {{ supplier.contact }}</h5>
+    </div>
+    <br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="alert alert-danger top-20 center" role="alert">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% endblock %}

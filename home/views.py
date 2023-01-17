@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
 from datetime import datetime as dt, date
-from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from users.models import CustomUser
 from eventos.models import Evento
@@ -102,3 +102,14 @@ def quienesSomos(request):
         'comunidad': comunidad,
         'staff': staff,
     })
+
+@login_required
+def comunidad(request):
+    comunidad = False
+    if CustomUser.objects.get(user=request.user).comunidad:
+        comunidad =True
+        return render(request, 'home/comunidad.html', {
+            'comunidad': comunidad,
+        })
+    else:
+        return HttpResponseRedirect(reverse('home'))

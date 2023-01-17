@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Mantenimiento {{ mtto.equip }}{% endblock %}
+    {% block body %}
+
+    <h2 class="center">Mantenimiento <a href="{% url 'mtto.details' pk=mtto.equip.id %}">{{ mtto.equip }}</a></h2>
+    <br>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="alert alert-danger top-20 center" role="alert">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <div class="center">
+        <h4>Responsable: {{ user }}</h4>
+        <h4>Proveedor: {{ mtto.supplier }}</h4>
+        <h4>Fecha: {{ mtto.date }}</h4>
+        <h4>Valor: ${{mtto.value }}</h4>
+        <p><big><b>Notas:</b></big> {{ mtto.notes }}</p>
+    </div>
+    {% endblock %}
