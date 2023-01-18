@@ -1,4 +1,4 @@
-function inscribirse() {
+inscribirse = () => {
     var x = document.getElementById("inscribirse");
     var y = document.getElementById("btn-inscribir");
     if (x.style.display === "none") {
