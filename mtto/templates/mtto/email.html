@@ -1,0 +1,11 @@
+Hola {{ name }}, {% if nothing %}no hay mantenimientos vencidos ni próximos{% endif %}
+{% if venc %}Los manteniemintos que están atrasados son: 
+{% for vencido in vencidos %}- {{ vencido }}
+{% endfor %}{% endif %}
+{% if prox %}Los manteniemintos que están próximos son:
+{% for next in nexts %}- {{ next }} 
+{% endfor %} {% endif %}
+
+En este link encuentras los detalles: https://quintanamagica.com/mtto/lista_eq/
+
+Abrazos
