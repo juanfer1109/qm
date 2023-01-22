@@ -22,7 +22,7 @@ def eventDetails(request, pk):
         pass
     for evento in Evento.objects.filter(cancelado=False, concluido=False):
         evento.cant_inscritos = evento.inscritos.count()
-        if evento.cant_inscritos >= evento.cupos:
+        if evento.cant_inscritos >= evento.cupos or evento.fecha_costo2 < date.today():
             evento.cerrado = True
         else:
             evento.cerrado = False
@@ -33,6 +33,15 @@ def eventDetails(request, pk):
         evento.save()
 
     event = Evento.objects.get(pk=pk)
+    if event.fecha_costo1 > date.today():
+        event.costo = event.costo1
+        event.fecha_costo = event.fecha_costo1
+    else:
+        event.costo = event.costo2
+        event.fecha_costo = event.fecha_costo2
+    
+    event.save()
+
     if event.prueba and not(User.objects.get(username=user).is_staff):
         return HttpResponseRedirect(reverse('eventos.lista')) # Si el evento está en prueba y el usuario no es del staff no se muestra el evento
 
@@ -129,10 +138,17 @@ def listaEventos(request):
 
     for evento in Evento.objects.filter(cancelado=False, concluido=False):
         evento.cant_inscritos = evento.inscritos.count()
-        if evento.cant_inscritos >= evento.cupos:
+        if evento.cant_inscritos >= evento.cupos or evento.fecha_costo2 < date.today():
             evento.cerrado = True
         else:
             evento.cerrado = False
+
+        if evento.fecha_costo1 > date.today():
+            evento.costo = evento.costo1
+            evento.fecha_costo = evento.fecha_costo1
+        else:
+            evento.costo = evento.costo2
+            evento.fecha_costo = evento.fecha_costo2
 
         if evento.fecha < date.today():
             evento.concluido = True

@@ -19,11 +19,11 @@
         <img src="{{event.imagen.url}}" alt="{{event.nombre}}" width="80%">
         <p class="card-text" style="width: 80%; text-align: justify;">{{ event.descripcion }}</p>
         <p>Fecha: {{ event.fecha }}</p>
-        <p>Costo: 
+        <p>Donación: 
             {% if event.cerrado %}
                 <b>Evento cerrado por cupos</b>
             {% else %}
-                ${{ event.costo }}
+                ${{ event.costo }} <small>(Hasta el {{ event.fecha_costo }})</small>
             {% endif %}
         </p>
 
