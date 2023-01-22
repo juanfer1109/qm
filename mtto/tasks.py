@@ -35,7 +35,7 @@ def correoMtto(token):
                         email.fail_silently = False
                         email.send()                
 
-            if days > 0 and days <= 14:
+            if (days > 0 and days <= 3) or days == 7 or days == 14:
                 for user in users:
                     if user.mtto:
                         subject = 'Próximo Mantenimiento de ' + equip.name
