@@ -7,6 +7,12 @@ class Equip(models.Model):
     last_maintenance = models.DateField(null=True, blank=True)
     next_maintenance = models.DateField(null=True, blank=True)
     last_value = models.PositiveIntegerField(null=True, blank=True)
+    days_60 = models.BooleanField(default=False)
+    days_30 = models.BooleanField(default=False)
+    days_14 = models.BooleanField(default=False)
+    days_7 = models.BooleanField(default=False)
+    days_3 = models.BooleanField(default=False)
+    atrasado = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

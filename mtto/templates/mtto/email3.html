@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ tittle }}</title>
+</head>
+<body>
+    <h2>Hola {{ name }},</h2>
+    {% if atrasados %}
+        <h3>Los manteniemientos atrasados son:</h3>
+        <ul>
+            {% for equipo in equipos_atrasados %}
+                <li>{{ equipo.name }} era para el {{ equipo.next_maintenance }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if tres %}
+        <h3>Los mantenimientos próximos:</h3>
+        <ul>
+            {% for equipo in equipos_3 %}
+                <li>{{ equipo.name }} es para el {{ equipo.next_maintenance }}</li>
+            {% endfor %}
+            </ul>
+    {% endif %}
+    {% if siete %}
+        <h3>Los manteniemientos de esta semana:</h3>
+        <ul>
+            {% for equipo in equipos_7 %}
+                <li>{{ equipo.name }} es para el {{ equipo.next_maintenance }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if catorce %}
+        <h3>Los mantenimientos de la próxima semana:</h3>
+        <ul>
+            {% for equipo in equipos_14 %}
+                <li>{{ equipo.name }} es para el {{ equipo.next_maintenance }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if treinta %}
+        <h3>Los mantenimientos que son en un mes:</h3>
+        <ul>
+            {% for equipo in equipos_30 %}
+                <li>{{ equipo.name }} es para el {{ equipo.next_maintenance }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if sesenta %}
+    <h3>Los manteniemientos que son en dos meses:</h3>
+        <ul>
+            {% for equipo in equipos_60 %}
+                <li>{{ equipo.name }} es para el {{ equipo.next_maintenance }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <p>En este link encuentras los detalles: https://quintanamagica.com/mtto/lista_eq/</p>
+    <p>Abrazos</p>
+</body>
+</html>
+ 
