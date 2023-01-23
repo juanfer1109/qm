@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load l10n %}
+{% load phonenumber_filters %}
     {% block title %} - Proveedor {{ supplier.name }}{% endblock %}
     {% block body %}
 
@@ -8,7 +9,7 @@
     <br>
     <div class="center">
         <h5>Dirección: {{ supplier.address }}</h5>
-        <h5>Telefono: {{ supplier.phone_number|unlocalize }}</h5>
+        <h5>Telefono: {{ supplier.phone_number|lower|phonenumber }}</h5>
         <h5>Contacto: {{ supplier.contact }}</h5>
     </div>
     <br>

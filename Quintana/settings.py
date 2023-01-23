@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_crontab',
+    'phonenumber_filter',
 
     # 'django_celery_results',
     # 'django_celery_beat',
