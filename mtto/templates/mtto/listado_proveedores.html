@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load phonenumber_filters %}
     {% block title %} - Lista Proveedores {% endblock %}
     {% block body %}
 
@@ -27,7 +28,7 @@
             <tr>
                 <td style="width: 20px;">{{ supplier.name }}</td>
                 <td>{{ supplier.address }}</td>
-                <td>{{ supplier.phone_number }}</td>
+                <td>{{ supplier.phone_number|lower|phonenumber }}</td>
                 <td>{{ supplier.contact }}</td>
             </tr>
             {% endfor %}

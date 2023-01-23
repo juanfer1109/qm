@@ -10,4 +10,5 @@ urlpatterns = [
     path('crear-mtto/<int:pk>', views.crearMtto, name='mtto.crear_mtto'),
     path('crear-proveedor/', views.crearProveedor, name='mtto.crear_proveedor'),
     path('proveedor/<int:pk>/', views.verProveedor, name='mtto.proveedor'),
+    path('listaproveedores/', views.listadoProveedores, name='mtto.lista_proveedores')
 ]
