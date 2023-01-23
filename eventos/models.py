@@ -31,13 +31,13 @@ class Evento(models.Model):
         return self.nombre
 
 class Inscripciones(models.Model):
-    FORMA_PAGO = [
-        ('Efectivo', 'Efectivo'),
-        ('Consignacion', 'Consignación'),
-    ]
+    # FORMA_PAGO = [
+    #     ('Efectivo', 'Efectivo'),
+    #     ('Consignacion', 'Consignación'),
+    # ]
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
-    forma_pago = models.CharField(max_length=20, choices=FORMA_PAGO)
+    # forma_pago = models.CharField(max_length=20, choices=FORMA_PAGO)
     pago_recibido = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
 

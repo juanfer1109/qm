@@ -4,6 +4,10 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from datetime import date
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.template.loader import get_template
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 
 from users.models import CustomUser
 from .models import Evento, Inscripciones
@@ -73,7 +77,7 @@ def inscribirse(request, pk):
         except:
             pass
 
-        pago = request.POST["pago"]
+        # pago = request.POST["pago"]
         event = Evento.objects.get(pk=pk)
         if cu.comunidad:
             return render(request, 'eventos/detail.html', {
@@ -88,7 +92,24 @@ def inscribirse(request, pk):
                 'message2': 'Lo sentimos, no tenemos cupos para este evento , puedes mirar los otros eventos'
             })
 
-        inscripcion = Inscripciones(usuario=actUser, evento=event, forma_pago=pago)
+        inscripcion = Inscripciones(usuario=actUser, evento=event) #, forma_pago=pago)
+        subject = 'Gracias por tu inscripción'
+        template = get_template('eventos/email_inscripcion.html')
+        content = template.render({
+            'name': cu.nickname,
+            'evento': event,
+        })
+        sendTo = User.objects.get(username=actUser.username).email
+        email = EmailMultiAlternatives(
+            subject,
+            '',
+            settings.EMAIL_HOST_USER,
+            [sendTo,],
+        )
+        email.attach_alternative(content, 'text/html')
+        email.fail_silently = False
+        email.send()
+        
         inscripcion.save()
         event.inscritos.add(actUser)
         for evento in Evento.objects.filter(cancelado=False, concluido=False):
@@ -107,25 +128,29 @@ def inscribirse(request, pk):
 
 @login_required
 def desuscribirse(request, pk):
-    event = Evento.objects.get(pk=pk)
     actUser = request.user
-    event.inscritos.remove(actUser)
-    try:
-        Inscripciones.objects.get(usuario=actUser, evento=event).delete()
-    except:
-        pass
+    event = Evento.objects.get(pk=pk)
+    if not(Inscripciones.objects.get(usuario=actUser, evento=event).pago_recibido):
+        event.inscritos.remove(actUser)
+        try:
+            Inscripciones.objects.get(usuario=actUser, evento=event).delete()
+        except:
+            pass
+        
+        for evento in Evento.objects.filter(cancelado=False, concluido=False):
+            evento.cant_inscritos = evento.inscritos.count()
+            if evento.cant_inscritos >= evento.cupos:
+                evento.cerrado = True
+            else:
+                evento.cerrado = False
+
+            if evento.fecha < date.today():
+                evento.concluido = True
+
+            evento.save()
+        return HttpResponseRedirect(reverse("eventos.detail", args=(pk, )))
     
-    for evento in Evento.objects.filter(cancelado=False, concluido=False):
-        evento.cant_inscritos = evento.inscritos.count()
-        if evento.cant_inscritos >= evento.cupos:
-            evento.cerrado = True
-        else:
-            evento.cerrado = False
-
-        if evento.fecha < date.today():
-            evento.concluido = True
-
-        evento.save()
+    messages.success(request, "Como ya recibimos tu donación para desuscribirte a la experiencia comunicate con nosotros")
     return HttpResponseRedirect(reverse("eventos.detail", args=(pk, )))
 
 def listaEventos(request):

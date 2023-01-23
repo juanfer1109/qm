@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
-    {% block title %} - Detalle Evento {% endblock %}
+{% block title %} - Detalle Evento {% endblock %}
+{% block script %}
+    <script src="{% static 'js/qm.js' %}"></script>
+{% endblock %}
  
-    {% block script %}
-        <script src="{% static 'js/qm.js' %}"></script>
-    {% endblock %}
- 
-    {% block body %}
+{% block body %}
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li class="alert alert-danger top-20 center" role="alert">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
     <div style="margin-left: 10px;">
         {% if message2 %}
-        <div style="width:80%" class="alert alert-warning top-20 center" role="alert">{{ message2 }} <a href="{% url 'eventos.lista' %}">aquí</a></div>
+            <div style="width:80%" class="alert alert-warning top-20 center" role="alert">{{ message2 }} <a href="{% url 'eventos.lista' %}">aquí</a></div>
         {% endif %}
         {% if message1 %}
-        <div style="width:80%" class="alert alert-danger top-20 center" role="alert">{{ message1 }}</div>
+            <div style="width:80%" class="alert alert-danger top-20 center" role="alert">{{ message1 }}</div>
         {% endif %}
         <br>
         <h3 class="text-dark text-decoration-non top-20">{{ event.tipo }}: {{ event.nombre }}</h3>
@@ -32,7 +38,7 @@
                 <form action="{% url 'eventos.desuscribir' pk=event.id %}" method="POST"> {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Desuscribirse del Evento</button>
                 </form>
-                {% else %}
+            {% else %}
                 <button id="btn-inscribir" class="btn btn-primary" onclick="inscribirse()">Inscribirse al Evento</button>
             {% endif %}
         {% else %}
@@ -42,12 +48,12 @@
         {% endif %}
         <div style="display: none;" id="inscribirse">
             <form action="{% url 'eventos.inscribir' pk=event.id %}" method="POST"> {% csrf_token %}
-                <label for="pago">Forma de Pago:</label>
+                {% comment %} <label for="pago">Forma de Pago:</label>
                 <select name="pago" id="" required>
                     <option value="">--Selecciona una opción--</option>
                     <option value="Consignacion">Consigación</option>
                     <option value="Efectivo">Efectivo</option>
-                </select>
+                </select> {% endcomment %}
                 {% if not doc %}
                 <label for="tipo_id">Tipo de documento</label>
                 <select name="tipo_id" id="" required>
@@ -64,4 +70,4 @@
             <button id="btn-cancelar" class="btn btn-danger" onclick="inscribirse()">Cancelar</button>
         </div>
     </div>
-    {% endblock %}
+{% endblock %}
