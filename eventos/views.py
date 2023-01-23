@@ -42,8 +42,13 @@ def eventDetails(request, pk):
     
     event.save()
 
-    if event.prueba and not(User.objects.get(username=user).is_staff):
-        return HttpResponseRedirect(reverse('eventos.lista')) # Si el evento está en prueba y el usuario no es del staff no se muestra el evento
+    if event.prueba: 
+        try:
+            staff = cu.staff
+        except:
+            staff = False
+        if not staff:
+            return HttpResponseRedirect(reverse('eventos.lista')) # Si el evento está en prueba y el usuario no es del staff no se muestra el evento
 
     inscrito = request.user in event.inscritos.all()
 
@@ -131,7 +136,7 @@ def listaEventos(request):
         cu = CustomUser.objects.get(user_id=user.id)
         if cu.comunidad:
             comunidad = True
-        if User.objects.get(username=user).is_staff:
+        if cu.staff:
             staff = True
     except:
         pass
