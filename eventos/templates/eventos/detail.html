@@ -13,22 +13,22 @@
         {% endfor %}
       </ul>
     {% endif %}
-    <div style="margin-left: 10px;">
+    <div style="margin: 0 auto; width: 80%;">
         {% if message2 %}
-            <div style="width:80%" class="alert alert-warning top-20 center" role="alert">{{ message2 }} <a href="{% url 'eventos.lista' %}">aquí</a></div>
+            <div class="alert alert-warning top-20 center" role="alert">{{ message2 }} <a href="{% url 'eventos.lista' %}">aquí</a></div>
         {% endif %}
         {% if message1 %}
-            <div style="width:80%" class="alert alert-danger top-20 center" role="alert">{{ message1 }}</div>
+            <div class="alert alert-danger top-20 center" role="alert">{{ message1 }}</div>
         {% endif %}
         <br>
         <h3 class="text-dark text-decoration-non top-20">{{ event.tipo }}: {{ event.nombre }}</h3>
-        <img src="{{event.imagen.url}}" alt="{{event.nombre}}" width="80%">
-        <p class="card-text" style="width: 80%; text-align: justify;">{{ event.descripcion }}</p>
-        <p>Fecha: {{ event.fecha }}</p>
-        <p>Lugar: {{ event.lugar }}</p>
-        <p>Duración: {{ event.duracion}}</p>
-        <p>Incluye: {{ event.incluye }}</p>
-        <p>Donación: 
+        <img src="{{event.imagen.url}}" alt="{{event.nombre}}" width="100%">
+        <p class="card-text" style="text-align: justify;">{{ event.descripcion }}</p>
+        <p class="card-text" style="text-align: justify;">Fecha: {{ event.fecha }}</p>
+        <p class="card-text" style="text-align: justify;">Lugar: {{ event.lugar }}</p>
+        <p class="card-text" style="text-align: justify;">Duración: {{ event.duracion}}</p>
+        <p class="card-text" style="text-align: justify;">Incluye: {{ event.incluye }}</p>
+        <p class="card-text" style="text-align: justify;">Donación: 
             {% if event.cerrado %}
                 <b>Evento cerrado por cupos</b>
             {% else %}
