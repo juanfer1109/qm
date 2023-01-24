@@ -25,6 +25,9 @@
         <img src="{{event.imagen.url}}" alt="{{event.nombre}}" width="80%">
         <p class="card-text" style="width: 80%; text-align: justify;">{{ event.descripcion }}</p>
         <p>Fecha: {{ event.fecha }}</p>
+        <p>Lugar: {{ event.lugar }}</p>
+        <p>Duración: {{ event.duracion}}</p>
+        <p>Incluye: {{ event.incluye }}</p>
         <p>Donación: 
             {% if event.cerrado %}
                 <b>Evento cerrado por cupos</b>
@@ -67,7 +70,9 @@
                 {% endif %}
                 <button type="submit" class="btn btn-success">Confirmar</button>
             </form>
-            <button id="btn-cancelar" class="btn btn-danger" onclick="inscribirse()">Cancelar</button>
+        </div>
+        <div>
+            <button style="display: none" id="btn-cancelar" class="btn btn-danger" onclick="inscribirse()">Cancelar</button>
         </div>
     </div>
 {% endblock %}
