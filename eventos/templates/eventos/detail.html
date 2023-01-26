@@ -38,8 +38,15 @@
 
         {% if user.is_authenticated %}
             {% if inscrito %}
+                <h5>Cantidad de cupos que has reservado: {{ cupos }}</h5>
+                <form action="{% url 'eventos.agregar_cupo' pk=event.id %}" method="POST"> {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Agregar otro cupo a tu inscripción</button>
+                </form>
+                <form action="{% url 'eventos.quitar_cupo' pk=event.id %}" method="POST"> {% csrf_token %}
+                    <button type="submit" class="btn btn-secundary">Quitar un cupo a tu inscripción</button>
+                </form>
                 <form action="{% url 'eventos.desuscribir' pk=event.id %}" method="POST"> {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Desuscribirse del Evento</button>
+                    <button type="submit" class="btn btn-danger">Desinscribirse del Evento</button>
                 </form>
             {% else %}
                 <button id="btn-inscribir" class="btn btn-primary" onclick="inscribirse()">Inscribirse al Evento</button>
@@ -51,12 +58,6 @@
         {% endif %}
         <div style="display: none;" id="inscribirse">
             <form action="{% url 'eventos.inscribir' pk=event.id %}" method="POST"> {% csrf_token %}
-                {% comment %} <label for="pago">Forma de Pago:</label>
-                <select name="pago" id="" required>
-                    <option value="">--Selecciona una opción--</option>
-                    <option value="Consignacion">Consigación</option>
-                    <option value="Efectivo">Efectivo</option>
-                </select> {% endcomment %}
                 {% if not doc %}
                 <label for="tipo_id">Tipo de documento</label>
                 <select name="tipo_id" id="" required>

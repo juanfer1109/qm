@@ -25,7 +25,9 @@ def eventDetails(request, pk):
     except:
         pass
     for evento in Evento.objects.filter(cancelado=False, concluido=False):
-        evento.cant_inscritos = evento.inscritos.count()
+        evento.cant_inscritos = 0
+        for inscripcion in Inscripciones.objects.filter(evento=evento):
+                evento.cant_inscritos = evento.cant_inscritos + inscripcion.cantidad
         if evento.cant_inscritos >= evento.cupos or evento.fecha_costo2 < date.today():
             evento.cerrado = True
         else:
@@ -55,10 +57,15 @@ def eventDetails(request, pk):
             return HttpResponseRedirect(reverse('eventos.lista')) # Si el evento está en prueba y el usuario no es del staff no se muestra el evento
 
     inscrito = request.user in event.inscritos.all()
+    try:
+        cupos = Inscripciones.objects.get(usuario=request.user, evento=event).cantidad
+    except:
+        cupos = 0
 
     return render(request, 'eventos/detail.html', {
         'event':event,
         'inscrito': inscrito,
+        'cupos': cupos,
         'comunidad': comunidad,
         'doc': doc,
     })
@@ -77,7 +84,6 @@ def inscribirse(request, pk):
         except:
             pass
 
-        # pago = request.POST["pago"]
         event = Evento.objects.get(pk=pk)
         if cu.comunidad:
             return render(request, 'eventos/detail.html', {
@@ -115,7 +121,9 @@ def inscribirse(request, pk):
         inscripcion.save()
         event.inscritos.add(actUser)
         for evento in Evento.objects.filter(cancelado=False, concluido=False):
-            evento.cant_inscritos = evento.inscritos.count()
+            evento.cant_inscritos = 0
+            for inscripcion in Inscripciones.objects.filter(evento=evento):
+                evento.cant_inscritos = evento.cant_inscritos + inscripcion.cantidad
             if evento.cant_inscritos >= evento.cupos:
                 evento.cerrado = True
             else:
@@ -140,7 +148,9 @@ def desuscribirse(request, pk):
             pass
         
         for evento in Evento.objects.filter(cancelado=False, concluido=False):
-            evento.cant_inscritos = evento.inscritos.count()
+            evento.cant_inscritos = 0
+            for inscripcion in Inscripciones.objects.filter(evento=evento):
+                evento.cant_inscritos = evento.cant_inscritos + inscripcion.cantidad
             if evento.cant_inscritos >= evento.cupos:
                 evento.cerrado = True
             else:
@@ -169,7 +179,9 @@ def listaEventos(request):
         pass
 
     for evento in Evento.objects.filter(cancelado=False, concluido=False):
-        evento.cant_inscritos = evento.inscritos.count()
+        evento.cant_inscritos = 0
+        for inscripcion in Inscripciones.objects.filter(evento=evento):
+            evento.cant_inscritos = evento.cant_inscritos + inscripcion.cantidad
         if evento.cant_inscritos >= evento.cupos or evento.fecha_costo2 < date.today():
             evento.cerrado = True
         else:
@@ -192,3 +204,27 @@ def listaEventos(request):
         'comunidad': comunidad,
         'staff': staff,
     })
+
+@login_required
+def agregarCupo(request, pk):
+    event = Evento.objects.get(pk=pk)
+    if event.cerrado:
+        messages.success(request, 'Evento cerrado por cupos')
+        return HttpResponseRedirect(reverse("eventos.detail", args=(pk, )))
+        
+    inscripcion = Inscripciones.objects.get(evento=event, usuario=request.user)
+    inscripcion.cantidad = inscripcion.cantidad + 1
+    inscripcion.save()
+    return HttpResponseRedirect(reverse("eventos.detail", args=(pk, )))
+
+@login_required
+def quitarCupo(request, pk):
+    event = Evento.objects.get(pk=pk)
+    inscripcion = Inscripciones.objects.get(evento=event, usuario=request.user)
+    if inscripcion.cantidad > 1:
+        inscripcion.cantidad = inscripcion.cantidad - 1
+        inscripcion.save()
+        return HttpResponseRedirect(reverse("eventos.detail", args=(pk, )))
+    
+    messages.success(request, 'Solo tienes un cupo reservado')
+    return HttpResponseRedirect(reverse("eventos.detail", args=(pk, )))
