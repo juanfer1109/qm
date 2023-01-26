@@ -6,8 +6,12 @@
 
     {% block body %}
     <h2 class="center">Crear Proveedor</h2>
-    {% if message %}
-        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="alert alert-danger top-20 center" role="alert">{{ message }}</li>
+        {% endfor %}
+      </ul>
     {% endif %}
 
         <form class="form-login top-20" action="{% url 'mtto.crear_proveedor' %}" method="post" name="form_registrar">

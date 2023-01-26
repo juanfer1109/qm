@@ -70,20 +70,20 @@ def revisarMttos(token):
             equip.days_30 = False
             equip.days_60 = False
 
-        if days <= 4 and days > 0:
+        if days <= 3 and days > 0:
             equip.days_3 = True
             equip.days_7 = False
             equip.days_14 = False
             equip.days_30 = False
             equip.days_60 = False
 
-        if days == 7:
+        if days == 6:
             equip.days_7 = True
             equip.days_14 = False
             equip.days_30 = False
             equip.days_60 = False
 
-        if days == 14:
+        if days == 13:
             equip.days_14 = True
             equip.days_30 = False
             equip.days_60 = False

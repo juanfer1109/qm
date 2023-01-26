@@ -56,8 +56,10 @@
             {% endfor %}
         </ul>
     {% endif %}
+    {% if not atrasados and not tres and not siete and not catorce and not treinta and not sesenta %}
+        <h3>No hay equipos con eventos para reportar</h3>
+    {% endif %}
     <p>En este link encuentras los detalles: https://quintanamagica.com/mtto/lista_eq/</p>
     <p>Abrazos</p>
 </body>
 </html>
- 

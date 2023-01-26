@@ -122,7 +122,12 @@ def crearProveedor(request):
             if request.method == 'POST':
                 name = request.POST['name']
                 address = request.POST['address']
-                phone = request.POST['phone']
+                try:
+                    phone = int(request.POST["phone"].replace('.', '').replace(',', '').replace(' ', '').replace('(', '').replace(')', '').replace('-', ''))
+                except:
+                    messages.success(request, "Teléfono Invalido")
+                    return redirect('mtto.crear_proveedor')
+
                 contact = request.POST['contact']
                 proveedor = Supplier(name=name, address=address, phone_number=phone, contact=contact)
                 proveedor.save()

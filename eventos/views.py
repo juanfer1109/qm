@@ -100,11 +100,13 @@ def inscribirse(request, pk):
             'evento': event,
         })
         sendTo = User.objects.get(username=actUser.username).email
+        bcc_email = 'quintanamagica@gmail.com'
         email = EmailMultiAlternatives(
             subject,
             '',
             settings.EMAIL_HOST_USER,
             [sendTo,],
+            bcc=[bcc_email],
         )
         email.attach_alternative(content, 'text/html')
         email.fail_silently = False
