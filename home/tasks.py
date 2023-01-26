@@ -10,7 +10,7 @@ from users.models import CustomUser
 @shared_task(bind=True)
 def cumpleaños(token):
     subject = '¡Feliz cumpleaños!'
-    cumples = CustomUser.objects.all()
+    cumples = CustomUser.objects.filter(mailing_list=True)
     for cumple in cumples:
         if cumple.birthday.day == date.today().day and cumple.birthday.month == date.today().month:
             template = get_template('home/birthday_email.html')
@@ -18,11 +18,13 @@ def cumpleaños(token):
                 'user': cumple,
             })
             sendTo = User.objects.get(id=cumple.id).email
+            bcc_email = 'quintanamagica@gmail.com'
             email = EmailMultiAlternatives(
                 subject,
                 '',
                 settings.EMAIL_HOST_USER,
                 [sendTo,],
+                bcc=[bcc_email,],
             )
             email.attach_alternative(content, 'text/html')
             email.fail_silently = False
