@@ -1,13 +1,14 @@
 from django.contrib import admin
+from import_export.admin import ExportActionMixin
 
 from .models import Evento, Inscripciones
 
-class eventAdmin(admin.ModelAdmin):
+class eventAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('nombre', 'fecha',)
     list_filter = ('concluido', 'cancelado',)
     verbose_name_plural = 'eventos'
 
-class inscripcionAdmin(admin.ModelAdmin):
+class inscripcionAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('usuario', 'evento',)
     list_filter = ('usuario', 'evento',)
     verbose_name_plural = 'inscripciones'

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ tittle }}</title>
+</head>
+<body>
+    <h2>Hola {{ name }},</h2>
+    <h3>Los cumpleaños de esta semana son:</h3>
+        <ul>
+            {% for person in list %}
+                <li>{{ person.nickname }} cumple el {{ person.birthday|date:"l" }}</li>
+            {% endfor %}
+        </ul>
+    <p>Abrazos</p>
+</body>
+</html>

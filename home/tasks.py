@@ -29,3 +29,36 @@ def cumpleaños(token):
             email.attach_alternative(content, 'text/html')
             email.fail_silently = False
             email.send()
+
+@shared_task(bind=True)
+def cumpleaños_semana(token):
+    cumples = CustomUser.objects.all()
+    list = []
+    for cumple in cumples:
+        if (cumple.birthday.replace(year=date.today().year) - date.today()).days >= 0:
+            days = (cumple.birthday.replace(year=date.today().year) - date.today()).days
+        else:
+            days = (cumple.birthday.replace(year=date.today().year + 1) - date.today()).days
+   
+        if days > 0 and days <= 7:
+            list.append(cumple)
+    
+    if len(list) > 0:
+        comunidad = CustomUser.objects.filter(comunidad=True)
+        for miembro in comunidad:
+            subject = 'Cumpleaños de esta semana'
+            template = get_template('home/cumples_semana.html')
+            content = template.render({
+                'name': miembro.nickname,
+                'list': list,
+            })
+            sendTo = User.objects.get(username=miembro.user).email
+            email = EmailMultiAlternatives(
+                subject,
+                '',
+                settings.EMAIL_HOST_USER,
+                [sendTo,],
+            )
+            email.attach_alternative(content, 'text/html')
+            email.fail_silently = False
+            email.send()
