@@ -33,15 +33,23 @@ def cumpleaños(token):
 @shared_task(bind=True)
 def cumpleaños_semana(token):
     cumples = CustomUser.objects.all()
+    class this_birthday:
+        def __init__(self, name, birthday):
+            self.birthday = birthday
+            self.name = name
+
     list = []
     for cumple in cumples:
         if (cumple.birthday.replace(year=date.today().year) - date.today()).days >= 0:
             days = (cumple.birthday.replace(year=date.today().year) - date.today()).days
+            birthday = cumple.birthday.replace(year=date.today().year)
         else:
             days = (cumple.birthday.replace(year=date.today().year + 1) - date.today()).days
-   
+            birthday = cumple.birthday.replace(year=date.today().year)
+
         if days > 0 and days <= 7:
-            list.append(cumple)
+            birthday = this_birthday(cumple.nickname, birthday)
+            list.append(birthday)
     
     if len(list) > 0:
         comunidad = CustomUser.objects.filter(comunidad=True)
