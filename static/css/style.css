@@ -6,9 +6,9 @@
     color: #E39774; /* Dark Salmon*/
 }
 
-div {
+/* nav div {
     display: inline-flex;
-}
+} */
 
 ul {
     display: flex;
@@ -264,6 +264,7 @@ table.center {
 .topnav .icon {
   display: none;
 }
+
 @media screen and (max-width: 850px) {
   .topnav a:not(:first-child) {display: none;}
   .topnav a.icon {
@@ -271,6 +272,7 @@ table.center {
     display: block;
   }
 }
+
 @media screen and (max-width: 850px) {
   .topnav.responsive {position: relative;}
   .topnav.responsive .icon {
