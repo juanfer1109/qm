@@ -138,8 +138,36 @@ def SignUp(request):
                 message = "Usuario ya existe"
 
         if not ok:
-            customUser.save()
-            user.save()
+            try:
+                customUser.save()
+            except:
+                return render(request, "users/signup.html", {
+                    "message": 'Completa todos los campos',
+                    "username": username,
+                    "email": email,
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "phone_number": phone_number,
+                    "birthday": birthday,
+                    "nickname": nickname,
+                })
+
+            try:
+                user.save()
+            except:
+                customUser.delete()
+                return render(request, "users/signup.html", {
+                    "message": 'Completa todos los campos',
+                    "username": username,
+                    "email": email,
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "phone_number": phone_number,
+                    "birthday": birthday,
+                    "nickname": nickname,
+                })
+
+
             subject = 'Hola ' + customUser.nickname
             template = render_to_string('users/email_template.html', {
                 'name': customUser.nickname,
