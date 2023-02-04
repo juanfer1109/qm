@@ -17,7 +17,7 @@ def cumpleaños(token):
             content = template.render({
                 'user': cumple,
             })
-            sendTo = User.objects.get(id=cumple.id).email
+            sendTo = User.objects.get(username=cumple.user).email
             bcc_email = 'quintanamagica@gmail.com'
             email = EmailMultiAlternatives(
                 subject,
