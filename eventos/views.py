@@ -16,14 +16,15 @@ def eventDetails(request, pk):
     comunidad = False # Por defecto los usuarios no son de la comunidad
     doc = False # Por defecto que no se tiene el documento de identidad del usuario
     try:
-        user = request.user
-        cu = CustomUser.objects.get(user_id=user.id)
+        user = request.user # Usuario loggeado
+        cu = CustomUser.objects.get(user=user) # Custom User del usuario loggeado
         if cu.comunidad:
             comunidad =True # Se cambia a verdadero si el usuario es de la comunidad
         if cu.id_number != None and cu.id_number != 0:
             doc = True # Se cambia a verdadero si el usuario ya tiene ingresado el documento de identidad
     except:
         pass
+
     for evento in Evento.objects.filter(cancelado=False, concluido=False):
         evento.cant_inscritos = 0
         for inscripcion in Inscripciones.objects.filter(evento=evento):
