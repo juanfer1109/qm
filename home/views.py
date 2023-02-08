@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from users.models import CustomUser
-from eventos.models import Evento
+from eventos.models import Evento, Inscripciones
 
 def homeView(request):
     staff = False
@@ -62,7 +62,9 @@ def homeView(request):
     mes = meses.get(dt.today().month)
     fecha = str(dt.today().day) + " de " + mes + " de " + str(dt.today().year)
     for event in Evento.objects.filter(cancelado=False, concluido=False):
-        event.cant_inscritos = event.inscritos.count()
+        event.cant_inscritos = 0
+        for inscripcion in Inscripciones.objects.filter(evento=event):
+            event.cant_inscritos = event.cant_inscritos + inscripcion.cantidad
         if event.cant_inscritos >= event.cupos:
             event.cerrado = True
 
