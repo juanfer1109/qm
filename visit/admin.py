@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MoneyMovement, Visit
+from .models import MoneyMovement, Visit, VisitCalendar
 from import_export.admin import ExportActionMixin
 
 
@@ -17,5 +17,10 @@ class visitAdmin(ExportActionMixin, admin.ModelAdmin):
     list_filter = ('visitor',)
     inlines = [movementInLineAdmin,]
 
+class CalendarAdmin(ExportActionMixin ,admin.ModelAdmin):
+    list_display = ('visitor', 'date',)
+    list_filter = ('visitor',)
+
 admin.site.register(Visit, visitAdmin)
 admin.site.register(MoneyMovement, movementAdmin)
+admin.site.register(VisitCalendar,CalendarAdmin)

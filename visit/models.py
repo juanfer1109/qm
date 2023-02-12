@@ -40,3 +40,7 @@ class MoneyMovement(models.Model):
 
     def __str__(self):
         return self.categoria
+    
+class VisitCalendar(models.Model):
+    visitor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    date = models.DateField()
