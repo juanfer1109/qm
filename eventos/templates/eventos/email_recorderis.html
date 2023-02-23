@@ -9,10 +9,17 @@
 
 <body style="text-align:justify">
     <h4>Hola {{ usuario.nickname }},</h4>
+    {% if cantidad == 1 %}
+    <p>Te escribimos porque tienes reservado un cupo en el evento {{ evento.tipo}} {{ evento.nombre }} que se 
+        realizara el {{ evento.fecha }} y aún no hemos recibido tu donación, te agradecemos hacernos llegar el comprobante 
+        de consignación a este correo o al whatsapp 312-258-75-23.
+    </p>
+    {% else %}
     <p>Te escribimos porque tienes reservados {{ cantidad }} cupos en el evento {{ evento.tipo}} {{ evento.nombre }} que se 
         realizara el {{ evento.fecha }} y aún no hemos recibido tu donación, te agradecemos hacernos llegar el comprobante 
         de consignación a este correo o al whatsapp 312-258-75-23.
     </p>
+    {% endif %}
     <p>Si ya hiciste tu donación y enviaste el comprobante, omite este correo por favor, si ya realizaste tu donación y 
         no has enviado el comprobante, te agradecemos nos lo hagas llegar para asentar tu donación.
     </p>

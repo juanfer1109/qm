@@ -14,7 +14,7 @@ def RecordarPago(token):
     for inscrito in inscritos_sin_pago:
         usuario = CustomUser.objects.get(user=inscrito.usuario)
         evento = Evento.objects.get(id=inscrito.evento.id)
-        subject = 'Estas inscrito en el evento ' + evento.nombre
+        subject = 'Inscripción en el evento ' + evento.nombre
         template = get_template('eventos/email_recorderis.html')
         content = template.render({
             'usuario': usuario,

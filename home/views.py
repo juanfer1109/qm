@@ -7,8 +7,10 @@ from django.urls import reverse
 
 from users.models import CustomUser
 from eventos.models import Evento, Inscripciones
+from eventos.tasks import RecordarPago
 
 def homeView(request):
+    RecordarPago()
     staff = False
     n_year = False
     navidad = False
