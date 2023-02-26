@@ -210,3 +210,20 @@ def calendarOfVisits(request):
         'comunidad': comunidad,
         'nickname': user.nickname,
     })
+
+@login_required
+def myVisits(request):
+    user = CustomUser.objects.get(user=request.user)
+    comunidad = False
+    if user.comunidad == True:
+        visits = VisitCalendar.objects.filter(date__range=[date.today() 
+                                        - timedelta(days=30), date.today() + timedelta(days=300)], visitor=user).order_by('date')
+        comunidad =True
+    else:
+        return HttpResponseRedirect(reverse('home'))
+
+    return render(request, 'visit/myvisits.html', {
+        'visits': visits,
+        'comunidad': comunidad,
+        'nickname': user.nickname,
+    })
