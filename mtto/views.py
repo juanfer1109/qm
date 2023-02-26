@@ -54,7 +54,7 @@ def detalleEquipo(request, pk):
     if CustomUser.objects.get(user=request.user).comunidad:
         comunidad =True
         equipo = Equip.objects.get(pk=pk)
-        mttos = Maintenance.objects.filter(equip=equipo)
+        mttos = Maintenance.objects.filter(equip=equipo).order_by('-date')
         return render(request, 'mtto/detalle_eq.html', {
             'equipo': equipo,
             'comunidad': comunidad,
