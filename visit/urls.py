@@ -9,4 +9,5 @@ urlpatterns = [
     path('modify/<int:pk>/', views.modificarVisita, name="visit.modify"),
     path('delete/mov/<int:pk>/', views.borrarMov, name="movement.delete"),
     path('modify/mov/<int:pk>/', views.modificarMov, name="movement.modify"),
+    path('calendar/', views.calendarOfVisits, name="visit.calendar"),
 ]

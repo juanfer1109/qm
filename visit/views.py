@@ -5,8 +5,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from datetime import date, timedelta
 
-from .models import Visit, MoneyMovement
+from .models import Visit, MoneyMovement, VisitCalendar
 from .forms import MovementFormSet
 
 @login_required
@@ -192,3 +193,20 @@ def modificarMov(request, pk):
     mov.valor = valor
     mov.save()
     return redirect('visit.modify', pk=visit.id)
+
+@login_required
+def calendarOfVisits(request):
+    user = CustomUser.objects.get(user=request.user)
+    comunidad = False
+    if user.comunidad == True:
+        visits = VisitCalendar.objects.filter(date__range=[date.today() 
+                                        - timedelta(days=30), date.today() + timedelta(days=300)]).order_by('date')
+        comunidad =True
+    else:
+        return HttpResponseRedirect(reverse('home'))
+
+    return render(request, 'visit/calendar.html', {
+        'visits': visits,
+        'comunidad': comunidad,
+        'nickname': user.nickname,
+    })

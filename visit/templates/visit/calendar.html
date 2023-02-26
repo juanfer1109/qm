@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Lista visitas {% endblock %}
+    {% block body %}
+
+    <br>
+    <table class="center">
+        <thead>
+            <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Visitante</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for visit in visits %}
+            <tr>
+                <td>{{ visit.date }}</td>
+                <td>{{ visit.visitor.nickname }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}
