@@ -11,7 +11,7 @@
     <h3>Los cumpleaños de esta semana son:</h3>
         <ul>
             {% for person in list %}
-                <li>{{ person.name }} cumple el próximo {{ person.birthday|date:"l" }}</li>
+                <li>{{ person.first_name }} {{ person.last_name }} cumple el próximo {{ person.birthday|date:"l" }}</li>
             {% endfor %}
         </ul>
     <p>Abrazos</p>

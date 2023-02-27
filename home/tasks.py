@@ -34,9 +34,10 @@ def cumpleaños(token):
 def cumpleaños_semana(token):
     cumples = CustomUser.objects.all()
     class this_birthday:
-        def __init__(self, name, birthday):
+        def __init__(self, first_name, last_name, birthday):
             self.birthday = birthday
-            self.name = name
+            self.first_name = first_name
+            self.last_name = last_name
 
     list = []
     for cumple in cumples:
@@ -48,7 +49,8 @@ def cumpleaños_semana(token):
             birthday = cumple.birthday.replace(year=date.today().year)
 
         if days > 0 and days <= 7:
-            birthday = this_birthday(cumple.nickname, birthday)
+            birthday = this_birthday(User.objects.get(customuser=cumple).first_name, 
+                                     User.objects.get(customuser=cumple).last_name, birthday)
             list.append(birthday)
     
     if len(list) > 0:
