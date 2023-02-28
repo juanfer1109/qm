@@ -9,7 +9,7 @@ class eventAdmin(ExportActionMixin, admin.ModelAdmin):
     verbose_name_plural = 'eventos'
 
 class inscripcionAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('usuario', 'evento',)
+    list_display = ('usuario', 'evento', 'pago_recibido')
     list_filter = ('usuario', 'evento',)
     verbose_name_plural = 'inscripciones'
 
