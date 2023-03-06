@@ -62,7 +62,7 @@ def correoMtto(token):
 def revisarMttos(token):
     for equip in Equip.objects.all():
         days = (equip.next_maintenance - date.today()).days
-        if days <= 0:
+        if days < 0:
             equip.atrasado = True
             equip.days_3 = False
             equip.days_7 = False
