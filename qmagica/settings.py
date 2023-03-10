@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'visit',
     'mtto',
     'eventos',
+    'donation',
 ]
 
 MIDDLEWARE = [
