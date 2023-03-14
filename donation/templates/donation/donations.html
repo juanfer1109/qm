@@ -2,6 +2,13 @@
 {% load static %}
 {% load l10n %}
     {% block body %}
+        {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                  <li class="alert alert-danger top-20 center" role="alert">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
     <form class="form-login top-20 padding-5" action="{% url 'donations' %}" method="POST"> {% csrf_token %}
         <label class="input" for="year">Año a consultar:</label>
         <select class="form-control padding-5" name="year" id="year">

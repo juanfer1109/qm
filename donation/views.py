@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from datetime import date
 from django.http import HttpResponse
 from django.template.loader import get_template
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+from django.urls import reverse
 
 from xhtml2pdf import pisa
 
@@ -22,9 +25,15 @@ def donations(request):
     if request.method == 'POST':
         year = int(request.POST['year'].replace('.', '').replace(',', ''))
         amount_donations = 0
+
         for donation in donations:
             if int(donation.date.year) == int(year):
                 amount_donations = amount_donations + donation.value
+
+        if amount_donations == 0:
+            messages.success(request, 'No tenemos donaciones registradas')
+            return HttpResponseRedirect(reverse("donations"))
+
         permanencia = Permanencia.objects.get(year=year)
         mes = meses[fecha.month-1]
         datos = {
