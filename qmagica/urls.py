@@ -12,5 +12,5 @@ urlpatterns = [
     path('mtto/', include('mtto.urls')),
     path('visit/', include('visit.urls')),
     path('eventos/', include('eventos.urls')),
-    # path('donation/', include('donation.urls')),
+    path('donaciones/', include('donation.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

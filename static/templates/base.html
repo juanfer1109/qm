@@ -25,6 +25,7 @@
                 <a href="{% url 'dian.docs' %}">Info DIAN</a>
                 {% if user.is_authenticated %}
                 <a href="{% url 'users.profile' %}">Mi Perfil</a>
+                <a href="{% url 'donations' %}">Certificados</a>
                 <a href="{% url 'users.logout' %}">Salir</a>
                 {% else %}
                 <a href="{% url 'users.login' %}">Ingresar</a>

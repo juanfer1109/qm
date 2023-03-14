@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Certificado Quintana Mágica</title>
+        {% block script %}{% endblock %}
+    </head>
+    <body >
+	<div style="margin: auto; text-align: center; font-size: 150%;">
+		<br>
+		<br>
+		<br>
+		<h1>CORPORACION COMUNIDAD QUINTANA MAGICA</h2>
+		<h1>NIT: 900.639.020-6</h2>
+	</div>
+	<br>
+	<div style="margin-left: 30px; margin-right: 30px; text-align: justify; font-size: 150%;">
+		<h3>C E R T I F I C A:</h3>
+		<ol>
+			<li>
+				Que la CORPORACION COMUNIDAD QUINTANA MAGICA es una entidad sin ánimo de lucro según 
+				la resolución No. 55-1609-12 del 24 de julio 2013, NIT. 900.639.020-6, con domicilio en la Ciudad de Caldas
+			</li>
+			<li>
+				Que durante el año {{ permanencia.year }} recibió de {{ user.first_name|upper }} {{ user.last_name|upper }} identificado con 
+				{{ cu.doc_type }}: {{ cu.id_number }} la suma de ${{ valor }} pesos m.l.
+			</li>
+			<li>
+				Que ha cumplido en forma continua con la obligación de presentar anualmente su declaración de renta 
+				y complementarios y la actualización de ESAL ante la DIAN del año {{ permanencia.year }} con formulario 5245 No. {{ permanencia.formulario }}
+			</li>
+			<li>
+				Que todos los ingresos de la institución son aplicados a fines sociales específicos dentro del territorio nacional
+			</li>
+		</ol>
+		<p>Para constancia se firma en la ciudad de Caldas a los {{ fecha.day }} días del mes de {{ mes }} del año {{ fecha.year }}</p>
+		<br>
+	</div>
+	<br>
+	<img src="static/images/firma_maxi.jpeg" style="width: 150px; text-align: center">
+	<div style="margin-left: 30px; margin-right: 30px; margin-top: 0; font-size: 150%; text-align: center;">
+		<p>
+			<b>MAXIMILIANO SANCHEZ MONTOYA</b><br>
+			CC 98.671.824<br>
+			Representante Legal
+		</p>
+	</div>
+    </body>
+</html>
