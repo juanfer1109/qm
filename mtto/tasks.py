@@ -61,6 +61,7 @@ def correoMtto(token):
 @shared_task(bind=True)
 def revisarMttos(token):
     for equip in Equip.objects.all():
+        equip.atrasado = False
         days = (equip.next_maintenance - date.today()).days
         if days < 0:
             equip.atrasado = True
@@ -99,6 +100,7 @@ def revisarMttos(token):
 
 @shared_task(bind=True)
 def correoMtto2(token):
+    revisarMttos()
     users = CustomUser.objects.filter(mtto=True)
     equipos = Equip.objects.all().order_by('next_maintenance')
     equipos_atrasados = []
