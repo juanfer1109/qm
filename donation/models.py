@@ -8,3 +8,9 @@ class Donation(models.Model):
 
     class Meta():
         verbose_name_plural = 'donations'
+
+class Permanencia(models.Model):
+    year = models.PositiveSmallIntegerField(blank=False, null=False)
+    formulario = models.CharField(max_length=14, blank=False, null=False)
+    class Meta():
+        verbose_name_plural = 'permanencia'
