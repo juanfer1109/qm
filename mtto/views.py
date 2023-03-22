@@ -92,6 +92,12 @@ def crearMtto(request, pk):
                     equipo.last_maintenance = date
                     equipo.last_value = value
                     equipo.next_maintenance = datetime.strptime(date, '%Y-%m-%d') + timedelta(equipo.frequency)
+                    equipo.days_60 = False
+                    equipo.days_30 = False
+                    equipo.days_14 = False
+                    equipo.days_7 = False
+                    equipo.days_3 = False
+                    equipo.atrasado = False
                     equipo.save()
                 
                 notes = request.POST['notes']
