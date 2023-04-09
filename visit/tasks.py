@@ -38,13 +38,13 @@ def correoVisita(token):
                 'user': user,
             })
             sendTo = User.objects.get(username=user.user).email
-            # bcc_email = 'luis.f.bh@hotmail.com'
+            bcc_email = 'luis.f.bh@hotmail.com'
             email = EmailMultiAlternatives(
                 subject,
                 '',
                 settings.EMAIL_HOST_USER,
                 [sendTo,],
-                bcc=[bcc_email,],
+                # bcc=[bcc_email,],
             )
             email.attach_alternative(content, 'text/html')
             email.fail_silently = False
@@ -57,13 +57,13 @@ def correoVisita(token):
                 'user': user,
             })
             sendTo = User.objects.get(username=user.user).email
-            # bcc_email = 'luis.f.bh@hotmail.com'
+            bcc_email = 'luis.f.bh@hotmail.com'
             email = EmailMultiAlternatives(
                 subject,
                 '',
                 settings.EMAIL_HOST_USER,
                 [sendTo,],
-                bcc=[bcc_email,],
+                # bcc=[bcc_email,],
             )
             email.attach_alternative(content, 'text/html')
             email.fail_silently = False
