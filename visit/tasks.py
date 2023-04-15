@@ -1,3 +1,4 @@
+import random
 from celery import shared_task
 from datetime import date, datetime, timedelta
 from django.template.loader import get_template
@@ -64,6 +65,45 @@ def correoVisita(token):
                 settings.EMAIL_HOST_USER,
                 [sendTo,],
                 # bcc=[bcc_email,],
+            )
+            email.attach_alternative(content, 'text/html')
+            email.fail_silently = False
+            email.send()
+
+@shared_task(bind=True)
+def generarVisita(token):
+    visits = VisitCalendar.objects.all()
+    last_date = date.today()
+    for visit in visits:
+        if visit.date > last_date:
+            last_date = visit.date
+    if last_date < date.today() + timedelta(days=90):
+        comunidad = CustomUser.objects.filter(comunidad=True)
+        list_of_members = []
+        for usuario in comunidad:
+            list_of_members.append(usuario.user)
+        
+        print(list_of_members)
+        random.shuffle(list_of_members)
+        print("Nueva")
+        print(list_of_members)
+        subject = 'Se te ha asignado una nueva visita'
+        for user in list_of_members:
+            last_date = last_date + timedelta(days=7)
+            miembro = CustomUser.objects.get(user=user)
+            new_visit = VisitCalendar(visitor=miembro, date=last_date)
+            new_visit.save()
+            template = get_template('visit/nueva_visita.html')
+            content = template.render({
+                'user': miembro,
+                'visit': new_visit,
+            })
+            sendTo = User.objects.get(username=miembro.user).email
+            email = EmailMultiAlternatives(
+                subject,
+                '',
+                settings.EMAIL_HOST_USER,
+                [sendTo,],
             )
             email.attach_alternative(content, 'text/html')
             email.fail_silently = False

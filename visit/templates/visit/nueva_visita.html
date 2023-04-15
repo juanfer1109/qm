@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ tittle }}</title>
+</head>
+<body>
+    <h2>Hola {{ user.nickname }},</h2>
+    <h3>
+        <p>Se te ha asignado automaticamente una nueva visita con fecha {{ visit.date|date:"F, j, Y" }}.</p>
+        <p><a href="https://quintanamagica.com/visit/calendar/">Aquí puedes consultar el calendario de visitas</a></p>
+        <p>Abrazos!</p>
+    </h3>
+</body>
+</html>
