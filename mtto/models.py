@@ -3,6 +3,7 @@ from django.db import models
 
 class Equip(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
+    responsable = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     frequency = models.PositiveSmallIntegerField()
     last_maintenance = models.DateField(null=True, blank=True)
     next_maintenance = models.DateField(null=True, blank=True)
