@@ -83,10 +83,7 @@ def generarVisita(token):
         for usuario in comunidad:
             list_of_members.append(usuario.user)
         
-        print(list_of_members)
         random.shuffle(list_of_members)
-        print("Nueva")
-        print(list_of_members)
         subject = 'Se te ha asignado una nueva visita'
         for user in list_of_members:
             last_date = last_date + timedelta(days=7)
