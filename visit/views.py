@@ -217,7 +217,7 @@ def myVisits(request):
     comunidad = False
     if user.comunidad == True:
         visits = VisitCalendar.objects.filter(date__range=[date.today() 
-                                        - timedelta(days=30), date.today() + timedelta(days=300)], visitor=user).order_by('date')
+                                        - timedelta(days=15), date.today() + timedelta(days=300)], visitor=user).order_by('date')
         comunidad =True
     else:
         return HttpResponseRedirect(reverse('home'))

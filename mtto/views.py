@@ -165,3 +165,16 @@ def verProveedor(request, pk):
             'supplier': Supplier.objects.get(pk=pk),
         })
     return HttpResponseRedirect(reverse('home'))
+
+@login_required
+def misEquipos(request):
+    user = CustomUser.objects.get(user=request.user)
+    comunidad = False
+    if user.comunidad:
+        comunidad =True
+        return render(request, 'mtto/mis_equipos.html', {
+            'equipos': Equip.objects.filter(responsable=user).order_by('next_maintenance'),
+            'comunidad': comunidad,
+        })
+    else:
+        return HttpResponseRedirect(reverse('home'))
