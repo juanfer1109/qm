@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-    {% block title %} - Mantenimiento {{ mtto.equip }}{% endblock %}
+    {% block title %} - Tarea {{ mtto.equip }}{% endblock %}
     {% block body %}
 
-    <h2 class="center">Mantenimiento <a href="{% url 'mtto.details' pk=mtto.equip.id %}">{{ mtto.equip }}</a></h2>
+    <h2 class="center">Tarea <a href="{% url 'mtto.details' pk=mtto.equip.id %}">{{ mtto.equip }}</a></h2>
     <br>
     {% if messages %}
     <ul class="messages">

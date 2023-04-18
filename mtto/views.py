@@ -15,6 +15,7 @@ def crearEquipo(request):
     if CustomUser.objects.get(user=request.user).comunidad:
         comunidad =True
         if CustomUser.objects.get(user=request.user).mtto:
+            miembros = CustomUser.objects.filter(comunidad=True)
             if request.method == 'POST':
                 name = request.POST['name'].title()
                 frequency = request.POST['frequency']
@@ -29,6 +30,7 @@ def crearEquipo(request):
             
             return render(request, 'mtto/crear_equipo.html', {
                 'comunidad': comunidad,
+                'miembros': miembros,
             })
         else:
             messages.success(request, "Solo el equipo de mantenimiento puede agregar equipos")

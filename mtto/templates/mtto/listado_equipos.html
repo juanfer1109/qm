@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-    {% block title %} - Lista equipos {% endblock %}
+    {% block title %} - Lista tareas {% endblock %}
     {% block body %}
 
-    <h2 class="center">Datos del Equipo</h2>
+    <h2 class="center">Datos de la Tarea</h2>
     <br>
     {% if messages %}
     <ul class="messages">
@@ -17,10 +17,11 @@
         <thead class="bg-light">
             <tr>
                 <th style="width: 20px;">Nombre</th>
-                <th>Frecuencia Mtto</th>
-                <th>Último Mtto</th>
-                <th>Próximo Mtto</th>
-                <th>Valor último Mtto</th>
+                <th>Frecuencia Tarea</th>
+                <th>Última Ejecución</th>
+                <th>Próxima Ejecución</th>
+                <th>Valor última Ejecución</th>
+                <th>Responsable</th>
             </tr>
         </thead>
         <tbody>
@@ -31,12 +32,13 @@
                 <td>{{ equipo.last_maintenance }}</td>
                 <td>{{ equipo.next_maintenance }}</td>
                 <td>{{ equipo.last_value }}</td>
+                <td>{{ equipo.responsable }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <form action="{% url 'mtto.crear_equipo' %}">
-        <button type="submit" class="btn btn-primary top-20">Agregar Equipo</button>
+        <button type="submit" class="btn btn-primary top-20">Agregar Tarea</button>
     </form>
 </div>
 

@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
-    {% block title %} - Mtto {{ equipo.name }}{% endblock %}
+    {% block title %} - Tarea {{ equipo.name }}{% endblock %}
     {% block body %}
 
     <h2 class="center">{{ equipo.name }}</h2>
     <br>
     <div class="center">
-        <h5>Último Mantenimiento: {{ equipo.last_maintenance }}</h5>
-        <h5>Próximo Mantenimiento {{ equipo.next_maintenance }}</h5>
-        <h5>Costo último mantenimiento: {{ equipo.last_value }}</h5>
+        <h5>Último Evento: {{ equipo.last_maintenance }}</h5>
+        <h5>Próximo Evento {{ equipo.next_maintenance }}</h5>
+        <h5>Costo último evento: {{ equipo.last_value }}</h5>
     </div>
     <br>
     {% if messages %}
@@ -38,7 +38,7 @@
         </tbody>
     </table>
     <form action="{% url 'mtto.crear_mtto' pk=equipo.id %}">
-        <button type="submit" class="btn btn-primary top-20">Agregar Mantenimiento</button>
+        <button type="submit" class="btn btn-primary top-20">Agregar Evento</button>
     </form>
     <form action="{% url 'mtto.listado_equipos' %}">
         <button type="submit" class="btn btn-secundary top-20">Volver al listado</button>

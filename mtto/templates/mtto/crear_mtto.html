@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-    {% block title %} - Crear Mantenimiento {% endblock %}
+    {% block title %} - Crear Tarea {% endblock %}
     {% block script %}
     {% endblock %}
 
     {% block body %}
-    <h2 class="center">Mantenimiento <a href="{% url 'mtto.details' pk=equipo.id %}">{{ equipo.name }}</a></h2>
+    <h2 class="center">Tarea <a href="{% url 'mtto.details' pk=equipo.id %}">{{ equipo.name }}</a></h2>
     {% if message %}
         <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
     {% endif %}
@@ -31,10 +31,10 @@
             </div>
             <div class="form-group">
                 <label class="input" for="notes"><b>Notas: </b></label>
-                <textarea class="center" name="notes" style="width: 60%; height: 100px;">Notas del mantenimiento</textarea>
+                <textarea class="center" name="notes" style="width: 60%; height: 100px;">Notas de la tarea</textarea>
             </div>
             <div class="form-item">
-                <input type="submit" class="btn btn-primary" value="Agregar Mantenimiento">
+                <input type="submit" class="btn btn-primary" value="Agregar Tarea">
             </div>
         </form>
         <form action="{% url 'mtto.crear_proveedor' %}" class="center">
