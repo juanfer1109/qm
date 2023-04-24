@@ -100,6 +100,7 @@ def inscribirse(request, pk):
             })
 
         inscripcion = Inscripciones(usuario=actUser, evento=event) #, forma_pago=pago)
+        inscripcion.valor_segun_fecha = event.costo
         subject = 'Gracias por tu inscripción'
         template = get_template('eventos/email_inscripcion.html')
         content = template.render({

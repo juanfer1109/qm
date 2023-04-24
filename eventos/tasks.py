@@ -62,3 +62,16 @@ def PromocionarEventos(token):
                     email.attach_alternative(content, 'text/html')
                     email.fail_silently = False
                     email.send()
+
+@shared_task(bind=True)
+def ActualizarInscripciones(token):
+    eventos = Evento.objects.filter(concluido=False, cerrado=False, cancelado=False)
+    for evento in eventos:
+        inscripciones = Inscripciones.objects.filter(evento=evento)
+        for inscripcion in inscripciones:
+            inscripcion.valor_total = inscripcion.cantidad * inscripcion.valor_segun_fecha
+            if inscripcion.valor_recibido == inscripcion.valor_total:
+                inscripcion.pago_recibido = True
+            else:
+                inscripcion.pago_recibido = False
+            inscripcion.save()

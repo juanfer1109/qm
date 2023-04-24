@@ -39,6 +39,10 @@ class Inscripciones(models.Model):
     pago_recibido = models.BooleanField(default=False)
     factura = models.BooleanField(default=False)
     cantidad = models.PositiveSmallIntegerField(default=1)
+    valor_segun_fecha = models.PositiveIntegerField(default=0)
+    valor_total = models.PositiveIntegerField(default=0)
+    valor_recibido = models.PositiveIntegerField(default=0)
+    comentarios = models.TextField(blank=True, null=True)
 
     class Meta():
         verbose_name_plural = 'inscripciones'
