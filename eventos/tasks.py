@@ -65,7 +65,7 @@ def PromocionarEventos(token):
 
 @shared_task(bind=True)
 def ActualizarInscripciones(token):
-    eventos = Evento.objects.filter(concluido=False, cerrado=False, cancelado=False)
+    eventos = Evento.objects.filter(concluido=False, cancelado=False)
     for evento in eventos:
         inscripciones = Inscripciones.objects.filter(evento=evento)
         for inscripcion in inscripciones:
