@@ -29,10 +29,14 @@
         <p class="card-text" style="text-align: justify;">Duración: {{ event.duracion}}</p>
         <p class="card-text" style="text-align: justify;">Incluye: {{ event.incluye }}</p>
         <p class="card-text" style="text-align: justify;">Donación: 
-            {% if event.cerrado %}
-                <b>Evento cerrado por cupos</b>
+            {% if event.concluido %}
+                <b>Evento concluido</b>
             {% else %}
-                ${{ event.costo }} <small>(Hasta el {{ event.fecha_costo }})</small>
+                {% if event.cerrado %}
+                     <b>Evento cerrado por cupos</b>
+                {% else %}
+                    ${{ event.costo }} <small>(Hasta el {{ event.fecha_costo }})</small>
+                {% endif %}
             {% endif %}
         </p>
 
