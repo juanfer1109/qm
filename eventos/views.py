@@ -207,6 +207,7 @@ def listaEventos(request):
         'staff': staff,
     })
 
+
 @login_required
 def agregarCupo(request, pk):
     event = Evento.objects.get(pk=pk)
