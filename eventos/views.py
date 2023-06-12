@@ -201,7 +201,7 @@ def listaEventos(request):
 
         evento.save()
     return render(request, 'eventos/list.html', {
-        'events': Evento.objects.filter(cancelado=False prueba=False).order_by('-fecha'),
+        'events': Evento.objects.filter(cancelado=False, prueba=False).order_by('-fecha'),
         'all_events': Evento.objects.filter(cancelado=False).order_by('-fecha'),
         'comunidad': comunidad,
         'staff': staff,
