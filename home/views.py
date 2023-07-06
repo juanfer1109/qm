@@ -38,7 +38,7 @@ def homeView(request):
             cumple = True
         if cu.comunidad:
             comunidad =True
-        if act_user.is_staff:
+        if cu.staff:
             staff = True
     except:
         pass
