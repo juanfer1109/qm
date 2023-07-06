@@ -36,7 +36,7 @@ def RecordarPago(token):
 
 @shared_task(bind=True)
 def PromocionarEventos(token):
-    talleres = Evento.objects.filter(cancelado=False, concluido=False, cerrado=False)
+    talleres = Evento.objects.filter(cancelado=False, concluido=False, cerrado=False, prueba=False)
     if len(talleres) > 0:
         lista_correo = CustomUser.objects.filter(mailing_list=True, comunidad=False)
 
