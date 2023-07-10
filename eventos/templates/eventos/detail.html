@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} - Detalle Evento {% endblock %}
+{% block title %} - {{ event.nombre }} {% endblock %}
 {% block script %}
     <script src="{% static 'js/qm.js' %}"></script>
 {% endblock %}
