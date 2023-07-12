@@ -80,7 +80,13 @@
             </table>
         </div>
         {% endif %}
-        {% endif %} 
-        <img class="img-fluid" src="{% static 'images/qm.jpg' %}" style="border-color: #5C9EAD ; 
-        border-style: solid;" alt="Quintana Mágica">
+        {% endif %}
+
+        <div style="display: flex;">
+            <video class="img-fluid" src="{% static 'videos/eneagrama.mp4' %}" 
+            style="border-style: solid; border-color: #5C9EAD; width: 80%; margin: auto;" autoplay muted loop></video>
+            
+            <!-- <img class="img-fluid" src="{% static 'images/qm.jpg' %}" style="border-color: #5C9EAD ; 
+            border-style: solid;" alt="Quintana Mágica"> -->
+        </div>
     {% endblock %}
