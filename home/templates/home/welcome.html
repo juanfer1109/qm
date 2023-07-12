@@ -83,8 +83,22 @@
         {% endif %}
 
         <div style="display: flex;">
-            <video class="img-fluid" src="{% static 'videos/eneagrama.mp4' %}" 
-            style="border-style: solid; border-color: #5C9EAD; width: 80%; margin: auto;" autoplay muted loop></video>
+            <video class="video" src="{% static 'videos/eneagrama.mp4' %}" type="video/mp4"
+                style="border-style: solid; border-color: #5C9EAD; width: 80%; margin: auto;" 
+                autoplay muted loop>
+            </video>
+            <script>
+
+                let video = document.querySelector(".video")
+          
+                video.addEventListener("mouseover", function (e) {
+                   video.play();
+                })
+
+                video.addEventListener("click", function (e) {
+                    video.muted = !video.muted
+                })
+            </script>
             
             <!-- <img class="img-fluid" src="{% static 'images/qm.jpg' %}" style="border-color: #5C9EAD ; 
             border-style: solid;" alt="Quintana Mágica"> -->
