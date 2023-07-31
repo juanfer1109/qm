@@ -77,7 +77,7 @@ def generarVisita(token):
     for visit in visits:
         if visit.date > last_date:
             last_date = visit.date
-    if last_date < date.today() + timedelta(days=90):
+    if last_date < date.today() + timedelta(days=120):
         comunidad = CustomUser.objects.filter(visit_resp=True)
         list_of_members = []
         for usuario in comunidad:
