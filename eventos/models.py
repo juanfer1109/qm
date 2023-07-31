@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Evento(models.Model):
     TYPES = [
-        ('Taller', 'Taller'),
-        ('Encuentro', 'Encuentro'),
-        ('Experiencia', 'Experiencia'),
+        ("Taller", "Taller"),
+        ("Encuentro", "Encuentro"),
+        ("Experiencia", "Experiencia"),
     ]
-    
+
     nombre = models.CharField(max_length=40)
     tipo = models.CharField(max_length=15, choices=TYPES)
     descripcion = models.TextField(null=True, blank=True)
@@ -21,7 +22,7 @@ class Evento(models.Model):
     fecha_costo2 = models.DateField(default=None, null=True, blank=True)
     costo = models.PositiveIntegerField(default=0)
     fecha_costo = models.DateField(default=None, null=True, blank=True)
-    imagen = models.ImageField(upload_to='eventos', null=True, blank=True)
+    imagen = models.ImageField(upload_to="eventos", null=True, blank=True)
     inscritos = models.ManyToManyField(User, blank=True)
     concluido = models.BooleanField(default=False)
     cancelado = models.BooleanField(default=False)
@@ -32,6 +33,7 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.nombre
+
 
 class Inscripciones(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -44,5 +46,5 @@ class Inscripciones(models.Model):
     valor_recibido = models.PositiveIntegerField(default=0)
     comentarios = models.TextField(blank=True, null=True)
 
-    class Meta():
-        verbose_name_plural = 'inscripciones'
+    class Meta:
+        verbose_name_plural = "inscripciones"

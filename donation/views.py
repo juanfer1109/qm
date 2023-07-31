@@ -20,10 +20,23 @@ def donations(request):
     donations = Donation.objects.filter(user=user)
     permanencias = Permanencia.objects.all()
     fecha = date.today()
-    meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
-    
-    if request.method == 'POST':
-        year = int(request.POST['year'].replace('.', '').replace(',', ''))
+    meses = [
+        "enero",
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
+        "junio",
+        "julio",
+        "agosto",
+        "septiembre",
+        "octubre",
+        "noviembre",
+        "diciembre",
+    ]
+
+    if request.method == "POST":
+        year = int(request.POST["year"].replace(".", "").replace(",", ""))
         amount_donations = 0
 
         for donation in donations:
@@ -31,33 +44,36 @@ def donations(request):
                 amount_donations = amount_donations + donation.value
 
         if amount_donations == 0:
-            messages.success(request, 'No tenemos donaciones registradas')
+            messages.success(request, "No tenemos donaciones registradas")
             return HttpResponseRedirect(reverse("donations"))
 
         permanencia = Permanencia.objects.get(year=year)
-        mes = meses[fecha.month-1]
+        mes = meses[fecha.month - 1]
         datos = {
-            'comunidad': cu.comunidad,
-            'permanencia': permanencia,
-            'cu': cu,
-            'user': user,
-            'fecha': fecha,
-            'valor': amount_donations,
-            'mes': mes,
+            "comunidad": cu.comunidad,
+            "permanencia": permanencia,
+            "cu": cu,
+            "user": user,
+            "fecha": fecha,
+            "valor": amount_donations,
+            "mes": mes,
         }
-        template_path = 'donation/certificado_donacion.html'
-        response = HttpResponse(content_type='application/pdf')
+        template_path = "donation/certificado_donacion.html"
+        response = HttpResponse(content_type="application/pdf")
         # response['Content-Disposition'] = 'filename="certificado.pdf"'
-        response['Content-Disposition'] = 'attachment; filename="certificado.pdf"'
+        response["Content-Disposition"] = 'attachment; filename="certificado.pdf"'
         template = get_template(template_path)
         html = template.render(datos)
-        pisa_status = pisa.CreatePDF(
-            html, dest=response)
+        pisa_status = pisa.CreatePDF(html, dest=response)
         if pisa_status.err:
-            return HttpResponse('Tenemos alguno errores <prep>' + html + '</prep>')
+            return HttpResponse("Tenemos alguno errores <prep>" + html + "</prep>")
         return response
-    
-    return render(request, 'donation/donations.html', {
-        'permanencias': permanencias,
-        'comunidad': cu.comunidad,
-    })
+
+    return render(
+        request,
+        "donation/donations.html",
+        {
+            "permanencias": permanencias,
+            "comunidad": cu.comunidad,
+        },
+    )

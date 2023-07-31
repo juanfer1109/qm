@@ -3,6 +3,7 @@ from django.forms.models import inlineformset_factory
 
 from .models import MoneyMovement, Visit
 
+
 class MoneyMovementForm(forms.ModelForm):
     # category = forms.CharField(required=True)
     # value = forms.IntegerField(required=True, min_value=0)
@@ -10,10 +11,11 @@ class MoneyMovementForm(forms.ModelForm):
     class Meta:
         model = MoneyMovement
         fields = (
-            'categoria',
-            'valor',
+            "categoria",
+            "valor",
         )
-   
+
+
 MovementFormSet = inlineformset_factory(
     Visit,
     MoneyMovement,

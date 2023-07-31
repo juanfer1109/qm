@@ -2,14 +2,15 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 
+
 class CustomUser(models.Model):
     DOC_TYPES = [
-        ('cc', 'Cédula Ciudadanía'),
-        ('ti', 'Tarjeda de Identidad'),
-        ('ce', 'Cédula Extranjería'),
+        ("cc", "Cédula Ciudadanía"),
+        ("ti", "Tarjeda de Identidad"),
+        ("ce", "Cédula Extranjería"),
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    doc_type = models.CharField(max_length=5, default='', blank=True, choices=DOC_TYPES)
+    doc_type = models.CharField(max_length=5, default="", blank=True, choices=DOC_TYPES)
     id_number = models.PositiveBigIntegerField(default=None, blank=True, null=True)
     phone_number = models.PositiveBigIntegerField()
     nickname = models.CharField(blank=False, max_length=20)
@@ -22,7 +23,6 @@ class CustomUser(models.Model):
     mtto = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)
     visit_resp = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return self.user.username
-    

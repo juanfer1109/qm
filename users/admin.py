@@ -5,16 +5,23 @@ from import_export.admin import ExportActionMixin
 
 from .models import CustomUser
 
+
 class cuAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('user', 'nickname',)
+    list_display = (
+        "user",
+        "nickname",
+    )
+
 
 class UserInline(admin.StackedInline):
     model = CustomUser
     can_delete = False
-    verbose_name_plural = 'CustomUsers'
+    verbose_name_plural = "CustomUsers"
+
 
 class CustomUserAdmin(ExportActionMixin, UserAdmin):
-    inlines = (UserInline, )
+    inlines = (UserInline,)
+
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

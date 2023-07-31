@@ -8,23 +8,24 @@ from django.urls import reverse
 from users.models import CustomUser
 from eventos.models import Evento, Inscripciones
 
+
 def homeView(request):
     staff = False
     n_year = False
     navidad = False
     meses = {
-        1:'Enero',
-        2: 'Febrero',
-        3:'Marzo',
-        4:'Abril',
-        5:'Mayo',
-        6:'Junio',
-        7:'Julio',
-        8:'Agosto',
-        9:'Septiembre',
-        10:'Octubre',
-        11:'Noviembre',
-        12:'Diciembre',
+        1: "Enero",
+        2: "Febrero",
+        3: "Marzo",
+        4: "Abril",
+        5: "Mayo",
+        6: "Junio",
+        7: "Julio",
+        8: "Agosto",
+        9: "Septiembre",
+        10: "Octubre",
+        11: "Noviembre",
+        12: "Diciembre",
     }
     cumple = False
     nickname = ""
@@ -37,12 +38,12 @@ def homeView(request):
         if dt.today().day == cu.birthday.day and dt.today().month == cu.birthday.month:
             cumple = True
         if cu.comunidad:
-            comunidad =True
+            comunidad = True
         if cu.staff:
             staff = True
     except:
         pass
-    
+
     try:
         cu = CustomUser.objects.get(user_id=user.id)
         nickname = cu.nickname.capitalize()
@@ -73,18 +74,27 @@ def homeView(request):
 
         event.save()
 
-    return render(request, 'home/welcome.html', {
-        'today': fecha,
-        'cumple': cumple,
-        'nickname': nickname,
-        'nm': nm,
-        'navidad': navidad,
-        'n_year': n_year,
-        'comunidad':comunidad,
-        'staff': staff,
-        'events': Evento.objects.filter(cancelado=False, concluido=False, prueba=False).order_by('fecha'),
-        'all_events': Evento.objects.filter(cancelado=False, concluido=False).order_by('fecha'),
-    })
+    return render(
+        request,
+        "home/welcome.html",
+        {
+            "today": fecha,
+            "cumple": cumple,
+            "nickname": nickname,
+            "nm": nm,
+            "navidad": navidad,
+            "n_year": n_year,
+            "comunidad": comunidad,
+            "staff": staff,
+            "events": Evento.objects.filter(
+                cancelado=False, concluido=False, prueba=False
+            ).order_by("fecha"),
+            "all_events": Evento.objects.filter(
+                cancelado=False, concluido=False
+            ).order_by("fecha"),
+        },
+    )
+
 
 def quienesSomos(request):
     comunidad = False
@@ -94,24 +104,33 @@ def quienesSomos(request):
         act_user = User.objects.get(username=user)
         cu = CustomUser.objects.get(user_id=user.id)
         if cu.comunidad:
-            comunidad =True
+            comunidad = True
         if act_user.is_staff:
             staff = True
     except:
         pass
 
-    return render(request, 'home/quienes_somos.html', {
-        'comunidad': comunidad,
-        'staff': staff,
-    })
+    return render(
+        request,
+        "home/quienes_somos.html",
+        {
+            "comunidad": comunidad,
+            "staff": staff,
+        },
+    )
+
 
 @login_required
 def comunidad(request):
     comunidad = False
     if CustomUser.objects.get(user=request.user).comunidad:
-        comunidad =True
-        return render(request, 'home/comunidad.html', {
-            'comunidad': comunidad,
-        })
+        comunidad = True
+        return render(
+            request,
+            "home/comunidad.html",
+            {
+                "comunidad": comunidad,
+            },
+        )
     else:
-        return HttpResponseRedirect(reverse('home'))
+        return HttpResponseRedirect(reverse("home"))
