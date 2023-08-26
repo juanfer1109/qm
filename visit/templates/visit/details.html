@@ -12,7 +12,7 @@
     <textarea class="top-20 center" name="notes" style="width: 70%; height: 100px;" disabled>{{ visit.notes }}</textarea>
 
     <br>
-    <h2 class="center top-20">Cuentas:</h2>
+    <h2 class="center top-20">Cuentas Efectivo:</h2>
     <br>
 
     <table class="center">
@@ -24,14 +24,41 @@
         </thead>
         <tbody>
             {% for expense in expenses %}
-            <tr>
-                <td>{{ expense.get_categoria_display }}</td>
-                <td>{{ expense.valor }}</td>
-            </tr>
+                {% if not expense.fact_elec %}
+                <tr>
+                    <td>{{ expense.get_categoria_display }}</td>
+                    <td>{{ expense.valor }}</td>
+                </tr>
+                {% endif %}
             {% endfor %}
             <tr>
                 <td><b>Balanace Total</b></td>
                 <td><b>{{ visit.total_balance }}</b></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <h2 class="center top-20">Facturas Electrónicas:</h2>
+    <br>
+    <table class="center">
+        <thead>
+            <tr>
+                <th scope="col">Categoria</th>
+                <th scope="col">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+                {% if expense.fact_elec %}
+                <tr>
+                    <td>{{ expense.get_categoria_display }}</td>
+                    <td>{{ expense.valor }}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td><b>Total Fact Elec</b></td>
+                <td><b>{{ visit.facturas_elec }}</b></td>
             </tr>
         </tbody>
     </table>

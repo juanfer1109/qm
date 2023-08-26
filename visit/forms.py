@@ -13,6 +13,7 @@ class MoneyMovementForm(forms.ModelForm):
         fields = (
             "categoria",
             "valor",
+            "fact_elec",
         )
 
 

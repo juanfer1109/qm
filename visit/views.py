@@ -11,6 +11,28 @@ from .models import Visit, MoneyMovement, VisitCalendar
 from .forms import MovementFormSet
 
 
+def actualizarVisita(visit):
+    expenses = MoneyMovement.objects.filter(visit=visit)
+    total_balance = 0
+    fact_elec = 0
+    for expense in expenses:
+        if (
+            expense.categoria == "venta_huevos"
+            or expense.categoria == "venta_huerta"
+            or expense.categoria == "otros_ingresos"
+        ):
+            total_balance += expense.valor
+        else:
+            if not expense.fact_elec:
+                total_balance -= expense.valor
+            else:
+                fact_elec += expense.valor
+
+    visit.total_balance = total_balance
+    visit.facturas_elec = fact_elec
+    visit.save()
+
+
 @login_required
 def listOfVisits(request):
     user = CustomUser.objects.get(user=request.user)
@@ -43,22 +65,8 @@ def visitDetails(request, pk):
     else:
         return HttpResponseRedirect(reverse("home"))
 
+    actualizarVisita(visit)
     expenses = MoneyMovement.objects.filter(visit=visit)
-
-    total_balance = 0
-    for expense in expenses:
-        if (
-            expense.categoria == "venta_huevos"
-            or expense.categoria == "venta_huerta"
-            or expense.categoria == "otros_ingresos"
-        ):
-            total_balance += expense.valor
-        else:
-            total_balance -= expense.valor
-
-    visit.total_balance = total_balance
-    visit.save()
-
     return render(
         request,
         "visit/details.html",
@@ -186,6 +194,7 @@ def modificarVisita(request, pk):
             "visit": visit,
             "expenses": expenses,
         }
+        print(visit.total_balance)
         return render(request, "visit/modify.html", context)
 
 
@@ -195,41 +204,33 @@ def borrarMov(request, pk):
     visit = Visit.objects.get(id=mov.visit.id)
     if CustomUser.objects.get(user=request.user).user != visit.visitor.user:
         return redirect("visit.details", pk=visit.id)
-
-    if (
-        mov.categoria == "venta_huevos"
-        or mov.categoria == "venta_huerta"
-        or mov.categoria == "otros_ingresos"
-    ):
-        visit.total_balance = visit.total_balance - mov.valor
-    else:
-        visit.total_balance = visit.total_balance + mov.valor
-
-    visit.save()
+    
     mov.delete()
+    actualizarVisita(visit)
     return redirect("visit.modify", pk=visit.id)
 
 
 @login_required
 def modificarMov(request, pk):
-    valor = int(request.POST["valor"].replace(".", "").replace(",", ""))
     mov = MoneyMovement.objects.get(pk=pk)
     visit = Visit.objects.get(id=mov.visit.id)
     if CustomUser.objects.get(user=request.user).user != visit.visitor.user:
         return redirect("visit.details", pk=visit.id)
-
-    if (
-        mov.categoria == "venta_huevos"
-        or mov.categoria == "venta_huerta"
-        or mov.categoria == "otros_ingresos"
-    ):
-        visit.total_balance = visit.total_balance - mov.valor + valor
-    else:
-        visit.total_balance = visit.total_balance + mov.valor - valor
-
-    visit.save()
+    
+    valor = int(request.POST["valor"].replace(".", "").replace(",", ""))
+    try:
+        f = request.POST["factElec"]
+    except:
+        f = "no elec"
+    
     mov.valor = valor
+    if f == "elec":
+        mov.fact_elec = True
+    else:
+        mov.fact_elec = False
+    
     mov.save()
+    actualizarVisita(visit)
     return redirect("visit.modify", pk=visit.id)
 
 

@@ -8,6 +8,7 @@ class Visit(models.Model):
     date = models.DateField()
     notes = models.TextField()
     total_balance = models.IntegerField(default=0)
+    facturas_elec = models.IntegerField(default=0)
     revisado = models.BooleanField(default=False)
 
     class Meta:
@@ -34,6 +35,7 @@ class MoneyMovement(models.Model):
         max_length=20, choices=CATEGORIES, default="venta_huevos"
     )
     valor = models.PositiveBigIntegerField()
+    fact_elec = models.BooleanField('Factura Electrónica', default=False)
 
     class Meta:
         ordering = ["visit"]
