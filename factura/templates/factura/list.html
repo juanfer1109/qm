@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Lista facturas {% endblock %}
+    {% block body %}
+
+    <br>
+    <div style="margin: 0px 50px 0px 50px">
+    <table class="center">
+        <thead>
+            <tr>
+                <th scope="col">Responsable</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Número</th>
+                <th scope="col">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ nickname }}</td>
+                <td><a href="{% url 'factura.crear' %}">Nueva factura</td></a>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% for factura in facturas %}
+            <tr>
+                <td>{{ factura.user.nickname }}</td>
+                <td>{{ factura.date }}</td>
+                <td>{{ factura.proveedor }}</td>
+                <td><a href="{% url 'factura.modificar' pk=factura.id %}">{{ factura.numero }}</a></td>
+                <td>{{ factura.valor }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    {% endblock %}

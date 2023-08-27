@@ -12,7 +12,7 @@
     <form action="{% url 'visit.modify' pk=visit.id %}" method="post">{% csrf_token %}
         <div class="form-group center">
             <label class="input" for="date">Fecha Visita</label>
-            <input class="form-control" type="date" name="date">
+            <input class="form-control" type="date" name="date" value="{{ fecha }}">
         </div>
         <textarea class="top-20 center" name="notes" style="width: 70%; height: 100px;">
             {{ visit.notes }}

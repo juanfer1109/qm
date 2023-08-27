@@ -13,4 +13,5 @@ urlpatterns = [
     path("visit/", include("visit.urls")),
     path("eventos/", include("eventos.urls")),
     path("donaciones/", include("donation.urls")),
+    path("facturas/", include("factura.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

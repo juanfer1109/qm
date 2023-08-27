@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Modificar Factura {% endblock %}
+    {% block body %}
+
+    <br>
+    <h2 class="center top-20">Modificar factura {{ factura.numero }}:</h2>
+    <br>
+    {% if message %}
+    <div class="alert alert-danger center" role="alert">{{ message }}</div>
+    {% endif %}
+    <form action="{% url 'factura.modificar' pk=factura.id %}" method="post">{% csrf_token %}
+        <div class="form-group">
+            <label for="date" style="width:100px">Fecha:</label>
+            <input type="date" class="form-control" id="date" name="date" value="{{ fecha }}" required>
+        </div>
+        <div class="form-group">
+            <label for="proveedor" style="width:100px">Proveedor:</label>
+            <input type="text" class="form-control" id="proveedor" name="proveedor" value="{{ factura.proveedor}}" required>
+        </div>
+        <div class="form-group">
+            <label for="numero" style="width:100px">Número:</label>
+            <input type="text" class="form-control" id="numero" name="numero" value="{{ factura.numero}}" required>
+        </div>
+        <div class="form-group">
+            <label for="valor" style="width:100px">Valor:</label>
+            <input type="number" class="form-control" id="valor" min="0" name="valor" value="{{ factura.valor}}" required>
+        </div>
+        <button class="btn btn-secondary" type="submit" style="margin: 0 auto; display: table;">
+            Modificar Factura
+        </button>
+    </form>
+    <br>
+    <form action="{% url 'factura.borrar' pk=factura.id %}">
+        <button class="btn btn-alert" type="submit" style="margin: 0 auto; display: table;">Borrar Factura</button>
+    </form>
+    <br>
+    <form action="{% url 'factura.list' %}">
+        <button class="btn btn-primary" type="submit" style="margin: 0 auto; display: table;">Volver a Facturas</button>
+    </form>
+    {% endblock %}

@@ -138,6 +138,7 @@ def modificarVisita(request, pk):
     except:
         return HttpResponseRedirect(reverse("home"))
     visit = Visit.objects.get(pk=pk)
+    fecha = f"{visit.date.year}-{visit.date.month:02d}-{visit.date.day:02d}"
     expenses = MoneyMovement.objects.filter(visit=visit)
     if request.method == "POST":
         try:
@@ -159,6 +160,7 @@ def modificarVisita(request, pk):
                 "visit": visit,
                 "expenses": expenses,
                 "comunidad": cu.comunidad,
+                "fecha": fecha,
             },
         )
     else:
@@ -173,6 +175,7 @@ def modificarVisita(request, pk):
                     "expenses": expenses,
                     "comunidad": cu.comunidad,
                     "message": message,
+                    "fecha": fecha,
                 },
             )
 
@@ -186,6 +189,7 @@ def modificarVisita(request, pk):
                     "expenses": expenses,
                     "comunidad": cu.comunidad,
                     "message": message,
+                    "fecha": fecha,
                 },
             )
 
@@ -193,8 +197,8 @@ def modificarVisita(request, pk):
             "comunidad": cu.comunidad,
             "visit": visit,
             "expenses": expenses,
+            "fecha": fecha,
         }
-        print(visit.total_balance)
         return render(request, "visit/modify.html", context)
 
 
