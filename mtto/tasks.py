@@ -78,7 +78,7 @@ def correoMtto(token):
 
 @shared_task(bind=True)
 def revisarMttos(token):
-    for equip in Equip.objects.all():
+    for equip in Equip.objects.exclude(next_maintenance=None):
         days = (equip.next_maintenance - date.today()).days
         if days < 0:
             equip.atrasado = True

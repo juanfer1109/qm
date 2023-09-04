@@ -55,7 +55,7 @@ def listadoEquipos(request):
             request,
             "mtto/listado_equipos.html",
             {
-                "equipos": Equip.objects.all().order_by("next_maintenance"),
+                "equipos": Equip.objects.exclude(next_maintenance=None).order_by("next_maintenance"),
                 "comunidad": comunidad,
             },
         )
