@@ -6,6 +6,7 @@ from django.template.loader import get_template
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 from xhtml2pdf import pisa
 
@@ -76,4 +77,117 @@ def donations(request):
             "permanencias": permanencias,
             "comunidad": cu.comunidad,
         },
+    )
+
+
+@login_required
+def listaDonaciones(request):
+    user = request.user
+    cu = CustomUser.objects.get(user=user)
+    if not cu.comunidad:
+        return HttpResponseRedirect(reverse("home"))
+    
+    years = set()
+    for donation in Donation.objects.all():
+        years.add(donation.date.year)
+
+    if request.method =='POST':
+        class Donacion():
+            def __init__(self, id, nombre, valor):
+                self.id = id
+                self.nombre = nombre
+                self.valor = valor
+        
+        year = int(request.POST["year"].replace(".", "").replace(",", ""))
+        donations = []
+        totalDonations = 0
+        for donation in Donation.objects.filter(date__year=year):
+            totalDonations += donation.value
+            if len(donations) == 0:
+                donations.append(Donacion(
+                    CustomUser.objects.get(user=donation.user).id_number,
+                    f'{donation.user.first_name} {donation.user.last_name}',
+                    donation.value
+                ))
+            else:
+                check = False
+                for i in range(len(donations)):
+                    if donations[i].id == CustomUser.objects.get(user=donation.user).id_number:
+                        donations[i].valor += donation.value
+                        check = True
+                        break
+                    
+                if check == False:
+                    donations.append(Donacion(
+                        CustomUser.objects.get(user=donation.user).id_number,
+                        f'{donation.user.first_name} {donation.user.last_name}',
+                        donation.value
+                    ))
+        
+        donations.sort(key=lambda x: x.valor, reverse=True)
+        return render(
+            request,
+            'donation/lista_donaciones.html',
+            {
+                "data": True,
+                "donaciones": donations,
+                "years": years,
+                "total": totalDonations,
+                "comunidad": cu.comunidad,
+                "staff": cu.staff,
+                "year": year,
+            }
+        )
+    
+    return render(
+        request,
+         'donation/lista_donaciones.html',
+         {
+            "years": years,
+            "data": False,
+            "comunidad": cu.comunidad,
+            "staff": cu.staff,
+         }
+         )
+
+
+@login_required
+def agregarDonacion(request):
+    user = request.user
+    cu = CustomUser.objects.get(user=user)
+    if not cu.staff:
+        return HttpResponseRedirect(reverse("home"))
+    
+    if request.method =='POST':
+        id = request.POST["id"].replace(".", "").replace(",", "")
+        try:
+            donante = CustomUser.objects.get(id_number=id)
+        except:
+            return render(
+                request,
+                'donation/agregar_donacion.html',
+                {
+                    "comunidad": cu.comunidad,
+                    "message": "No existe esa identificación",
+                }
+            )
+        fecha = request.POST["fecha"]
+        valor = int(request.POST["valor"].replace(".", "").replace(",", ""))
+        don = Donation(user=donante.user, date=fecha, value=valor)
+        don.save()
+        return render(
+        request,
+        'donation/agregar_donacion.html',
+        {
+            "comunidad": cu.comunidad,
+            "message": "Donación agregada",
+        }
+    )
+    
+    return render(
+        request,
+        'donation/agregar_donacion.html',
+        {
+            "comunidad": cu.comunidad,
+        }
     )

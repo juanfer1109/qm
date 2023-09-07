@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load l10n %}
+
+    {% block body %}
+
+        <br>
+        {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        {% endif %}
+        <h2 class="center">Agregar Donación</h2>
+        <form class="form-login top-20 padding-5" action="{% url 'donations.agregar' %}" method="POST"> {% csrf_token %}
+            <p>
+              <label class="input" for="id">Identificación:</label>
+              <input type="text" class="form-control padding-5" name="id" id="id" required>
+            </p>
+            <p>
+              <label class="input" for="fecha">Fecha:</label>
+              <input type="date" class="form-control padding-5" name="fecha" id="fecha" required>
+            </p>
+            <p>
+              <label class="input" for="valor">Valor:</label>
+              <input type="number" class="form-control padding-5" name="valor" id="valor" required>
+            </p>
+            <p>
+              <input class="btn btn-secondary" type="submit" value="Enviar">
+            </p>
+        </form>
+        
+        <br>
+        <div class="center">
+            <form action="{% url 'donations.lista' %}" style="display: inline;">
+                <button class="btn btn-info" style="width: 150px;">
+                    Lista Donaciones
+                </button>
+            </form>
+        </div>
+    {% endblock %}
