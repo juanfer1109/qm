@@ -84,7 +84,7 @@ def donations(request):
 def listaDonaciones(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.comunidad:
+    if not cu.staff:
         return HttpResponseRedirect(reverse("home"))
     
     years = set()

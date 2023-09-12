@@ -31,12 +31,12 @@
                 Facturas
             </button>
         </form>
+        {% if staff %}
         <form action="{% url 'donations.lista' %}" style="display: inline;">
             <button class="btn btn-info" style="width: 150px;">
                 Donaciones
             </button>
         </form>
-        {% if staff %}
         <form action="{% url 'visit.datos_contabilidad' %}" style="display: inline;">
             <button class="btn btn-info" style="width: 150px;">
                 Revisar Visitas
