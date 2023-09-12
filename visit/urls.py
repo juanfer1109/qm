@@ -11,4 +11,5 @@ urlpatterns = [
     path("modify/mov/<int:pk>/", views.modificarMov, name="movement.modify"),
     path("calendar/", views.calendarOfVisits, name="visit.calendar"),
     path("myvisits/", views.myVisits, name="visit.myvisits"),
+    path("datos-contabilidad/", views.datosContabilidad, name="visit.datos_contabilidad"),
 ]

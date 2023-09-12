@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Datos visitas {% endblock %}
+    {% block body %}
+    <div class="center" style="width:80%">
+    <br>
+    <h2 class="center top-20">Visitas sin revisar</h2>
+    <br>
+    
+    <table class="center">
+        <thead>
+            <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Saldo Efectivo</th>
+                <th scope="col">Saldo Facturas Electrónicas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for visita in visitas %}
+                <tr>
+                    <td>{{ visita.user }}</td>
+                    <td>{{ visita.fecha }}</td>
+                    <td>{{ visita.saldoEfectivo }}</td>
+                    <td>{{ visita.saldoFactElec }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <h2 class="center top-20">Cuentas</h2>
+    <br>
+    <table class="center">
+        <thead>
+            <tr>
+                <th scope="col">Categoria</th>
+                <th scope="col">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in movimientos.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    {% endblock %}

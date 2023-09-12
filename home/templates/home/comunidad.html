@@ -36,5 +36,12 @@
                 Donaciones
             </button>
         </form>
+        {% if staff %}
+        <form action="{% url 'visit.datos_contabilidad' %}" style="display: inline;">
+            <button class="btn btn-info" style="width: 150px;">
+                Revisar Visitas
+            </button>
+        </form>
+        {% endif %}
     </div>
 {% endblock %}

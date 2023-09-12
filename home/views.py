@@ -130,6 +130,7 @@ def comunidad(request):
             "home/comunidad.html",
             {
                 "comunidad": comunidad,
+                "staff": CustomUser.objects.get(user=request.user).staff,
             },
         )
     else:

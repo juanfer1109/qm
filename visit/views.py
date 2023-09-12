@@ -289,3 +289,41 @@ def myVisits(request):
             "nickname": user.nickname,
         },
     )
+
+
+@login_required
+def datosContabilidad(request):
+    user = CustomUser.objects.get(user=request.user)
+    if not user.staff:
+        return HttpResponseRedirect(reverse("home"))
+    
+    class visitasSinRevisar():
+        def __init__(self, user, saldoEfectivo, saldoFactElec, fecha):
+            self.user = user
+            self.fecha = fecha
+            self.saldoEfectivo = saldoEfectivo
+            self.saldoFactElec = saldoFactElec
+    
+    visitas = []
+    movimientos = {}
+    for visita in Visit.objects.filter(revisado=False):
+        visitas.append(visitasSinRevisar(
+            visita.visitor.nickname,
+            visita.total_balance,
+            visita.facturas_elec,
+            visita.date
+        ))
+        for movimiento in MoneyMovement.objects.filter(visit=visita):
+            if not movimiento.fact_elec:
+                try:
+                    movimientos[movimiento.categoria] += movimiento.valor
+                except:
+                    movimientos[movimiento.categoria] = movimiento.valor
+
+    return render(request, "visit/datos_contabilidad.html",
+                  {
+                      "comunidad": user.comunidad,
+                      "visitas": visitas,
+                      "movimientos": movimientos,
+                      "staff": user.staff,
+                  })
