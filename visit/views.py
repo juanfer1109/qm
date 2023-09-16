@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from datetime import date, timedelta
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 
 from .models import Visit, MoneyMovement, VisitCalendar
 from .forms import MovementFormSet
@@ -92,6 +93,16 @@ def visitInput(request):
         notes = request.POST["notes"]
         visit = Visit(visitor=visitor, date=date, notes=notes)
         visit.save()
+        email = EmailMessage(
+            "Nueva Visita",
+            f"Nueva vista de {visitor.nickname.capitalize()} el {date}",
+            settings.EMAIL_HOST_USER,
+            [
+                "juanfer_arango@hotmail.com",
+            ],
+        )
+        email.fail_silently = False
+        email.send()
         return redirect("visit.create_movement", pk=visit.id)
 
     return render(
