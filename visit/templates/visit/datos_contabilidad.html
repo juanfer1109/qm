@@ -22,15 +22,19 @@
             {% for visita in visitas %}  
                 <tr>
                     <form method="POST">{% csrf_token %}  
-                    <td>{{ visita.user }}</td>
-                    <td>{{ visita.fecha }}</td>
-                    <td>{{ visita.saldoEfectivo }}</td>
-                    <td>{{ visita.saldoFactElec }}</td>
-                    <td>
-                        <input type="checkbox" name="revisado">
-                        <Input type="hidden" name="visita" value={{ visita.key }}>
-                    </td>
-                    <td><input type="submit" value="Grabar"></td>
+                        <td>{{ visita.user }}</td>
+                        <td>
+                            <a href="{% url 'visit.details' pk=visita.key %}" target="_blank">
+                                {{ visita.fecha }}
+                            </a>
+                        </td>
+                        <td>{{ visita.saldoEfectivo }}</td>
+                        <td>{{ visita.saldoFactElec }}</td>
+                        <td>
+                            <input type="checkbox" name="revisado">
+                            <Input type="hidden" name="visita" value={{ visita.key }}>
+                        </td>
+                        <td><input type="submit" value="Grabar"></td>
                     </form>
                 </tr>
             {% endfor %}
