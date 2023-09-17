@@ -308,12 +308,21 @@ def datosContabilidad(request):
     if not user.staff:
         return HttpResponseRedirect(reverse("home"))
     
+    if request.method == "POST":
+        visita = request.POST["visita"]
+        revisado = request.POST.get("revisado", False)
+        if revisado == "on":
+            visit = Visit.objects.get(id=visita)
+            visit.revisado = True
+            visit.save()
+    
     class visitasSinRevisar():
-        def __init__(self, user, saldoEfectivo, saldoFactElec, fecha):
+        def __init__(self, user, saldoEfectivo, saldoFactElec, fecha, key):
             self.user = user
             self.fecha = fecha
             self.saldoEfectivo = saldoEfectivo
             self.saldoFactElec = saldoFactElec
+            self.key = key
     
     visitas = []
     movimientos = {}
@@ -322,7 +331,8 @@ def datosContabilidad(request):
             visita.visitor.nickname,
             visita.total_balance,
             visita.facturas_elec,
-            visita.date
+            visita.date,
+            visita.id
         ))
         for movimiento in MoneyMovement.objects.filter(visit=visita):
             if not movimiento.fact_elec:
