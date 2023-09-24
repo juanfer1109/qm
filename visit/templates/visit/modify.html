@@ -76,7 +76,11 @@
         <button class="btn btn-secondary" type="submit" style="margin: 0 auto; display: table;">Agregar cuentas</button>
     </form>
     <br>
-    <form action="{% url 'visit.details' pk=visit.id %}">
+    <form action="{% url 'visit.details' pk=visit.id %}" style="display: inline">
         <button class="btn btn-primary" type="submit" style="margin: 0 auto; display: table;">Volver a la Visita</button>
+    </form>
+    <br>
+    <form action="{% url 'visit.delete' pk=visit.id %}" style="display: inline" method="post">{% csrf_token %}
+        <button class="btn btn-danger" type="submit" style="margin: 0 auto; display: table;">Eliminar Visita</button>
     </form>
     {% endblock %}

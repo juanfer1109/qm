@@ -12,4 +12,5 @@ urlpatterns = [
     path("calendar/", views.calendarOfVisits, name="visit.calendar"),
     path("myvisits/", views.myVisits, name="visit.myvisits"),
     path("datos-contabilidad/", views.datosContabilidad, name="visit.datos_contabilidad"),
+    path("delete/<int:pk>/", views.eliminarVisita, name="visit.delete"),
 ]

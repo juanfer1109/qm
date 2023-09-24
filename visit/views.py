@@ -348,3 +348,24 @@ def datosContabilidad(request):
                       "movimientos": movimientos,
                       "staff": user.staff,
                   })
+
+    
+@login_required
+def eliminarVisita(request, pk):
+    user = request.user
+    try:
+        cu = CustomUser.objects.get(user_id=user.id)
+        if cu.comunidad == False:
+            return HttpResponseRedirect(reverse("home"))
+    except:
+        return HttpResponseRedirect(reverse("home"))
+    visit = Visit.objects.get(pk=pk)
+    expenses = MoneyMovement.objects.filter(visit=visit)
+    if request.method == "POST":
+        visit.save()
+        for expense in expenses:
+            expense.delete()
+        visit.delete()
+        return HttpResponseRedirect(reverse("visit.list"))
+    else:
+        return HttpResponseRedirect(reverse("home"))
