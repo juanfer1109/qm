@@ -131,7 +131,7 @@ def listaDonaciones(request):
             {
                 "data": True,
                 "donaciones": donations,
-                "years": years,
+                "years": sorted(years, reverse=True),
                 "total": totalDonations,
                 "comunidad": cu.comunidad,
                 "staff": cu.staff,
@@ -143,7 +143,7 @@ def listaDonaciones(request):
         request,
          'donation/lista_donaciones.html',
          {
-            "years": years,
+            "years": sorted(years, reverse=True),
             "data": False,
             "comunidad": cu.comunidad,
             "staff": cu.staff,
