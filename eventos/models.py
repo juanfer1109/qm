@@ -9,7 +9,7 @@ class Evento(models.Model):
         ("Experiencia", "Experiencia"),
     ]
 
-    nombre = models.CharField(max_length=40)
+    nombre = models.CharField(max_length=60)
     tipo = models.CharField(max_length=15, choices=TYPES)
     descripcion = models.TextField(null=True, blank=True)
     lugar = models.TextField(null=True, blank=True)
