@@ -88,7 +88,7 @@ def correoVisita(token):
 
 @shared_task(bind=True)
 def generarVisita(token):
-    visits = VisitCalendar.objects.all()
+    visits = VisitCalendar.objects.filter(date__gte=date.today())
     last_date = date.today()
     for visit in visits:
         if visit.date > last_date:
