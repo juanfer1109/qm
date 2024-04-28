@@ -99,10 +99,14 @@ def visitInput(request):
             settings.EMAIL_HOST_USER,
             [
                 "juanfer_arango@hotmail.com",
+                "quintanamagica@gmail.com",
             ],
         )
         email.fail_silently = False
-        email.send()
+        try:
+            email.send()
+        except:
+            pass
         return redirect("visit.create_movement", pk=visit.id)
 
     return render(
@@ -176,7 +180,7 @@ def modificarVisita(request, pk):
         )
     else:
         message = None
-        if cu != visit.visitor:
+        if cu != visit.visitor and not cu.staff:
             message = "Solo " + visit.visitor.nickname + " puede modificar esta visita"
             return render(
                 request,
@@ -190,7 +194,7 @@ def modificarVisita(request, pk):
                 },
             )
 
-        if visit.revisado:
+        if visit.revisado and not cu.staff:
             message = "Visita ya revisada y asentanda"
             return render(
                 request,
@@ -217,7 +221,7 @@ def modificarVisita(request, pk):
 def borrarMov(request, pk):
     mov = MoneyMovement.objects.get(pk=pk)
     visit = Visit.objects.get(id=mov.visit.id)
-    if CustomUser.objects.get(user=request.user).user != visit.visitor.user:
+    if CustomUser.objects.get(user=request.user).user != visit.visitor.user and not CustomUser.objects.get(user=request.user).staff:
         return redirect("visit.details", pk=visit.id)
     
     mov.delete()
@@ -229,7 +233,7 @@ def borrarMov(request, pk):
 def modificarMov(request, pk):
     mov = MoneyMovement.objects.get(pk=pk)
     visit = Visit.objects.get(id=mov.visit.id)
-    if CustomUser.objects.get(user=request.user).user != visit.visitor.user:
+    if CustomUser.objects.get(user=request.user).user != visit.visitor.user and not CustomUser.objects.get(user=request.user).staff:
         return redirect("visit.details", pk=visit.id)
     
     valor = int(request.POST["valor"].replace(".", "").replace(",", ""))
