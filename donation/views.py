@@ -180,7 +180,7 @@ def agregarDonacion(request):
         'donation/agregar_donacion.html',
         {
             "comunidad": cu.comunidad,
-            "message": "Donación agregada",
+            "message1": "Donación agregada",
         }
     )
     

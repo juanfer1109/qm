@@ -8,6 +8,9 @@
         {% if message %}
         <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
         {% endif %}
+        {% if message1 %}
+        <div class="alert alert-success top-20 center" role="alert">{{ message1 }}</div>
+        {% endif %}
         <h2 class="center">Agregar Donación</h2>
         <form class="form-login top-20 padding-5" action="{% url 'donations.agregar' %}" method="POST"> {% csrf_token %}
             <p>
