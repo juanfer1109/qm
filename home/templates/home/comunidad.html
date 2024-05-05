@@ -33,13 +33,18 @@
         </form>
         {% if staff %}
         <form action="{% url 'donations.lista' %}" style="display: inline;">
-            <button class="btn btn-info" style="width: 150px;">
+            <button class="btn btn-warning" style="width: 150px;">
                 Donaciones
             </button>
         </form>
         <form action="{% url 'visit.datos_contabilidad' %}" style="display: inline;">
-            <button class="btn btn-info" style="width: 150px;">
+            <button class="btn btn-warning" style="width: 150px;">
                 Revisar Visitas
+            </button>
+        </form>
+        <form action="{% url 'dian.nuevodoc' %}" style="display: inline;">
+            <button class="btn btn-warning" style="width: 150px;">
+                Ingresar doc DIAN
             </button>
         </form>
         {% endif %}

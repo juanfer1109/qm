@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from datetime import date
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
-from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.models import User

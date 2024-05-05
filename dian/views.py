@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
+from .forms import DIANForm
 from .models import DianDoc
 from users.models import CustomUser
+
 
 
 def docsDian(request):
@@ -44,3 +48,56 @@ def docsDian(request):
             "comunidad": comunidad,
         },
     )
+
+# def handle_uploaded_file(f):
+#     with open("some/file/name.txt", "wb+") as destination:
+#         for chunk in f.chunks():
+#             destination.write(chunk)
+
+# @login_required
+# def nuevoDoc(request):
+#     user = request.user
+#     cu = CustomUser.objects.get(user=user)
+#     if not cu.staff:
+#         return HttpResponseRedirect(reverse("home"))
+    
+#     if request.method =='POST':
+#         year = request.POST["year"]                
+#         titulo = request.POST["titulo"]
+#         nombre_file = 'dian-docs/' + request.POST["file"]
+#         file = request.FILES["file"]
+#         doc = DianDoc(year=year, title=titulo, file=nombre_file)
+#         doc.save()
+#         return render(
+#         request,
+#         'dian/form_registro.html',
+#         {
+#             "comunidad": cu.comunidad,
+#             "message1": "Documento agregado",
+#         }
+#     )
+    
+#     return render(
+#         request,
+#         'dian/form_registro.html',
+#         {
+#             "comunidad": cu.comunidad,
+#         }
+#     )
+    
+@login_required
+def nuevoDoc(request):
+    user = request.user
+    cu = CustomUser.objects.get(user=user)
+    if not cu.staff:
+        return HttpResponseRedirect(reverse("home"))
+    
+    if request.method == "POST":
+        form = DIANForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+        else:
+            return render(request, "dian/form_registro.html", {"form": form, "comunidad": cu.comunidad,})
+    
+    form = DIANForm()
+    return render(request, "dian/form_registro.html", {"form": form, "comunidad": cu.comunidad,})
