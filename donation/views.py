@@ -172,6 +172,20 @@ def agregarDonacion(request):
                 }
             )
         fecha = request.POST["fecha"]
+        años_cerrados = set()
+        for don in Permanencia.objects.all():
+            años_cerrados.add(don.year)
+        
+        if int(fecha[0:4]) in años_cerrados:
+            return render(
+                request,
+                'donation/agregar_donacion.html',
+                {
+                    "comunidad": cu.comunidad,
+                    "message": "Año cerrado",
+                }
+            )
+        
         valor = int(request.POST["valor"].replace(".", "").replace(",", ""))
         don = Donation(user=donante.user, date=fecha, value=valor)
         don.save()
@@ -187,6 +201,52 @@ def agregarDonacion(request):
     return render(
         request,
         'donation/agregar_donacion.html',
+        {
+            "comunidad": cu.comunidad,
+        }
+    )
+    
+@login_required
+def listaPermanencias(request):
+    user = request.user
+    cu = CustomUser.objects.get(user=user)
+    if not cu.staff:
+        return HttpResponseRedirect(reverse("home"))
+    
+    return render(
+        request,
+        'donation/permanencias.html',
+        {
+            "permanencias": Permanencia.objects.all(),
+            "comunidad": cu.comunidad,
+            "staff": cu.staff,
+        }
+    )
+
+@login_required
+def apregarPermanencia(request):
+    user = request.user
+    cu = CustomUser.objects.get(user=user)
+    if not cu.staff:
+        return HttpResponseRedirect(reverse("home"))
+    
+    if request.method =='POST':
+        year = request.POST["year"]                
+        form = request.POST["formulario"]
+        perm = Permanencia(year=year, formulario=form)
+        perm.save()
+        return render(
+        request,
+        'donation/agregar_permanencia.html',
+        {
+            "comunidad": cu.comunidad,
+            "message1": "Donación agregada",
+        }
+    )
+    
+    return render(
+        request,
+        'donation/agregar_permanencia.html',
         {
             "comunidad": cu.comunidad,
         }

@@ -48,8 +48,15 @@
         <br>
         <div class="center">
             <form action="{% url 'donations.agregar' %}" style="display: inline;">
-                <button class="btn btn-info" style="width: 150px;">
+                <button class="btn btn-info" style="width: 200px;">
                     Agregar Donación
+                </button>
+            </form>
+        </div>
+        <div class="center">
+            <form action="{% url 'donations.lista_permanencias' %}" style="display: inline;">
+                <button class="btn btn-warning" style="width: 200px;">
+                    Lista Permanencias
                 </button>
             </form>
         </div>

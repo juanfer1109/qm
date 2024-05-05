@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load l10n %}
+
+    {% block body %}
+        <br>
+        <h2 class="center">Permanencias:</h2>
+        <br>
+
+        <div style="width: 90%;" class="table-responsive center">
+            <table class="table align-middle mb-0 bg-white center">
+                <thead class="bg-light">
+                    <tr>
+                        <th style="width: 20px;">Año</th>
+                        <th>Permanencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for perm in permanencias %}
+                    <tr>
+                        <td>{{ perm.year }}</td>
+                        <td>{{ perm.formulario }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {%  if staff %}
+        <br>
+        <br>
+        <div class="center">
+            <form action="{% url 'donations.agregar_permanencia' %}" style="display: inline;">
+                <button class="btn btn-info" style="width: 200px;">
+                    Agregar Permanencia
+                </button>
+            </form>
+        </div>
+        {% endif %}
+    {% endblock %}

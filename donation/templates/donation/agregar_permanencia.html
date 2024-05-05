@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load l10n %}
+
+    {% block body %}
+
+        <br>
+        {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        {% endif %}
+        {% if message1 %}
+        <div class="alert alert-success top-20 center" role="alert">{{ message1 }}</div>
+        {% endif %}
+        <h2 class="center">Agregar Permanencia</h2>
+        <form class="form-login top-20 padding-5" action="{% url 'donations.agregar_permanencia' %}" method="POST"> {% csrf_token %}
+            <p>
+              <label class="input" for="year">Año renovación:</label>
+              <input type="text" class="form-control padding-5" name="year" id="year" required>
+            </p>
+            <p>
+              <label class="input" for="formulario">Número de formulario:</label>
+              <input type="text" class="form-control padding-5" name="formulario" id="formulario" required>
+            </p>
+            <p>
+              <input class="btn btn-secondary" type="submit" value="Enviar">
+            </p>
+        </form>
+        
+        <br>
+        <div class="center">
+            <form action="{% url 'donations.lista_permanencias' %}" style="display: inline;">
+                <button class="btn btn-info" style="width: 200px;">
+                    Lista Permanencias
+                </button>
+            </form>
+        </div>
+    {% endblock %}

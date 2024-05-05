@@ -6,11 +6,8 @@ class DianDoc(models.Model):
         max_length=100,
         choices=[
             ("Informe de Gestión", "Informe de Gestión"),
-            ("Certificado de Atecedentes", "Certificado de Atecedentes"),
-            (
-                "Certificado Cumplimiento Requesitos",
-                "Certificado Cumplimiento Requesitos",
-            ),
+            ("Certificado de Antecedentes", "Certificado de Antecedentes"),
+            ("Certificado Cumplimiento Requesitos", "Certificado Cumplimiento Requesitos"),
             ("Estado de Resultados", "Estado de Resultados"),
             ("Estado Situación Financiera", "Estado Situación Financiera"),
             ("Certificado Cámara de Comercio", "Certificado Cámara de Comercio"),
