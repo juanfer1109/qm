@@ -47,6 +47,11 @@
                 Ingresar doc DIAN
             </button>
         </form>
+        <form action="{% url 'donations.enviar_correo' %}" style="display: inline;">
+            <button class="btn btn-warning" style="width: 150px;">
+                Correo Donaciones
+            </button>
+        </form>
         {% endif %}
     </div>
 {% endblock %}

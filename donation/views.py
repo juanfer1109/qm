@@ -6,6 +6,9 @@ from django.template.loader import get_template
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.conf import settings
+from datetime import datetime
 
 from xhtml2pdf import pisa
 
@@ -246,6 +249,63 @@ def apregarPermanencia(request):
     return render(
         request,
         'donation/agregar_permanencia.html',
+        {
+            "comunidad": cu.comunidad,
+        }
+    )
+    
+@login_required
+def enviarCorreo(request):
+    user = request.user
+    cu = CustomUser.objects.get(user=user)
+    if not cu.staff:
+        return HttpResponseRedirect(reverse("home"))
+    
+    if request.method =='POST':
+        year = datetime.today().year - 1
+        
+        for u in User.objects.all():
+            valor = 0
+            for donation in Donation.objects.filter(date__year=year, user=u):
+                valor = valor + donation.value
+            
+            if valor > 0:
+                subject = "Certificado Donación"
+                template = get_template("donation/email_certificado.html")
+                content = template.render(
+                    {
+                        "name": CustomUser.objects.get(user=u).nickname,
+                        "valor": valor,
+                        "year": year,
+                    }
+                )
+                sendTo = u.email
+                # sendTo = 'juanfer_arango@hotmail.com'
+                email = EmailMultiAlternatives(
+                    subject,
+                    "",
+                    settings.EMAIL_HOST_USER,
+                    [
+                        sendTo,
+                    ],
+                )
+                email.attach_alternative(content, "text/html")
+                email.fail_silently = False
+                email.send()
+            # break    
+        
+        return render(
+        request,
+        'donation/enviar_correo.html',
+        {
+            "comunidad": cu.comunidad,
+            "message1": "Correo Enviado",
+        }
+    )
+    
+    return render(
+        request,
+        'donation/enviar_correo.html',
         {
             "comunidad": cu.comunidad,
         }

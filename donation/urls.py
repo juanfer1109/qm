@@ -8,4 +8,5 @@ urlpatterns = [
     path("agregar/", views.agregarDonacion, name="donations.agregar"),
     path("permanencias/", views.listaPermanencias, name="donations.lista_permanencias"),
     path("agregperm/", views.apregarPermanencia, name="donations.agregar_permanencia"),
+    path("enviarcorreo/", views.enviarCorreo, name="donations.enviar_correo"),
 ]
