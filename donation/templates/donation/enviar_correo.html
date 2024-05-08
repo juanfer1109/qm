@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load l10n %}
+
+    {% block body %}
+
+        <br>
+        {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        {% endif %}
+        {% if message1 %}
+        <div class="alert alert-success top-20 center" role="alert">{{ message1 }}</div>
+        {% endif %}
+        <h2 class="center">Enviar correo donaciones</h2>
+        <form class="form-login top-20 padding-5" action="{% url 'donations.enviar_correo' %}" method="POST"> {% csrf_token %}
+            {% comment %} <p>
+              <label class="input" for="year">Donaciones del año:</label>
+              <input type="text" class="form-control padding-5" name="year" id="year" required>
+            </p> {% endcomment %}
+            <p>
+              <input class="btn btn-primary" type="submit" value="Enviar Correo">
+            </p>
+        </form>
+
+    {% endblock %}
