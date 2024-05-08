@@ -117,7 +117,7 @@ def revisarMttos(token):
 
 
 @shared_task(bind=True)
-def correoMtto2(token):
+def correoMtto3(token):
     users = CustomUser.objects.filter(mtto=True)
     equipos = Equip.objects.all().order_by("next_maintenance")
     equipos_atrasados = []
@@ -179,3 +179,69 @@ def correoMtto2(token):
             email.attach_alternative(content, "text/html")
             email.fail_silently = False
             email.send()
+
+
+@shared_task(bind=True)
+def correoMtto2(token):
+    users = CustomUser.objects.filter(comunidad=True)
+    equipos = Equip.objects.all().order_by("next_maintenance")
+    for user in users:
+        equipos_atrasados = []
+        equipos_3 = []
+        equipos_7 = []
+        equipos_14 = []
+        equipos_30 = []
+        equipos_60 = []
+        for equipo in equipos:
+            if equipo.responsable == user:
+                if equipo.atrasado:
+                    equipos_atrasados.append(equipo)
+                if equipo.days_3:
+                    equipos_3.append(equipo)
+                if equipo.days_7:
+                    equipos_7.append(equipo)
+                if equipo.days_14:
+                    equipos_14.append(equipo)
+                if equipo.days_30:
+                    equipos_30.append(equipo)
+                if equipo.days_60:
+                    equipos_60.append(equipo)
+                equipo.atrasado = False
+                equipo.days_3 = False
+                equipo.days_7 = False
+                equipo.days_14 = False
+                equipo.days_30 = False
+                equipo.days_60 = False
+                equipo.save()
+        
+        subject = "Mantenimientos Quintana"
+        template = get_template("mtto/email3.html")
+        content = template.render(
+            {
+                "name": user.nickname,
+                "equipos_atrasados": equipos_atrasados,
+                "atrasados": len(equipos_atrasados) > 0,
+                "equipos_3": equipos_3,
+                "tres": len(equipos_3) > 0,
+                "equipos_7": equipos_7,
+                "siete": len(equipos_7) > 0,
+                "equipos_14": equipos_14,
+                "catorce": len(equipos_14) > 0,
+                "equipos_30": equipos_30,
+                "treinta": len(equipos_30) > 0,
+                "equipos_60": equipos_60,
+                "sesenta": len(equipos_60) > 0,
+            }
+        )
+        sendTo = User.objects.get(username=user.user).email
+        email = EmailMultiAlternatives(
+            subject,
+            "",
+            settings.EMAIL_HOST_USER,
+            [
+                sendTo,
+            ],
+        )
+        email.attach_alternative(content, "text/html")
+        email.fail_silently = False
+        email.send()
