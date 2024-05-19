@@ -20,7 +20,7 @@ def docsDian(request):
         pass
 
     listOfYears = DianDoc.objects.values_list("year", flat=True).distinct()
-    listOfYears.order_by("year").reverse()
+    listOfYears = listOfYears.order_by("year").reverse()
 
     if request.method == "POST":
         year = int(request.POST["year"].replace(".", "").replace(",", ""))
