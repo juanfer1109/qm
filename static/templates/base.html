@@ -42,19 +42,27 @@
                 <a href="{% url 'users.login' %}">Ingresar</a>
                 <a href="{% url 'users.signup' %}">Registrarse</a>
                 {% endif %}
+                <a href="https://wa.me/573108298003" target="_blank" rel="noopener noreferrer" style="padding: 0">
+                    <img src="{% static 'images/wpp_b.png' %}" alt="" style="width: 30px; padding:0; margin: 5px">
+                </a>
+            
+                <a href="https://www.instagram.com/quintana.magica/" target="_blank" rel="noopener noreferrer" style="padding: 0">
+                    <img src="{% static 'images/instagram_b.png' %}" alt="" style="width: 30px; padding: 0; margin: 5px">
+                </a>
                 <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                     <img src="{% static 'images/list.png' %}" alt="" style="width: 30px;">
-                </a>
+                </a> 
+            </div>
 
-            </div>
-            <div class="topnav" style="float:right">
-                <!--    <a href="#">
-                            <img src="{% static 'images/facebook.svg' %}" alt="" class="icon">
-                        </a> -->
-                    {% comment %} <a href="https://www.instagram.com/quintana.magica/" target="_blank" rel="noopener noreferrer">
-                        <img src="{% static 'images/instagram.svg' %}" alt="" style="width: 22px">
-                    </a> {% endcomment %}
-            </div>
+            
+            {% comment %} <div class="topnav">
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'images/instagram.png' %}" alt="" style="width: 22px">
+                </a> 
+                <a href="https://www.instagram.com/quintana.magica/" target="_blank" rel="noopener noreferrer">
+                    <img src="{% static 'images/instagram.png' %}" alt="" style="width: 22px">
+                </a> 
+            </div> {% endcomment %}
         </nav>
         {% block body %}
         {% endblock %}

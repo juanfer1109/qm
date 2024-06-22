@@ -240,9 +240,12 @@ table.center {
     src: url(../fonts/ShadowsIntoLight-Regular.ttf);
 }
 .topnav {
+  display: flex;
   overflow: hidden;
   background-color: #326273;
+  align-items: center;
 }
+
 .topnav a {
   float: left;
   display: block;
