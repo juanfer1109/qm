@@ -7,6 +7,7 @@ from .models import Equip, Maintenance, Supplier
 class equipAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = (
         "name",
+        "responsable",
         "next_maintenance",
     )
     list_filter = (

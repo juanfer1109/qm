@@ -20,7 +20,8 @@ def crearEquipo(request):
             if request.method == "POST":
                 name = request.POST["name"].title()
                 frequency = request.POST["frequency"]
-                equipo = Equip(name=name, frequency=frequency)
+                responsable = CustomUser.objects.get(user=request.POST["responsable"])
+                equipo = Equip(name=name, frequency=frequency, responsable=responsable)
                 try:
                     equipo.next_maintenance = request.POST["next_maintenance"]
                 except:

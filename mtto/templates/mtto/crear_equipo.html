@@ -29,7 +29,7 @@
                 {% comment %} <input class="form-control" type="date" name="responsable"> {% endcomment %}
                 <select class="form-control" name="responsable" id="responsable">
                     {% for miembro in miembros %}
-                    <option value="{{miembro.nickname}}">{{miembro.nickname}}</option>
+                    <option value="{{miembro.id}}">{{miembro.nickname}}</option>
                     {% endfor %}
                 </select>
             </div>
