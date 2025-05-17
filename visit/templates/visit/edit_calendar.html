@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %} - Cambiar calendario {% endblock %}
+    {% block body %}
+
+    <br>
+    <h2 class="center top-20">Modificar visita  del {{ visit.date }}</h2>
+    <br>
+    {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+    {% endif %}
+    
+    <form class="form-login top-20" action="{% url 'visit.calendar.edit' pk=visit.id %}" method="post" name="form_registrar">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="input" for="visitante">Visitante: </label>
+            <select class="form-control" name="visitante" id="visitante">
+                {% for visitante in visitantes %}
+                {% if visit.visitor.id == visitante.id %}
+                    <option value="{{visitante.user}}" selected="selected" >{{visitante.nickname}}</option>
+                {% else %}
+                    <option value="{{visitante.user}}">{{visitante.nickname}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-item">
+            <input type="submit" class="btn btn-warning" value="Cambiar">
+        </div>
+    </form>
+
+    {% endblock %}

@@ -275,8 +275,35 @@ def calendarOfVisits(request):
             "visits": visits,
             "comunidad": comunidad,
             "nickname": user.nickname,
+            "staff": user.staff,
         },
     )
+    
+@login_required
+def EditCalendar(request, pk):
+    visit = VisitCalendar.objects.get(pk=pk)
+    user = CustomUser.objects.get(user=request.user)
+    if not user.staff:
+        return HttpResponseRedirect(reverse("home"))
+    visitantes = CustomUser.objects.filter(visit_resp=True)
+    if user.comunidad == False:
+        return HttpResponseRedirect(reverse("home"))
+    
+    if request.method == "POST":
+        visit.visitor = CustomUser.objects.get(user=User.objects.get(username=request.POST["visitante"]))
+        visit.save()
+        return HttpResponseRedirect(reverse("visit.calendar"))
+    
+    return render(
+        request,
+        "visit/edit_calendar.html",
+        {
+            "visit": visit,
+            "visitantes": visitantes,
+            "comunidad": user.comunidad,
+        },
+    )
+
 
 
 @login_required
