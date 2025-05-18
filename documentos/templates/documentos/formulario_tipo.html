@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load l10n %}
+{% load widget_tweaks %}
+
+    {% block body %}
+
+        <br>
+        {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        {% endif %}
+        {% if message1 %}
+        <div class="alert alert-success top-20 center" role="alert">{{ message1 }}</div>
+        {% endif %}
+        <h2 class="center">Agregar Tipo de Documento</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="form-login top-20 padding-5">
+          {% csrf_token %}
+            <p>
+              <label class="input" for="id">Tipo:</label>
+              {{ form.tipo|add_class:"form-control padding-5" }}
+            </p>
+            <p>
+              <input type="submit" value="Crear" class="btn btn-primary"> 
+            </p>
+        </form>
+        
+        <div class="center">
+            <br>
+            <h2>Tipos de Documentos</h2>
+            <br>
+
+
+        <table class="center">
+        <thead>
+            <tr>
+                <th scope="col">Tipo</th>
+                {% if staff %}
+                <th scope="col"></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for tipo in tipos %}
+            <tr>
+                <td>{{ tipo.tipo }}</td>
+                {% if staff %}
+                <td>
+                    <button class="btn btn-danger" style="width: 80px;" 
+                    onclick="window.location.href='{% url 'documentos.borrartipo' tipo.id %}'">
+                        Borrar
+                    </button>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    <form action="{% url 'documentos.list' %}">
+        <button type="submit" class="btn btn-primary top-20">Listado Documentos</button>
+    </form>
+    </div>
+        
+    {% endblock %}

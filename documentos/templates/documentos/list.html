@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load l10n %}
+    {% block body %}
+    <form class="form-login top-20 padding-5" action="{% url 'documentos.list' %}" method="POST"> {% csrf_token %}
+        <label class="input" for="year">Tipo de documento:</label>
+        <select class="form-control padding-5" name="tipo" id="tipo">
+            <option value="" selected disabled hidden>Seleccione tipo de documento</option>
+            {% for tipo in tipos %}
+            {% if tipo.id == tipo_consulta %}
+            <option value="{{tipo.id}}" selected >{{tipo.tipo}}</option>
+            {% else %}
+            <option value="{{tipo.id}}">{{tipo.tipo}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+        <input class="btn btn-primary" type="submit" value="Enviar">
+    </form>
+    
+    {% if get %}
+    {% else %}
+        {% if list %}
+            <div class="center">
+                <br><br><br>
+
+                <div style="width: 90%;" class="table-responsive center">
+                    <table class="table align-middle mb-0 bg-white center">
+                        <thead class="bg-light">
+                            <tr>
+                                <th >Nombre</th>
+                                <th>Fecha</th>
+                                <th>Creador</th>
+                                <th>Link</th>
+                                {% if staff %}
+                                <th>Acciones</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doc in documents %}
+                            <tr>
+                                <td>{{ doc.nombre }}</td>
+                                <td>{{ doc.date }}</td>
+                                <td>{{ doc.user.nickname }}</td>
+                                <td><a href="{{ doc.file.url }}" target="_blank" >Abrir</a></td>
+                                {% if staff %}
+                                <td>
+                                    <form action="{% url 'documentos.borrardocumento' doc.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="center">
+                <br><br><br>
+                <p>No hay documentos disponibles para el tipo seleccionado.</p>
+            </div>
+        {% endif %}
+    {% endif %}
+    <div class="center">
+    <form action="{% url 'documentos.nuevodocumento' %}">
+        <button type="submit" class="btn btn-primary top-20">Crear Docuemento</button>
+    </form>
+    <form action="{% url 'documentos.nuevotipo' %}">
+        <button type="submit" class="btn btn-secundary top-20">Crear Tipo</button>
+    </form>
+    </div>
+    {% endblock %}

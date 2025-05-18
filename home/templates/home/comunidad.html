@@ -31,6 +31,11 @@
                 Facturas
             </button>
         </form>
+        <form action="{% url 'documentos.list' %}" style="display: inline;">
+            <button class="btn btn-info" style="width: 150px;">
+                Documentos
+            </button>
+        </form>
         {% if staff %}
         <form action="{% url 'donations.lista' %}" style="display: inline;">
             <button class="btn btn-warning" style="width: 150px;">

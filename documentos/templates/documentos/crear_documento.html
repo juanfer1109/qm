@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+    {% block title %} - Nueva Tarea {% endblock %}
+    {% block script %}
+    {% endblock %}
+
+    {% block body %}
+    
+        <br>
+        {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        {% endif %}
+
+        <h2 class="center">Agregar Documento</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="form-login top-20 padding-5">
+          {% csrf_token %}
+
+            <p>
+              <label class="input" for="id">Nombre:</label>
+              {{ form.nombre|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Fecha:</label>
+              {{ form.date|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Tipo:</label>
+              {{ form.tipo|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Archivo:</label>
+              {{ form.file|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <input type="submit" value="Grabar" class="btn btn-primary"> 
+            </p>
+        </form>
+        <div class="center">
+            <form action="{% url 'documentos.list' %}">
+                <button type="submit" class="btn btn-primary top-20">Listado Documentos</button>
+            </form>
+        </div>
+        
+    {% endblock %}
