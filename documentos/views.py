@@ -17,8 +17,23 @@ def listaDocumentos(request):
         return HttpResponseRedirect(reverse("home"))
     
     if request.method == "POST":
-        tipo = request.POST["tipo"]
-
+        try:
+            tipo = request.POST["tipo"]
+        except:
+            print("No se ha seleccionado ningún tipo de documento.")
+            
+            return render(
+                request,
+                "documentos/list.html",
+                {
+                    "comunidad": cu.comunidad,
+                    "tipos": TipoDocumento.objects.all().order_by("tipo").values(),
+                    "get": True,
+                    "staff": cu.staff,
+                    "message": "No se ha seleccionado ningún tipo de documento.",
+                },
+            )
+            
         return render(
             request,
             "documentos/list.html",

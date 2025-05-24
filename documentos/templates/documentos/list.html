@@ -2,6 +2,15 @@
 {% load static %}
 {% load l10n %}
     {% block body %}
+
+    <br>
+        {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        {% endif %}
+        {% if message1 %}
+        <div class="alert alert-success top-20 center" role="alert">{{ message1 }}</div>
+        {% endif %}
+        
     <form class="form-login top-20 padding-5" action="{% url 'documentos.list' %}" method="POST"> {% csrf_token %}
         <label class="input" for="year">Tipo de documento:</label>
         <select class="form-control padding-5" name="tipo" id="tipo">
@@ -14,7 +23,7 @@
             {% endif %}
             {% endfor %}
         </select>
-        <input class="btn btn-primary" type="submit" value="Enviar">
+        <input class="btn btn-primary" type="submit" value="Ver documentos">
     </form>
     
     {% if get %}
