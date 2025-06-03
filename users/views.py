@@ -12,6 +12,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .forms import NewUserForm
 from .models import CustomUser
@@ -81,7 +82,7 @@ def SignUp(request):
 
         email = request.POST["email"].lower()
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.filter(email=email).first()
             if user is not None:
                 ok = True
                 message = "Ya hay un usuario con este email"
@@ -338,3 +339,152 @@ def cambiarPassword(request):
         return HttpResponseRedirect(reverse("users.profile"))
 
     return render(request, "users/cambiar_password.html", {})
+
+
+@login_required
+def crearUsuario(request):
+    ActUser = request.user
+    cu = CustomUser.objects.get(user=ActUser)
+    if not cu.staff:
+        return HttpResponseRedirect(reverse("home"))
+    
+    if request.method == "POST":
+        ok = False
+        email = request.POST["email"].lower()
+        username = email
+        try:
+            user = User.objects.filter(email=email).first()
+            if user is not None:
+                ok = True
+                message = "Ya hay un usuario con este email"
+        except:
+            pass
+
+        first_name = request.POST["first_name"].title()
+        last_name = request.POST["last_name"].title()
+        phone_number = request.POST["phone_number"]
+        birthday = request.POST["birthday"]
+        nickname = first_name.capitalize()
+        identificacion = request.POST["identificacion"]
+        tipo_id = request.POST["tipo_id"]
+        try:
+            if int(phone_number) >= 3000000000 and int(phone_number) <= 3999999999:
+                pass
+            else:
+                ok = True
+                message = "Número de celular invalido"
+        except:
+            ok = True
+            message = "Número de celular invalido"
+
+        try:
+            date = dt.strptime(birthday, "%Y-%m-%d")
+        except:
+            ok = True
+            message = "Fecha invalida"
+
+        mailing_list = False
+        info_manage = False
+
+        password = "Quintana2025"
+        confirmation = "Quintana2025"
+
+        if not ok:
+            try:
+                user = User.objects.create_user(username, email, password)
+                user.first_name = first_name
+                user.last_name = last_name
+                customUser = CustomUser(
+                    user_id=user.id, birthday=birthday, phone_number=phone_number
+                )
+                customUser.mailing_list = mailing_list
+                customUser.info_manage = info_manage
+                customUser.nickname = nickname
+                customUser.id_number = identificacion
+                customUser.doc_type = tipo_id
+            except IntegrityError:
+                ok = True
+                message = "Usuario ya existe"
+
+        if not ok:
+            try:
+                customUser.save()
+            except:
+                return render(
+                    request,
+                    "users/crear_usuario.html",
+                    {
+                        "message": "Completa todos los campos",
+                        "email": email,
+                        "first_name": first_name,
+                        "last_name": last_name,
+                        "phone_number": phone_number,
+                        "birthday": birthday,
+                        "identificacion": identificacion,
+                        "tipo_id": tipo_id,
+                        "comunidad": cu.comunidad,
+                    },
+                )
+
+            try:
+                user.save()
+            except:
+                customUser.delete()
+                return render(
+                    request,
+                    "users/crear_usuario.html",
+                    {
+                        "message": "Completa todos los campos",
+                        "email": email,
+                        "first_name": first_name,
+                        "last_name": last_name,
+                        "phone_number": phone_number,
+                        "birthday": birthday,
+                        "identificacion": identificacion,
+                        "tipo_id": tipo_id,
+                        "comunidad": cu.comunidad,
+                    },
+                )
+            subject = "Nuevo Usuario " + user.username
+            template = render_to_string(
+                "users/email_template.html",
+                {"name": "Juanfer", "message": "Se ha creado un nuevo usuario"},
+            )
+            email = EmailMessage(
+                subject,
+                template,
+                settings.EMAIL_HOST_USER,
+                ["juanfer_arango@hotmail.com", "jfarangou@gmail.com"],
+            )
+            email.fail_silently = False
+            try:
+                email.send()
+            except:
+                pass
+
+        else:
+            return render(
+                request,
+                "users/crear_usuario.html",
+                {
+                    "message": message,
+                    "email": email,
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "phone_number": phone_number,
+                    "birthday": birthday,
+                    "identificacion": identificacion,
+                    "tipo_id": tipo_id,
+                    "comunidad": cu.comunidad,
+                },
+            )
+        
+        return render(request,
+                      "users/crear_usuario.html",
+                      {
+                          "message1": "Usuario creado exitosamente",
+                          "comunidad": cu.comunidad,
+                          },
+                      )
+
+    return render(request, "users/crear_usuario.html", {"comunidad": cu.comunidad})

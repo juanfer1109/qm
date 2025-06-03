@@ -57,6 +57,11 @@
                 Correo Donaciones
             </button>
         </form>
+        <form action="{% url 'users.crear_usuario' %}" style="display: inline;">
+            <button class="btn btn-warning" style="width: 150px;">
+                Crear Usuario
+            </button>
+        </form>
         {% endif %}
     </div>
 {% endblock %}

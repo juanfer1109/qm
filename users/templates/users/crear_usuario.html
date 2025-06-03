@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+    {% block body %}
+
+    {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+    {% endif %}
+
+    {% if message1 %}
+        <div class="alert alert-success top-20 center" role="success">{{ message1 }}</div>
+    {% endif %}
+
+        <form class="form-login top-20" action="{% url 'users.crear_usuario' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="input" for="email">Email: </label>
+                <input class="form-control" type="email" id="email", name="email" required placeholder="Email"  value="{{email}}">
+            </div>
+            <div class="form-group">
+                <label class="input" for="first_name">Nombre: </label>
+                <input class="form-control" type="text" id="first_name", name="first_name" required placeholder="Nombre"  value="{{first_name}}">
+            </div>
+            <div class="form-group">
+                <label class="input" for="last_name">Apellidos: </label>
+                <input class="form-control" type="text" id="last_name", name="last_name" required placeholder="Apellidos"  value="{{last_name}}">
+            </div>
+            <div class="form-group">
+                <label for="tipo_id">Tipo de documento</label>
+                <select name="tipo_id" id="" required>
+                    <option value="">--Selecciona una opción--</option>
+                    <option value="cc" {% if tipo_id == "cc" %} selected {% endif %} >Cédula de Ciudadanía</option>
+                    <option value="ti" {% if tipo_id == "ti" %} selected {% endif %}>Tarjeta de Identidad</option>
+                    <option value="ce" {% if tipo_id == "ce" %} selected {% endif %}>Cédula Extranjería</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="input" for="nickname">Número de cédula: </label>
+                <input class="form-control" type="text" id="identificacion", name="identificacion" required placeholder="Identificación" value="{{identificacion}}">
+            </div>
+            <div class="form-group">
+                <label class="input" for="phone_number">Celular: </label>
+                <input class="form-control" type="tel" id="phone_number", name="phone_number" required placeholder="Celular" value="{{phone_number}}">
+            </div>
+            <div class="form-group">
+                <label class="input" for="birthday" class="mx-3">Fecha de nacimiento: </label>
+                <input class="form-control" type="date" id="birthday", name="birthday" value="{{birthday}}">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-secondary" value="Registrar" name="submit_btn">
+            </div>
+        </form>
+        
+    {% endblock %}
