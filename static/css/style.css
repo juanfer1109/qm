@@ -29,7 +29,7 @@ nav {
     /* flex-direction: row-reverse; */
     display: flex;
 }
-nav li {
+nav a {
     display: inline-flex;
 }
 nav a.btn {
@@ -240,10 +240,14 @@ table.center {
     src: url(../fonts/ShadowsIntoLight-Regular.ttf);
 }
 .topnav {
-  display: flex;
+  /* display: flex; */
   overflow: hidden;
   background-color: #326273;
   align-items: center;
+}
+
+.topnav ul {
+    margin-bottom: 0;
 }
 
 .topnav a {

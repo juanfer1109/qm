@@ -26,31 +26,35 @@
     <body>
         <nav>
             <div class="topnav" id="myTopnav">
-                <a class="active" href="{% url 'home' %}">Inicio</a>
-                {% if comunidad %}
-                <a href="{% url 'home.comunidad' %}">Comunidad</a>
-                {% endif %}
-                <a href="{% url 'eventos.lista' %}">Eventos</a>
-                <a href="https://quintanamagica.wordpress.com/blog/">Boletines</a>
-                <a href="{% url 'quienes_somos' %}">Quienes Somos</a>
-                <a href="{% url 'dian.docs' %}">Info DIAN</a>
-                {% if user.is_authenticated %}
-                <a href="{% url 'users.profile' %}">Mi Perfil</a>
-                <a href="{% url 'donations' %}">Certificados</a>
-                <a href="{% url 'users.logout' %}">Salir</a>
-                {% else %}
-                <a href="{% url 'users.login' %}">Ingresar</a>
-                <a href="{% url 'users.signup' %}">Registrarse</a>
-                {% endif %}
-                <a href="https://wa.me/573108298003" target="_blank" rel="noopener noreferrer" style="padding: 0">
-                    <img src="{% static 'images/wpp_b.png' %}" alt="" style="width: 30px; padding:0; margin: 5px">
-                </a>
-            
-                <a href="https://www.instagram.com/quintana.magica/" target="_blank" rel="noopener noreferrer" style="padding: 0">
-                    <img src="{% static 'images/instagram_b.png' %}" alt="" style="width: 30px; padding: 0; margin: 5px">
-                </a>
+                        <a class="active" href="{% url 'home' %}">Inicio</a>
+                    
+                        {% if comunidad %}
+                        <a href="{% url 'home.comunidad' %}">Comunidad</a>
+                        {% endif %}
+                    
+                    
+                        <a href="{% url 'eventos.lista' %}">Eventos</a>
+                    
+                        <a href="https://quintanamagica.wordpress.com/blog/">Boletines</a>
+                        <a href="{% url 'quienes_somos' %}">Quienes Somos</a>
+                        <a href="{% url 'dian.docs' %}">Info DIAN</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'donations' %}">Donaciones</a>
+                            <a href="{% url 'users.profile' %}">Mi Perfil</a>
+                            <a href="{% url 'donations' %}">Certificados</a>
+                            <a href="{% url 'users.logout' %}">Salir</a>
+                        {% else %}
+                            <a href="{% url 'users.login' %}">Ingresar</a>
+                            <a href="{% url 'users.signup' %}">Registrarse</a>
+                        {% endif %}
+                        <a href="https://wa.me/573108298003" target="_blank" rel="noopener noreferrer" style="padding: 0">
+                            <img src="{% static 'images/wpp_b.png' %}" alt="" style="width: 30px; padding:0; margin: 5px">
+                        </a>
+                        <a href="https://www.instagram.com/quintana.magica/" target="_blank" rel="noopener noreferrer" style="padding: 0">
+                            <img src="{% static 'images/instagram_b.png' %}" alt="" style="width: 30px; padding: 0; margin: 5px">
+                        </a>
                 <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                    <img src="{% static 'images/list.png' %}" alt="" style="width: 30px;">
+                    <img src="{% static 'images/list.png' %}" alt="" style="width: 24px;">
                 </a> 
             </div>
 
