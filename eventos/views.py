@@ -11,6 +11,7 @@ from django.conf import settings
 
 from users.models import CustomUser
 from .models import Evento, Inscripciones
+from .forms import EventoForm
 
 
 def eventDetails(request, pk):
@@ -94,16 +95,16 @@ def inscribirse(request, pk):
             pass
 
         event = Evento.objects.get(pk=pk)
-        if cu.comunidad:
-            return render(
-                request,
-                "eventos/detail.html",
-                {
-                    "event": event,
-                    "message1": "Los miembros de la comunidad no se deben inscribir",
-                    "doc": doc,
-                },
-            )
+        # if cu.comunidad:
+        #     return render(
+        #         request,
+        #         "eventos/detail.html",
+        #         {
+        #             "event": event,
+        #             "message1": "Los miembros de la comunidad no se deben inscribir",
+        #             "doc": doc,
+        #         },
+        #     )
 
         if event.cerrado:
             return render(
@@ -263,3 +264,32 @@ def quitarCupo(request, pk):
 
     messages.success(request, "Solo tienes un cupo reservado")
     return HttpResponseRedirect(reverse("eventos.detail", args=(pk,)))
+
+
+@login_required
+def crearEvento(request):
+    user = request.user
+    cu = CustomUser.objects.get(user=user)
+    if not cu.comunidad:
+        return HttpResponseRedirect(reverse("home"))
+    
+    if not cu.staff:
+        messages.error(request, "No tienes permisos para crear eventos")
+        return HttpResponseRedirect(reverse("eventos.lista"))
+    
+    if request.method == "POST":
+        form = EventoForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                evento = form.save(commit=False)
+                # evento.creador = cu
+                evento.save()
+                messages.success(request, "Evento creado exitosamente")
+                return HttpResponseRedirect(reverse("eventos.lista"))
+            except Exception as e:
+                messages.error(request, f"Error al crear el evento: {e}")
+        else:
+            messages.error(request, "Formulario inválido")
+    
+    form = EventoForm()
+    return render(request, "eventos/crear_evento.html", {"form": form, "comunidad": cu.comunidad,})

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+    {% block title %} - Nuevo Evento {% endblock %}
+    {% block script %}
+    {% endblock %}
+
+    {% block body %}
+    
+        <br>
+        {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        {% endif %}
+
+        <h2 class="center">Agregar Evento</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="form-login top-20 padding-5">
+          {% csrf_token %}
+
+            <p>
+              <label class="input" for="id">Nombre:</label>
+              {{ form.nombre|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Fecha:</label>
+              {{ form.fecha|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Tipo:</label>
+              {{ form.tipo|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Descripción:</label>
+              {{ form.descripcion|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Lugar:</label>
+              {{ form.lugar|add_class:"form-control padding-5" }}
+            </p>
+            
+            <p>
+              <label class="input" for="id">Duración:</label>
+              {{ form.duracion|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Que incluye:</label>
+              {{ form.incluye|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Costo con primer descuento:</label>
+              {{ form.costo1|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Fecha primer descuento:</label>
+              {{ form.fecha_costo1|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Costo con segundo descuento:</label>
+              {{ form.costo2|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Fecha segundo descuento:</label>
+              {{ form.fecha_costo2|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Costo sin descuento:</label>
+              {{ form.costo|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Fecha costo sin descuento:</label>
+              {{ form.fecha_costo|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Imagen:</label>
+              {{ form.imagen|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Cupos:</label>
+              {{ form.cupos|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <input type="submit" value="Grabar" class="btn btn-primary"> 
+            </p>
+        </form>
+        <div class="center">
+            <form action="{% url 'eventos.lista' %}">
+                <button type="submit" class="btn btn-primary top-20">Listado Eventos</button>
+            </form>
+        </div>
+        
+    {% endblock %}

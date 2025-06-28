@@ -62,6 +62,11 @@
                 Crear Usuario
             </button>
         </form>
+        <form action="{% url 'eventos.crear' %}" style="display: inline;">
+            <button class="btn btn-warning" style="width: 150px;">
+                Crear Evento
+            </button>
+        </form>
         {% endif %}
     </div>
 {% endblock %}
