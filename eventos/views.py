@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+import os
 
 from users.models import CustomUser
 from .models import Evento, Inscripciones
@@ -293,3 +294,57 @@ def crearEvento(request):
     
     form = EventoForm()
     return render(request, "eventos/crear_evento.html", {"form": form, "comunidad": cu.comunidad,})
+
+@login_required
+def borrarEvento(request, pk):
+    user = request.user
+    cu = CustomUser.objects.get(user=user)
+    if not cu.comunidad:
+        return HttpResponseRedirect(reverse("home"))
+    
+    if not cu.staff:
+        messages.error(request, "No tienes permisos para editar eventos")
+        return HttpResponseRedirect(reverse("eventos.lista"))
+    
+    Evento.objects.get(id=pk).delete()
+    
+    return HttpResponseRedirect(reverse("eventos.lista"))
+
+@login_required
+def editarEvento(request, pk):
+    user = request.user
+    cu = CustomUser.objects.get(user=user)
+    if not cu.comunidad:
+        return HttpResponseRedirect(reverse("home"))
+    
+    if not cu.staff:
+        messages.error(request, "No tienes permisos para editar eventos")
+        return HttpResponseRedirect(reverse("eventos.lista"))
+    
+    if request.method == "POST":
+        if request.FILES.get("imagen") is not None:
+            os.remove(os.path.join(settings.MEDIA_ROOT, Evento.objects.get(id=pk).imagen.name))
+            
+        try:
+            form = EventoForm(request.POST, request.FILES, instance=Evento.objects.get(id=pk))
+        except:
+            form = EventoForm(request.POST, instance=Evento.objects.get(id=pk))
+        
+        if form.is_valid():
+            try:
+                evento = form.save(commit=False)
+                evento.save()
+                messages.success(request, "Evento modificado exitosamente")
+                return HttpResponseRedirect(reverse("eventos.lista"))
+            except Exception as e:
+                messages.error(request, f"Error al modificar el evento: {e}")
+        else:
+            messages.error(request, "Formulario inválido")
+    
+    form = EventoForm()
+    return render(request, "eventos/editar_evento.html", {
+        "form": form, 
+        "comunidad": cu.comunidad,
+        "event": Evento.objects.get(id=pk),
+        "staff": cu.staff,
+        })

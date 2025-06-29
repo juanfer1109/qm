@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os
+from django.conf import settings
 
 
 class Evento(models.Model):
@@ -33,6 +35,10 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+    def delete(self, *args, **kwargs):
+        os.remove(os.path.join(settings.MEDIA_ROOT, self.imagen.name))
+        super(Evento,self).delete(*args,**kwargs)
 
 
 class Inscripciones(models.Model):

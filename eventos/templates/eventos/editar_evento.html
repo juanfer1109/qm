@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+    {% block title %} - Editar Evento {% endblock %}
+    {% block script %}
+    {% endblock %}
+
+    {% block body %}
+    
+        <br>
+        {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        {% endif %}
+
+        <h2 class="center">Editar Evento</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="form-login top-20 padding-5">
+          {% csrf_token %}
+
+            <p>
+              <label class="input" for="nombre">Nombre:</label>
+              <input type="text" name="{{ form.nombre.name }}" id="form.nombre.id_for_label }}" value="{{ event.nombre }}" class="form-control padding-5" placeholder="Nombre del evento">
+            </p>
+
+            <p>
+              <label class="input" for="id">Fecha:</label>
+              <input type="date" name="{{ form.fecha.name }}" id="{{ form.fecha.id_for_label }}" value="{{ event.fecha|date:'Y-m-d' }}" class="form-control padding-5" placeholder="Fecha del evento">
+            </p>
+
+            <p>
+              <label class="input" for="id">Tipo:</label>
+              <select name="{{ form.tipo.name }}" id="{{ form.tipo.id_for_label }}" class="form-control padding-5">
+                <option value="">Seleccione un tipo</option>
+                {% for tipo in form.tipo.field.choices %}
+                  <option value="{{ tipo.0 }}" {% if tipo.0 == event.tipo %}selected{% endif %}>{{ tipo.1 }}</option>
+                {% endfor %}
+              </select>
+            </p>
+
+            <p>
+              <label class="input" for="id">Descripción:</label>
+              <textarea name="{{ form.descripcion.name }}" id="{{ form.descripcion.id_for_label }}" class="form-control padding-5" placeholder="Descripción del evento">{{ event.descripcion }}</textarea>
+            </p>
+
+            <p>
+              <label class="input" for="id">Lugar:</label>
+              <textarea name="{{ form.lugar.name }}" id="{{ form.lugar.id_for_label }}" class="form-control padding-5" placeholder="Lugar del evento">{{ event.lugar }}</textarea>
+            </p>
+            
+            <p>
+              <label class="input" for="id">Duración:</label>
+              <input type="text" name="{{ form.duracion.name }}" id="{{ form.duracion.id_for_label }}" value="{{ event.duracion }}" placeholder="Duración del evento" class="form-control padding-5">
+            </p>
+
+            <p>
+              <label class="input" for="id">Que incluye:</label>
+              <textarea name="{{ form.incluye.name }}" id="{{ form.incluye.id_for_label }}" class="form-control padding-5" placeholder="Incluye">{{ event.incluye }}</textarea>
+            </p>
+
+            <p>
+              <label class="input" for="id">Costo con primer descuento:</label>
+              <input type="number" name="{{ form.costo1.name }}" id="{{ form.costo1.id_for_label }}" value="{{ event.costo1 }}" placeholder="Costo con primer descuento" class="form-control padding-5">
+            </p>
+
+            <p>
+              <label class="input" for="id">Fecha primer descuento:</label>
+              <input type="date" name="{{ form.fecha_costo1.name }}" id="{{ form.fecha_costo1.id_for_label }}" value="{{ event.fecha_costo1|date:'Y-m-d' }}" placeholder="Fecha primer descuento" class="form-control padding-5">
+            </p>
+
+            <p>
+              <label class="input" for="id">Costo con segundo descuento:</label>
+              <input type="number" name="{{ form.costo2.name }}" id="{{ form.costo2.id_for_label }}" value="{{ event.costo2 }}" placeholder="Costo con segundo descuento" class="form-control padding-5">
+            </p>
+
+            <p>
+              <label class="input" for="id">Fecha segundo descuento:</label>
+              <input type="date" name="{{ form.fecha_costo2.name }}" id="{{ form.fecha_costo2.id_for_label }}" value="{{ event.fecha_costo2|date:'Y-m-d' }}" placeholder="Fecha segundo descuento" class="form-control padding-5">
+            </p>
+
+            <p>
+              <label class="input" for="id">Costo sin descuento:</label>
+              <input type="number" name="{{ form.costo.name }}" id="{{ form.costo.id_for_label }}" value="{{ event.costo }}" placeholder="Costo sin descuento" class="form-control padding-5">
+            </p>
+
+            <p>
+              <label class="input" for="id">Fecha costo sin descuento:</label>
+              <input type="date" name="{{ form.fecha_costo.name }}" id="{{ form.fecha_costo.id_for_label }}" value="{{ event.fecha_costo|date:'Y-m-d' }}" placeholder="Fecha costo sin descuento" class="form-control padding-5">
+            </p>
+
+            <p>
+              <label class="input" for="id">Imagen:</label>
+              {{ form.imagen|add_class:"form-control padding-5" }}
+            </p>
+
+            <p>
+              <label class="input" for="id">Cupos:</label>
+              <input type="number" name="{{ form.cupos.name }}" id="{{ form.cupos.id_for_label }}" value="{{ event.cupos }}" placeholder="Cupos disponibles" class="form-control padding-5">
+            </p>
+            <br>
+            <p>
+              <label class="input" for="id">Cancelado:</label>
+              {{ form.cancelado }}
+            </p>
+            <br>
+            <p>
+              <input type="submit" value="Grabar" class="btn btn-primary"> 
+            </p>
+        </form>
+        <div class="center">
+            <form action="{% url 'eventos.eliminar' event.id %}">
+                <button type="submit" class="btn btn-danger top-20">Borrar Evento</button>
+            </form>
+        </div>
+        <div class="center">
+            <form action="{% url 'eventos.lista' %}">
+                <button type="submit" class="btn btn-primary top-20">Listado Eventos</button>
+            </form>
+        </div>
+        
+    {% endblock %}

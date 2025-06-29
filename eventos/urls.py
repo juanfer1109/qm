@@ -9,4 +9,6 @@ urlpatterns = [
     path("agregar_cupo/<int:pk>/", views.agregarCupo, name="eventos.agregar_cupo"),
     path("quitar_cupo/<int:pk>/", views.quitarCupo, name="eventos.quitar_cupo"),
     path("crear/", views.crearEvento, name="eventos.crear"),
+    path("editar/<int:pk>/", views.editarEvento, name="eventos.editar"),
+    path("eliminar/<int:pk>/", views.borrarEvento, name="eventos.eliminar"),
 ]

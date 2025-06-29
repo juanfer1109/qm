@@ -7,7 +7,7 @@ class EventoForm(forms.ModelForm):
         model = Evento
         fields = {'nombre', 'tipo', 'descripcion', 'lugar', 'duracion', 'incluye', 'fecha', 
                   'costo1', 'fecha_costo1', 'costo2', 'fecha_costo2', 'costo', 'fecha_costo',
-                  'imagen', 'cupos'}
+                  'imagen', 'cupos', 'prueba', 'cancelado'}
         widgets = {
             "fecha": forms.DateInput(attrs={"type": "date"}),
             "fecha_costo1": forms.DateInput(attrs={"type": "date"}),
