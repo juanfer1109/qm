@@ -14,7 +14,7 @@ def docsDian(request):
     try:
         user = request.user
         cu = CustomUser.objects.get(user_id=user.id)
-        if cu.comunidad == True:
+        if cu.comunidad or cu.staff or request.user.is_staff:
             comunidad = True
     except:
         pass
@@ -58,7 +58,7 @@ def docsDian(request):
 # def nuevoDoc(request):
 #     user = request.user
 #     cu = CustomUser.objects.get(user=user)
-#     if not cu.staff:
+#     if not cu.staff and not request.user.is_staff:
 #         return HttpResponseRedirect(reverse("home"))
     
 #     if request.method =='POST':
@@ -72,7 +72,7 @@ def docsDian(request):
 #         request,
 #         'dian/form_registro.html',
 #         {
-#             "comunidad": cu.comunidad,
+#             "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
 #             "message1": "Documento agregado",
 #         }
 #     )
@@ -81,7 +81,7 @@ def docsDian(request):
 #         request,
 #         'dian/form_registro.html',
 #         {
-#             "comunidad": cu.comunidad,
+#             "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
 #         }
 #     )
     
@@ -89,7 +89,7 @@ def docsDian(request):
 def nuevoDoc(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method == "POST":
@@ -97,7 +97,7 @@ def nuevoDoc(request):
         if form.is_valid():
             form.save()
         else:
-            return render(request, "dian/form_registro.html", {"form": form, "comunidad": cu.comunidad,})
+            return render(request, "dian/form_registro.html", {"form": form, "comunidad": cu.comunidad or cu.staff or request.user.is_staff,})
     
     form = DIANForm()
-    return render(request, "dian/form_registro.html", {"form": form, "comunidad": cu.comunidad,})
+    return render(request, "dian/form_registro.html", {"form": form, "comunidad": cu.comunidad or cu.staff or request.user.is_staff,})

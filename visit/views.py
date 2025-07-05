@@ -40,7 +40,7 @@ def listOfVisits(request):
     user = CustomUser.objects.get(user=request.user)
 
     comunidad = False
-    if user.comunidad == True:
+    if user.comunidad or user.staff or request.user.is_staff:
         visits = Visit.objects.all().order_by("-date")
         comunidad = True
     else:
@@ -61,7 +61,7 @@ def listOfVisits(request):
 def visitDetails(request, pk):
     comunidad = False
     user = CustomUser.objects.get(user=request.user)
-    if user.comunidad == True:
+    if user.comunidad or user.staff or request.user.is_staff:
         visit = Visit.objects.get(pk=pk)
         comunidad = True
     else:
@@ -84,7 +84,7 @@ def visitDetails(request, pk):
 @login_required
 def visitInput(request):
     user = CustomUser.objects.get(user=request.user)
-    if user.comunidad == False:
+    if not user.comunidad and not user.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
 
     if request.method == "POST":
@@ -104,8 +104,9 @@ def visitInput(request):
                 request,
                 "visit/input.html",
                 {
-                    "comunidad": user.comunidad,
+                    "comunidad": user.comunidad or user.staff or request.user.is_staff,
                     "nickname": user.nickname,
+                    "staff": user.staff or request.user.is_staff,
                     "message": "Ya existe una visita para esa fecha, si necesitas modificarla, ve a la sección de visitas.",
                 },
             )
@@ -133,8 +134,9 @@ def visitInput(request):
         request,
         "visit/input.html",
         {
-            "comunidad": user.comunidad,
+            "comunidad": user.comunidad or user.staff or request.user.is_staff,
             "nickname": user.nickname,
+            "staff": user.staff or request.user.is_staff,
         },
     )
 
@@ -144,7 +146,7 @@ def MovementInput(request, pk):
     user = request.user
     try:
         cu = CustomUser.objects.get(user_id=user.id)
-        if cu.comunidad == False:
+        if not cu.comunidad and not cu.staff and not request.user.is_staff:
             return HttpResponseRedirect(reverse("home"))
     except:
         return HttpResponseRedirect(reverse("home"))
@@ -158,7 +160,7 @@ def MovementInput(request, pk):
             formset.save()
             return redirect("visit.details", pk=visit.id)
 
-    context = {"formset": formset, "visit": visit, "comunidad": cu.comunidad}
+    context = {"formset": formset, "visit": visit, "comunidad": cu.comunidad or cu.staff or request.user.is_staff}
 
     return render(request, "visit/create_movement.html", context)
 
@@ -168,7 +170,7 @@ def modificarVisita(request, pk):
     user = request.user
     try:
         cu = CustomUser.objects.get(user_id=user.id)
-        if cu.comunidad == False:
+        if not cu.comunidad and not cu.staff and not request.user.is_staff:
             return HttpResponseRedirect(reverse("home"))
     except:
         return HttpResponseRedirect(reverse("home"))
@@ -194,13 +196,13 @@ def modificarVisita(request, pk):
             {
                 "visit": visit,
                 "expenses": expenses,
-                "comunidad": cu.comunidad,
+                "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                 "fecha": fecha,
             },
         )
     else:
         message = None
-        if cu != visit.visitor and not cu.staff:
+        if cu != visit.visitor and not (cu.staff or request.user.is_staff):
             message = "Solo " + visit.visitor.nickname + " puede modificar esta visita"
             return render(
                 request,
@@ -208,13 +210,13 @@ def modificarVisita(request, pk):
                 {
                     "visit": visit,
                     "expenses": expenses,
-                    "comunidad": cu.comunidad,
+                    "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                     "message": message,
                     "fecha": fecha,
                 },
             )
 
-        if visit.revisado and not cu.staff:
+        if visit.revisado and not (cu.staff or request.user.is_staff):
             message = "Visita ya revisada y asentanda"
             return render(
                 request,
@@ -222,14 +224,14 @@ def modificarVisita(request, pk):
                 {
                     "visit": visit,
                     "expenses": expenses,
-                    "comunidad": cu.comunidad,
+                    "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                     "message": message,
                     "fecha": fecha,
                 },
             )
 
         context = {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "visit": visit,
             "expenses": expenses,
             "fecha": fecha,
@@ -277,7 +279,7 @@ def modificarMov(request, pk):
 def calendarOfVisits(request):
     user = CustomUser.objects.get(user=request.user)
     comunidad = False
-    if user.comunidad == True:
+    if user.comunidad or user.staff or request.user.is_staff:
         visits = VisitCalendar.objects.filter(
             date__range=[
                 date.today() - timedelta(days=15),
@@ -295,7 +297,7 @@ def calendarOfVisits(request):
             "visits": visits,
             "comunidad": comunidad,
             "nickname": user.nickname,
-            "staff": user.staff,
+            "staff": user.staff or request.user.is_staff,
         },
     )
     
@@ -303,10 +305,10 @@ def calendarOfVisits(request):
 def EditCalendar(request, pk):
     visit = VisitCalendar.objects.get(pk=pk)
     user = CustomUser.objects.get(user=request.user)
-    if not user.staff:
+    if not user.staff or not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     visitantes = CustomUser.objects.filter(visit_resp=True)
-    if user.comunidad == False:
+    if not user.comunidad and not user.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method == "POST":
@@ -320,7 +322,7 @@ def EditCalendar(request, pk):
         {
             "visit": visit,
             "visitantes": visitantes,
-            "comunidad": user.comunidad,
+            "comunidad": user.comunidad or user.staff or request.user.is_staff,
         },
     )
 
@@ -330,7 +332,7 @@ def EditCalendar(request, pk):
 def myVisits(request):
     user = CustomUser.objects.get(user=request.user)
     comunidad = False
-    if user.comunidad == True:
+    if user.comunidad or user.staff or request.user.is_staff:
         visits = VisitCalendar.objects.filter(
             date__range=[
                 date.today() - timedelta(days=15),
@@ -356,7 +358,7 @@ def myVisits(request):
 @login_required
 def datosContabilidad(request):
     user = CustomUser.objects.get(user=request.user)
-    if not user.staff:
+    if not user.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method == "POST":
@@ -394,10 +396,10 @@ def datosContabilidad(request):
 
     return render(request, "visit/datos_contabilidad.html",
                   {
-                      "comunidad": user.comunidad,
+                      "comunidad": user.comunidad or user.staff or request.user.is_staff,
                       "visitas": visitas,
                       "movimientos": movimientos,
-                      "staff": user.staff,
+                      "staff": user.staff or request.user.is_staff,
                   })
 
     
@@ -406,7 +408,7 @@ def eliminarVisita(request, pk):
     user = request.user
     try:
         cu = CustomUser.objects.get(user_id=user.id)
-        if cu.comunidad == False:
+        if not cu.comunidad and not cu.staff and not request.user.is_staff:
             return HttpResponseRedirect(reverse("home"))
     except:
         return HttpResponseRedirect(reverse("home"))

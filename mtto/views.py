@@ -13,7 +13,7 @@ from users.models import CustomUser
 @login_required
 def crearEquipo(request):
     comunidad = False
-    if CustomUser.objects.get(user=request.user).comunidad:
+    if CustomUser.objects.get(user=request.user).comunidad or CustomUser.objects.get(user=request.user).staff or request.user.is_staff:
         comunidad = True
         if CustomUser.objects.get(user=request.user).mtto:
             miembros = CustomUser.objects.filter(comunidad=True)
@@ -50,7 +50,7 @@ def crearEquipo(request):
 @login_required
 def listadoEquipos(request):
     comunidad = False
-    if CustomUser.objects.get(user=request.user).comunidad:
+    if CustomUser.objects.get(user=request.user).comunidad or CustomUser.objects.get(user=request.user).staff or request.user.is_staff:
         comunidad = True
         return render(
             request,
@@ -67,7 +67,7 @@ def listadoEquipos(request):
 @login_required
 def detalleEquipo(request, pk):
     comunidad = False
-    if CustomUser.objects.get(user=request.user).comunidad:
+    if CustomUser.objects.get(user=request.user).comunidad or CustomUser.objects.get(user=request.user).staff or request.user.is_staff:
         comunidad = True
         equipo = Equip.objects.get(pk=pk)
         mttos = Maintenance.objects.filter(equip=equipo).order_by("-date")
@@ -87,7 +87,7 @@ def detalleEquipo(request, pk):
 @login_required
 def mtto(request, pk):
     comunidad = False
-    if CustomUser.objects.get(user=request.user).comunidad:
+    if CustomUser.objects.get(user=request.user).comunidad or CustomUser.objects.get(user=request.user).staff or request.user.is_staff:
         comunidad = True
         mtto = Maintenance.objects.get(pk=pk)
         return render(
@@ -106,7 +106,7 @@ def mtto(request, pk):
 def crearMtto(request, pk):
     comunidad = False
     user = request.user
-    if CustomUser.objects.get(user=user).comunidad:
+    if CustomUser.objects.get(user=user).comunidad or CustomUser.objects.get(user=user).staff or request.user.is_staff:
         comunidad = True
         if CustomUser.objects.get(user=user).mtto:
             equipo = Equip.objects.get(pk=pk)
@@ -161,7 +161,7 @@ def crearMtto(request, pk):
 def crearProveedor(request):
     comunidad = False
     user = request.user
-    if CustomUser.objects.get(user=user).comunidad:
+    if CustomUser.objects.get(user=user).comunidad or CustomUser.objects.get(user=user).staff or request.user.is_staff:
         comunidad = True
         if CustomUser.objects.get(user=user).mtto:
             if request.method == "POST":
@@ -204,12 +204,12 @@ def crearProveedor(request):
 
 @login_required
 def listadoProveedores(request):
-    if CustomUser.objects.get(user=request.user).comunidad:
+    if CustomUser.objects.get(user=request.user).comunidad or CustomUser.objects.get(user=request.user).staff or request.user.is_staff:
         return render(
             request,
             "mtto/listado_proveedores.html",
             {
-                "comunidad": CustomUser.objects.get(user=request.user).comunidad,
+                "comunidad": CustomUser.objects.get(user=request.user).comunidad or CustomUser.objects.get(user=request.user).staff or request.user.is_staff,
                 "suppliers": Supplier.objects.all(),
             },
         )
@@ -218,7 +218,7 @@ def listadoProveedores(request):
 
 @login_required
 def verProveedor(request, pk):
-    if CustomUser.objects.get(user=request.user).comunidad:
+    if CustomUser.objects.get(user=request.user).comunidad or CustomUser.objects.get(user=request.user).staff or request.user.is_staff:
         return render(
             request,
             "mtto/proveedor.html",
@@ -234,7 +234,7 @@ def verProveedor(request, pk):
 def misEquipos(request):
     user = CustomUser.objects.get(user=request.user)
     comunidad = False
-    if user.comunidad:
+    if user.comunidad or user.staff or request.user.is_staff:
         comunidad = True
         return render(
             request,

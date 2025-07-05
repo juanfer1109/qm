@@ -21,7 +21,7 @@ def eventDetails(request, pk):
     try:
         user = request.user  # Usuario loggeado
         cu = CustomUser.objects.get(user=user)  # Custom User del usuario loggeado
-        if cu.comunidad:
+        if cu.comunidad or cu.staff or request.user.is_staff:
             comunidad = True  # Se cambia a verdadero si el usuario es de la comunidad
         if cu.id_number != None and cu.id_number != 0:
             doc = True  # Se cambia a verdadero si el usuario ya tiene ingresado el documento de identidad
@@ -54,7 +54,7 @@ def eventDetails(request, pk):
 
     if event.prueba:
         try:
-            staff = cu.staff
+            staff = cu.staff or request.user.is_staff
         except:
             staff = False
         if not staff:
@@ -200,9 +200,9 @@ def listaEventos(request):
     try:
         user = request.user
         cu = CustomUser.objects.get(user_id=user.id)
-        if cu.comunidad:
+        if cu.comunidad or cu.staff or request.user.is_staff:
             comunidad = True
-        if cu.staff:
+        if cu.staff or request.user.is_staff:
             staff = True
     except:
         pass
@@ -271,10 +271,10 @@ def quitarCupo(request, pk):
 def crearEvento(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.comunidad:
+    if not cu.comunidad and not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         messages.error(request, "No tienes permisos para crear eventos")
         return HttpResponseRedirect(reverse("eventos.lista"))
     
@@ -293,16 +293,16 @@ def crearEvento(request):
             messages.error(request, "Formulario inválido")
     
     form = EventoForm()
-    return render(request, "eventos/crear_evento.html", {"form": form, "comunidad": cu.comunidad,})
+    return render(request, "eventos/crear_evento.html", {"form": form, "comunidad": cu.comunidad or cu.staff or request.user.is_staff,})
 
 @login_required
 def borrarEvento(request, pk):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.comunidad:
+    if not cu.comunidad and not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         messages.error(request, "No tienes permisos para editar eventos")
         return HttpResponseRedirect(reverse("eventos.lista"))
     
@@ -314,16 +314,19 @@ def borrarEvento(request, pk):
 def editarEvento(request, pk):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.comunidad:
+    if not cu.comunidad and not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         messages.error(request, "No tienes permisos para editar eventos")
         return HttpResponseRedirect(reverse("eventos.lista"))
     
     if request.method == "POST":
         if request.FILES.get("imagen") is not None:
-            os.remove(os.path.join(settings.MEDIA_ROOT, Evento.objects.get(id=pk).imagen.name))
+            try:
+                os.remove(os.path.join(settings.MEDIA_ROOT, Evento.objects.get(id=pk).imagen.name))
+            except:
+                pass
             
         try:
             form = EventoForm(request.POST, request.FILES, instance=Evento.objects.get(id=pk))
@@ -344,7 +347,7 @@ def editarEvento(request, pk):
     form = EventoForm()
     return render(request, "eventos/editar_evento.html", {
         "form": form, 
-        "comunidad": cu.comunidad,
+        "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
         "event": Evento.objects.get(id=pk),
-        "staff": cu.staff,
+        "staff": cu.staff or request.user.is_staff,
         })

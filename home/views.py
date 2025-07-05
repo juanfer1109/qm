@@ -37,9 +37,9 @@ def homeView(request):
         act_user = User.objects.get(username=user)
         if dt.today().day == cu.birthday.day and dt.today().month == cu.birthday.month:
             cumple = True
-        if cu.comunidad:
+        if cu.comunidad or cu.staff or act_user.is_staff:
             comunidad = True
-        if cu.staff:
+        if cu.staff or act_user.is_staff:
             staff = True
     except:
         pass
@@ -103,9 +103,9 @@ def quienesSomos(request):
         user = request.user
         act_user = User.objects.get(username=user)
         cu = CustomUser.objects.get(user_id=user.id)
-        if cu.comunidad:
+        if cu.comunidad or cu.staff or act_user.is_staff:
             comunidad = True
-        if act_user.is_staff:
+        if act_user.is_staff or cu.staff:
             staff = True
     except:
         pass
@@ -122,15 +122,13 @@ def quienesSomos(request):
 
 @login_required
 def comunidad(request):
-    comunidad = False
-    if CustomUser.objects.get(user=request.user).comunidad:
-        comunidad = True
+    if CustomUser.objects.get(user=request.user).comunidad or CustomUser.objects.get(user=request.user).staff or request.user.is_staff:
         return render(
             request,
             "home/comunidad.html",
             {
-                "comunidad": comunidad,
-                "staff": CustomUser.objects.get(user=request.user).staff,
+                "comunidad": CustomUser.objects.get(user=request.user).comunidad or CustomUser.objects.get(user=request.user).staff or request.user.is_staff,
+                "staff": CustomUser.objects.get(user=request.user).staff or request.user.is_staff,
             },
         )
     else:

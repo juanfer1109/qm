@@ -37,7 +37,10 @@ class Evento(models.Model):
         return self.nombre
     
     def delete(self, *args, **kwargs):
-        os.remove(os.path.join(settings.MEDIA_ROOT, self.imagen.name))
+        try:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.imagen.name))
+        except:
+            pass
         super(Evento,self).delete(*args,**kwargs)
 
 

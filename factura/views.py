@@ -12,7 +12,7 @@ from .forms import facturaForm
 @login_required
 def listaFacturas(request):
     cu = CustomUser.objects.get(user=request.user)
-    if cu.comunidad == True:
+    if cu.comunidad or cu.staff or request.user.is_staff:
         facturas = Factura.objects.all().order_by("-date")
     else:
         return HttpResponseRedirect(reverse("home"))
@@ -22,7 +22,7 @@ def listaFacturas(request):
         "factura/list.html",
         {
             "facturas": facturas,
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "nickname": cu.nickname,
         },
     )
@@ -31,7 +31,7 @@ def listaFacturas(request):
 @login_required
 def nuevaFactura(request):
     cu = CustomUser.objects.get(user=request.user)
-    if cu.comunidad == False:
+    if not cu.comunidad and not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method == "POST":
@@ -49,7 +49,7 @@ def nuevaFactura(request):
         request,
         "factura/crear_factura.html",
         {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "nickname": cu.nickname,
         },
     )
@@ -57,7 +57,7 @@ def nuevaFactura(request):
 @login_required
 def modificarFactura(request, pk):
     cu = CustomUser.objects.get(user=request.user)
-    if cu.comunidad == False:
+    if not cu.comunidad or not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     factura = Factura.objects.get(pk=pk)
@@ -75,7 +75,7 @@ def modificarFactura(request, pk):
                 "factura/modificar_factura.html",
                 {
                     "factura": factura,
-                    "comunidad": cu.comunidad,
+                    "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                     "message": message,
                     "fecha": fecha,
                 },
@@ -88,7 +88,7 @@ def modificarFactura(request, pk):
                 "factura/modificar_factura.html",
                 {
                     "factura": factura,
-                    "comunidad": cu.comunidad,
+                    "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                     "message": message,
                     "fecha": fecha,
                 },
@@ -101,7 +101,7 @@ def modificarFactura(request, pk):
             {
                 "factura": factura,
                 "fecha": fecha,
-                "comunidad": cu.comunidad,
+                "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             },
         )
     else:
@@ -110,7 +110,7 @@ def modificarFactura(request, pk):
             "factura/modificar_factura.html",
             {
                 "factura": factura,
-                "comunidad": cu.comunidad,
+                "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                 "fecha": fecha,
             },
         )
@@ -121,7 +121,7 @@ def modificarFactura(request, pk):
 @login_required
 def borrarFactura(request, pk):
     cu = CustomUser.objects.get(user=request.user)
-    if cu.comunidad == False:
+    if not cu.comunidad and not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     factura = Factura.objects.get(pk=pk)
     fecha = f"{factura.date.year}-{factura.date.month:02d}-{factura.date.day:02d}"
@@ -132,7 +132,7 @@ def borrarFactura(request, pk):
             "factura/modificar_factura.html",
             {
                 "factura": factura,
-                "comunidad": cu.comunidad,
+                "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                 "message": message,
                 "fecha": fecha,
             },
@@ -145,7 +145,7 @@ def borrarFactura(request, pk):
             "factura/modificar_factura.html",
             {
                 "factura": factura,
-                "comunidad": cu.comunidad,
+                "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                 "message": message,
                 "fecha": fecha,
             },
@@ -158,7 +158,7 @@ def borrarFactura(request, pk):
         "factura/list.html",
         {
             "facturas": facturas,
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "nickname": cu.nickname,
         },
     )

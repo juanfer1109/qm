@@ -233,7 +233,7 @@ def MyProfile(request):
     try:
         actual_user = User.objects.get(username=request.user)
         actual_cu = CustomUser.objects.get(user=request.user)
-        if actual_cu.comunidad == True:
+        if actual_cu.comunidad or actual_cu.staff or actual_user.is_staff:
             comunidad = True
     except:
         return HttpResponseRedirect(reverse("users.login"))
@@ -345,7 +345,7 @@ def cambiarPassword(request):
 def crearUsuario(request):
     ActUser = request.user
     cu = CustomUser.objects.get(user=ActUser)
-    if not cu.staff:
+    if not cu.staff and not ActUser.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method == "POST":
@@ -422,7 +422,7 @@ def crearUsuario(request):
                         "birthday": birthday,
                         "identificacion": identificacion,
                         "tipo_id": tipo_id,
-                        "comunidad": cu.comunidad,
+                        "comunidad": cu.comunidad or cu.staff or ActUser.is_staff,
                     },
                 )
 
@@ -442,7 +442,7 @@ def crearUsuario(request):
                         "birthday": birthday,
                         "identificacion": identificacion,
                         "tipo_id": tipo_id,
-                        "comunidad": cu.comunidad,
+                        "comunidad": cu.comunidad or cu.staff or ActUser.is_staff,
                     },
                 )
             subject = "Nuevo Usuario " + user.username
@@ -475,7 +475,7 @@ def crearUsuario(request):
                     "birthday": birthday,
                     "identificacion": identificacion,
                     "tipo_id": tipo_id,
-                    "comunidad": cu.comunidad,
+                    "comunidad": cu.comunidad or cu.staff or ActUser.is_staff,
                 },
             )
         
@@ -483,8 +483,8 @@ def crearUsuario(request):
                       "users/crear_usuario.html",
                       {
                           "message1": "Usuario creado exitosamente",
-                          "comunidad": cu.comunidad,
+                          "comunidad": cu.comunidad or cu.staff or ActUser.is_staff,
                           },
                       )
 
-    return render(request, "users/crear_usuario.html", {"comunidad": cu.comunidad})
+    return render(request, "users/crear_usuario.html", {"comunidad": cu.comunidad or cu.staff or ActUser.is_staff})

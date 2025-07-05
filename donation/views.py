@@ -53,7 +53,7 @@ def donations(request):
         permanencia = Permanencia.objects.get(year=year)
         mes = meses[fecha.month - 1]
         datos = {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "permanencia": permanencia,
             "cu": cu,
             "user": user,
@@ -77,7 +77,7 @@ def donations(request):
         "donation/donations.html",
         {
             "permanencias": permanencias,
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
         },
     )
 
@@ -86,7 +86,7 @@ def donations(request):
 def listaDonaciones(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     years = set()
@@ -135,8 +135,8 @@ def listaDonaciones(request):
                 "donaciones": donations,
                 "years": sorted(years, reverse=True),
                 "total": totalDonations,
-                "comunidad": cu.comunidad,
-                "staff": cu.staff,
+                "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
+                "staff": cu.staff or request.user.is_staff,
                 "year": year,
             }
         )
@@ -147,8 +147,8 @@ def listaDonaciones(request):
          {
             "years": sorted(years, reverse=True),
             "data": False,
-            "comunidad": cu.comunidad,
-            "staff": cu.staff,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
+            "staff": cu.staff or request.user.is_staff,
          }
          )
 
@@ -157,7 +157,7 @@ def listaDonaciones(request):
 def agregarDonacion(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method =='POST':
@@ -169,7 +169,7 @@ def agregarDonacion(request):
                 request,
                 'donation/agregar_donacion.html',
                 {
-                    "comunidad": cu.comunidad,
+                    "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                     "message": "No existe esa identificación",
                 }
             )
@@ -183,7 +183,7 @@ def agregarDonacion(request):
                 request,
                 'donation/agregar_donacion.html',
                 {
-                    "comunidad": cu.comunidad,
+                    "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                     "message": "Año cerrado",
                 }
             )
@@ -195,7 +195,7 @@ def agregarDonacion(request):
         request,
         'donation/agregar_donacion.html',
         {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "message1": "Donación agregada",
         }
     )
@@ -204,7 +204,7 @@ def agregarDonacion(request):
         request,
         'donation/agregar_donacion.html',
         {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
         }
     )
     
@@ -212,7 +212,7 @@ def agregarDonacion(request):
 def listaPermanencias(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     return render(
@@ -220,8 +220,8 @@ def listaPermanencias(request):
         'donation/permanencias.html',
         {
             "permanencias": Permanencia.objects.all(),
-            "comunidad": cu.comunidad,
-            "staff": cu.staff,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
+            "staff": cu.staff or request.user.is_staff,
         }
     )
 
@@ -229,7 +229,7 @@ def listaPermanencias(request):
 def apregarPermanencia(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method =='POST':
@@ -241,7 +241,7 @@ def apregarPermanencia(request):
         request,
         'donation/agregar_permanencia.html',
         {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "message1": "Donación agregada",
         }
     )
@@ -250,7 +250,7 @@ def apregarPermanencia(request):
         request,
         'donation/agregar_permanencia.html',
         {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
         }
     )
     
@@ -258,7 +258,7 @@ def apregarPermanencia(request):
 def enviarCorreo(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method =='POST':
@@ -298,7 +298,7 @@ def enviarCorreo(request):
         request,
         'donation/enviar_correo.html',
         {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "message1": "Correo Enviado",
         }
     )
@@ -307,6 +307,6 @@ def enviarCorreo(request):
         request,
         'donation/enviar_correo.html',
         {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
         }
     )

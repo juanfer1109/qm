@@ -11,9 +11,7 @@ from .forms import TipoForm, DocumentoForm
 @login_required
 def listaDocumentos(request):
     cu = CustomUser.objects.get(user=request.user)
-    if cu.comunidad == True:
-        pass
-    else:
+    if not cu.comunidad and not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method == "POST":
@@ -26,10 +24,10 @@ def listaDocumentos(request):
                 request,
                 "documentos/list.html",
                 {
-                    "comunidad": cu.comunidad,
+                    "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                     "tipos": TipoDocumento.objects.all().order_by("tipo").values(),
                     "get": True,
-                    "staff": cu.staff,
+                    "staff": cu.staff or request.user.is_staff,
                     "message": "No se ha seleccionado ningún tipo de documento.",
                 },
             )
@@ -41,9 +39,9 @@ def listaDocumentos(request):
                 "list": len(Documento.objects.filter(tipo=tipo)) > 0,
                 "documents": Documento.objects.filter(tipo=tipo).order_by("-date"),
                 "tipos": TipoDocumento.objects.all().order_by("tipo").values(),
-                "comunidad": cu.comunidad,
+                "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                 "tipo_consulta": TipoDocumento.objects.get(id=tipo).id,
-                "staff": cu.staff,
+                "staff": cu.staff or request.user.is_staff,
             },
         )
     
@@ -51,10 +49,10 @@ def listaDocumentos(request):
         request,
         "documentos/list.html",
         {
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "tipos": TipoDocumento.objects.all().order_by("tipo").values(),
             "get": True,
-            "staff": cu.staff,
+            "staff": cu.staff or request.user.is_staff,
         },
     )
     
@@ -63,7 +61,7 @@ def listaDocumentos(request):
 def nuevoTipo(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method == "POST":
@@ -74,31 +72,31 @@ def nuevoTipo(request):
             except:
                 return render(request, "documentos/formulario_tipo.html", {
                 "form": form, 
-                "comunidad": cu.comunidad,
+                "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                 "tipos": TipoDocumento.objects.all().order_by("tipo").values(),
-                "staff": cu.staff,
+                "staff": cu.staff or request.user.is_staff,
                 })
         else:
             return render(request, "documentos/formulario_tipo.html", {
                 "form": form, 
-                "comunidad": cu.comunidad,
+                "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
                 "tipos": TipoDocumento.objects.all().order_by("tipo").values(),
-                "staff": cu.staff,
+                "staff": cu.staff or request.user.is_staff,
                 })
     
     form = TipoForm()
     return render(request, "documentos/formulario_tipo.html", {
         "form": form, 
-        "comunidad": cu.comunidad,
+        "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
         "tipos": TipoDocumento.objects.all().order_by("tipo").values(),
-        "staff": cu.staff,
+        "staff": cu.staff or request.user.is_staff,
         })
     
 @login_required
 def borrarTipo(request, pk):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     tipo = TipoDocumento.objects.get(id=pk)
@@ -109,10 +107,10 @@ def borrarTipo(request, pk):
         mensaje = "No se puede eliminar el tipo de documento porque ya hay documentos asociados a este tipo."
         return render(request, "documentos/formulario_tipo.html", {
             "form": TipoForm(), 
-            "comunidad": cu.comunidad,
+            "comunidad": cu.comunidad or cu.staff or request.user.is_staff,
             "tipos": TipoDocumento.objects.all().order_by("tipo").values(),
             "message": mensaje,
-            "staff": cu.staff,
+            "staff": cu.staff or request.user.is_staff,
             })
     
     return HttpResponseRedirect(reverse("documentos.nuevotipo"))
@@ -122,7 +120,7 @@ def borrarTipo(request, pk):
 def borrarDocumento(request, pk):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.staff:
+    if not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     Documento.objects.get(id=pk).delete()
@@ -134,7 +132,7 @@ def borrarDocumento(request, pk):
 def nuevoDoc(request):
     user = request.user
     cu = CustomUser.objects.get(user=user)
-    if not cu.comunidad:
+    if not cu.comunidad and not cu.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     
     if request.method == "POST":
@@ -143,7 +141,7 @@ def nuevoDoc(request):
             form.instance.user = cu
             form.save()
         else:
-            return render(request, "documentos/crear_documento.html", {"form": form, "comunidad": cu.comunidad,})
+            return render(request, "documentos/crear_documento.html", {"form": form, "comunidad": cu.comunidad or cu.staff or request.user.is_staff,})
     
     form = DocumentoForm()
-    return render(request, "documentos/crear_documento.html", {"form": form, "comunidad": cu.comunidad,})
+    return render(request, "documentos/crear_documento.html", {"form": form, "comunidad": cu.comunidad or cu.staff or request.user.is_staff,})
