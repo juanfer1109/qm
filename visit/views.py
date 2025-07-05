@@ -106,7 +106,7 @@ def visitInput(request):
                 {
                     "comunidad": user.comunidad,
                     "nickname": user.nickname,
-                    "message": "Ya existe una visita para esa fecha",
+                    "message": "Ya existe una visita para esa fecha, si necesitas modificarla, ve a la sección de visitas.",
                 },
             )
 
