@@ -4,6 +4,10 @@
     {% block body %}
 
     <br>
+        {% if message %}
+        <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        {% endif %}
+    <br>
     <h2 class="center top-20">Nueva visita a Quintana por {{ nickname }}</h2>
     <br>
     <form action="{% url 'visit.input' %}" class="form-login" method="post">

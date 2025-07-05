@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from datetime import date, timedelta
 from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.utils.dateparse import parse_date
 
 from .models import Visit, MoneyMovement, VisitCalendar
 from .forms import MovementFormSet
@@ -82,15 +83,33 @@ def visitDetails(request, pk):
 
 @login_required
 def visitInput(request):
-    comunidad = False
     user = CustomUser.objects.get(user=request.user)
     if user.comunidad == False:
         return HttpResponseRedirect(reverse("home"))
 
     if request.method == "POST":
         visitor = CustomUser.objects.get(user=request.user)
-        date = request.POST["date"]
+        date = parse_date(request.POST["date"])
         notes = request.POST["notes"]
+        visitasCercanas = Visit.objects.filter(
+            visitor=visitor,
+            date__range=(
+                date - timedelta(days=5),
+                date + timedelta(days=5)
+            )
+        )
+        
+        if visitasCercanas.exists():
+            return render(
+                request,
+                "visit/input.html",
+                {
+                    "comunidad": user.comunidad,
+                    "nickname": user.nickname,
+                    "message": "Ya existe una visita para esa fecha",
+                },
+            )
+
         visit = Visit(visitor=visitor, date=date, notes=notes)
         visit.save()
         email = EmailMessage(
@@ -104,6 +123,7 @@ def visitInput(request):
         )
         email.fail_silently = False
         try:
+            pass
             email.send()
         except:
             pass
