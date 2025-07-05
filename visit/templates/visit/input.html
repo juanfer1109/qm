@@ -6,6 +6,13 @@
     <br>
         {% if message %}
         <div class="alert alert-danger top-20 center" role="alert">{{ message }}</div>
+        <div class="center">
+            <form action="{% url 'visit.list' %}" style="display: inline;">
+                <button class="btn btn-info" style="width: 150px;">
+                    Visitas
+                </button>
+            </form>
+        </div>
         {% endif %}
     <br>
     <h2 class="center top-20">Nueva visita a Quintana por {{ nickname }}</h2>
