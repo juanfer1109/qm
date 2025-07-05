@@ -39,7 +39,6 @@
                         <a href="{% url 'quienes_somos' %}">Quienes Somos</a>
                         <a href="{% url 'dian.docs' %}">Info DIAN</a>
                         {% if user.is_authenticated %}
-                            <a href="{% url 'donations' %}">Donaciones</a>
                             <a href="{% url 'users.profile' %}">Mi Perfil</a>
                             <a href="{% url 'donations' %}">Certificados</a>
                             <a href="{% url 'users.logout' %}">Salir</a>
