@@ -8,7 +8,9 @@
         {% for event in all_events %}
         <div class="card" style="width: 18rem;">
         <a href="{% url 'eventos.detail' pk=event.id %}" class="text-dark text-decoration-non">  
+            {% if event.image %}
             <img src="{{ event.imagen.url }}" class="card-img-top" alt="{{event.nombre}}">
+            {% endif %}
             <div class="card-body">
                 <h5>{{ event.nombre }}</h5></a>
                 <p class="card-text">Donación: 
