@@ -305,7 +305,7 @@ def calendarOfVisits(request):
 def EditCalendar(request, pk):
     visit = VisitCalendar.objects.get(pk=pk)
     user = CustomUser.objects.get(user=request.user)
-    if not user.staff or not request.user.is_staff:
+    if not user.staff and not request.user.is_staff:
         return HttpResponseRedirect(reverse("home"))
     visitantes = CustomUser.objects.filter(visit_resp=True)
     if not user.comunidad and not user.staff and not request.user.is_staff:
