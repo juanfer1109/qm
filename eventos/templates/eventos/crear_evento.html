@@ -91,12 +91,12 @@
               <label class="input" for="id">Cupos:</label>
               {{ form.cupos|add_class:"form-control padding-5" }}
             </p>
-<br>
+            <br>
             <p>
               <label class="input" for="id">Prueba:</label>
-              {{ form.prueba|add_class:"form-control padding-5" }}
+              <input type="checkbox" name="{{ form.prueba.name }}" id="{{ form.prueba.id_for_label }}" unchecked>
             </p>
-<br>
+            <br>
             <p>
               <input type="submit" value="Grabar" class="btn btn-primary"> 
             </p>

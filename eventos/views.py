@@ -284,7 +284,16 @@ def crearEvento(request):
             try:
                 evento = form.save(commit=False)
                 # evento.creador = cu
-                evento.save()
+                # evento.save()
+                if evento.costo1 == 0:
+                    evento.costo1 = evento.costo
+                if evento.costo2 == 0:
+                    evento.costo2 = evento.costo
+                if evento.fecha_costo1 is None:
+                    evento.fecha_costo1 = evento.fecha
+                if evento.fecha_costo2 is None:
+                    evento.fecha_costo2 = evento.fecha
+                evento.save()    
                 messages.success(request, "Evento creado exitosamente")
                 return HttpResponseRedirect(reverse("eventos.lista"))
             except Exception as e:

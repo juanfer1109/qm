@@ -99,7 +99,12 @@
             <br>
             <p>
               <label class="input" for="id">Cancelado:</label>
-              {{ form.cancelado }}
+              <input type="checkbox" name="{{ form.cancelado.name }}" id="{{ form.cancelado.id_for_label }}" {% if event.cancelado %}checked{% endif %}>
+            </p>
+            <br>
+            <p>
+              <label class="input" for="id">Prueba:</label>
+              <input type="checkbox" name="{{ form.prueba.name }}" id="{{ form.prueba.id_for_label }}" {% if event.prueba %}checked{% endif %}>
             </p>
             <br>
             <p>
