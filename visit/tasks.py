@@ -100,6 +100,21 @@ def generarVisita(token):
             list_of_members.append(usuario.user)
 
         random.shuffle(list_of_members)
+        i = 0
+        j = 0
+        while j == 0:
+            while i < len(list_of_members):
+                j = 1
+                miembro = CustomUser.objects.get(user=list_of_members[i])
+                if i + 1 < len(list_of_members) and miembro.pareja:
+                    if list_of_members[i + 1] == miembro.pareja.user:
+                        print(1)
+                        random.shuffle(list_of_members)
+                        i = -1
+                        j = 0
+                i += 1
+
+
         subject = "Se te ha asignado una nueva visita"
         for user in list_of_members:
             last_date = last_date + timedelta(days=7)

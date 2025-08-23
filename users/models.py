@@ -23,6 +23,7 @@ class CustomUser(models.Model):
     mtto = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)
     visit_resp = models.BooleanField(default=False)
+    pareja = models.OneToOneField("self", blank=True, null=True, on_delete=models.CASCADE, related_name="pareja_inversa" )
 
     def __str__(self):
         return self.user.username
